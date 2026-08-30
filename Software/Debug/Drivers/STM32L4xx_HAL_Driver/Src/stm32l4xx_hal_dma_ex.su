@@ -1,0 +1,5 @@
+../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.c:96:19:HAL_DMAEx_ConfigMuxSync	16	static
+../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.c:145:19:HAL_DMAEx_ConfigMuxRequestGenerator	24	static
+../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.c:204:19:HAL_DMAEx_EnableMuxRequestGenerator	16	static
+../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.c:232:19:HAL_DMAEx_DisableMuxRequestGenerator	16	static
+../Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_dma_ex.c:260:6:HAL_DMAEx_MUX_IRQHandler	16	static

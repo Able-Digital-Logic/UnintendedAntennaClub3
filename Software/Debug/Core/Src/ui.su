@@ -1,0 +1,13 @@
+../Core/Src/ui.c:62:6:UI_Init	8	static
+../Core/Src/ui.c:74:6:UI_Update	24	static
+../Core/Src/ui.c:166:6:UI_GoTo	16	static
+../Core/Src/ui.c:187:13:UI_CurrentScreen	4	static
+../Core/Src/ui.c:208:13:Draw_PowerOn	40	static
+../Core/Src/ui.c:252:13:Draw_MainMenu	16	static
+../Core/Src/ui.c:271:13:Draw_MenuItem	72	static
+../Core/Src/ui.c:305:13:Draw_NewRecording	40	static
+../Core/Src/ui.c:327:13:Draw_PastRecordings	40	static
+../Core/Src/ui.c:354:13:Draw_PlayTestFile	40	static
+../Core/Src/ui.c:408:13:Draw_Header	48	static
+../Core/Src/ui.c:424:13:Draw_Footer	104	static
+../Core/Src/ui.c:464:16:Button_Pressed	16	static

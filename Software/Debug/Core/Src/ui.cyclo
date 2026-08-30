@@ -1,0 +1,13 @@
+../Core/Src/ui.c:62:6:UI_Init	1
+../Core/Src/ui.c:74:6:UI_Update	17
+../Core/Src/ui.c:166:6:UI_GoTo	6
+../Core/Src/ui.c:187:13:UI_CurrentScreen	1
+../Core/Src/ui.c:208:13:Draw_PowerOn	1
+../Core/Src/ui.c:252:13:Draw_MainMenu	2
+../Core/Src/ui.c:271:13:Draw_MenuItem	5
+../Core/Src/ui.c:305:13:Draw_NewRecording	1
+../Core/Src/ui.c:327:13:Draw_PastRecordings	1
+../Core/Src/ui.c:354:13:Draw_PlayTestFile	2
+../Core/Src/ui.c:408:13:Draw_Header	1
+../Core/Src/ui.c:424:13:Draw_Footer	4
+../Core/Src/ui.c:464:16:Button_Pressed	3
