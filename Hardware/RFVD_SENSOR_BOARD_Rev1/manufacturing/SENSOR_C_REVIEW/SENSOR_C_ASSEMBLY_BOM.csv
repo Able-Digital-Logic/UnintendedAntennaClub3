@@ -1,0 +1,77 @@
+MPN,Manufacturer,Footprint,Comment,Designator,Quantity,LCSC,Source_URL
+031-5539,Amphenol RF,Connector_Coaxial:BNC_Amphenol_031-5539_Vertical,BNC TRIGGER,J7,1,,https://www.digikey.com/en/products/detail/amphenol-rf/031-5539/252798
+35MU474KA13216,Rubycon,Capacitor_SMD:C_1206_3216Metric,470nF 35V 10% PMLCAP film,C19,1,C3773390,https://jlcpcb.com/partdetail/C3773390
+ADL5511ACPZ-R7,Analog Devices,Package_CSP:LFCSP-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm,ADL5511ACPZ-R7,U1,1,C579159,https://jlcpcb.com/partdetail/C579159
+APS6404L-3SQR-SN,AP Memory,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm,APS6404L-3SQR-SN,U13,1,C5333729,https://jlcpcb.com/partdetail/C5333729
+ASE-8.000MHZ-L-C-T,Abracon,Oscillator:Oscillator_SMD_Abracon_ASE-4Pin_3.2x2.5mm,8MHz 3.3V CMOS,Y1,1,,https://www.digikey.com/en/products/detail/abracon-llc/ASE-8-000MHZ-L-C-T/1236874
+B2B-PH-K-S(LF)(SN),JST,Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical,B2B-PH-K-S(LF)(SN) 2S BATTERY,J2,1,C131337,https://jlcpcb.com/partdetail/C131337
+B3U-1000P,Omron,Button_Switch_SMD:SW_SPST_B3U-1000P,MARK; RECORD / STOP; RESET,"SW1,SW2,SW3",3,C231329,https://jlcpcb.com/partdetail/C231329
+BLM18AG601SN1D,Murata Electronics,Inductor_SMD:L_0603_1608Metric,600R@100MHz 500mA,FB1,1,C19330,https://jlcpcb.com/partdetail/C19330
+C2012X7R1E475KT000N,TDK,Capacitor_SMD:C_0805_2012Metric,4.7uF 25V X7R,C13,1,C76642,https://jlcpcb.com/partdetail/C76642
+CC0603FRNPO9BN331,YAGEO,Capacitor_SMD:C_0603_1608Metric,330p,"C84,C89",2,C519562,https://jlcpcb.com/partdetail/C519562
+CC0603FRNPO9BN471,YAGEO,Capacitor_SMD:C_0603_1608Metric,470p,"C81,C83,C86,C88",4,C519564,https://jlcpcb.com/partdetail/C519564
+CC0603FRNPO9BN511,YAGEO,Capacitor_SMD:C_0603_1608Metric,510p,"C80,C85",2,C519572,https://jlcpcb.com/partdetail/C519572
+CC0603KRX7R9BB104,Yageo,Capacitor_SMD:C_0603_1608Metric,100nF 50V X7R,"C24,C41,C44,C46,C47,C51,C60",7,C14663,https://jlcpcb.com/partdetail/C14663
+CC0603KRX7R9BB104,YAGEO,Capacitor_SMD:C_0603_1608Metric,100n,C91,1,C14663,https://jlcpcb.com/partdetail/C14663
+CGA3E2C0G2A471J080AE,TDK,Capacitor_SMD:C_0603_1608Metric,470pF C0G 100V,C1,1,C3843989,https://jlcpcb.com/partdetail/C3843989
+CL10B105KA8NNNC,Samsung Electro-Mechanics,Capacitor_SMD:C_0603_1608Metric,1u; 1uF 25V X7R,"C7,C11,C12,C25,C33,C35,C43,C90,C92",9,C29936,https://jlcpcb.com/partdetail/C29936
+CL21A226MPQNNNE,Samsung Electro-Mechanics,Capacitor_SMD:C_0805_2012Metric,22uF 10V X5R,"C22,C23",2,C29277,https://jlcpcb.com/partdetail/C29277
+CL21B106KOQNNNE,Samsung Electro-Mechanics,Capacitor_SMD:C_0805_2012Metric,10uF 16V; 10uF 16V X7R,"C21,C42,C45",3,C95841,https://jlcpcb.com/partdetail/C95841
+CL31A226KAHNNNE,Samsung Electro-Mechanics,Capacitor_SMD:C_1206_3216Metric,22uF 25V X5R,C18,1,C12891,https://jlcpcb.com/partdetail/C12891
+CL31B106KOHNNNE,Samsung Electro-Mechanics,Capacitor_SMD:C_1206_3216Metric,10uF 16V X7R,C17,1,C47971,https://jlcpcb.com/partdetail/C47971
+DM3AT-SF-PEJM5,Hirose Electric,Connector_Card:microSD_HC_Hirose_DM3AT-SF-PEJM5,DM3AT-SF-PEJM5,J4,1,C114218,https://jlcpcb.com/partdetail/C114218
+ERA-2AEB152X,Panasonic,Resistor_SMD:R_0402_1005Metric,1.50k 0.1% 25ppm,"R1,R2",2,,https://www.digikey.com/en/products/detail/panasonic-industry/ERA-2AEB152X/1706009
+ERA-3AEB104V,Panasonic,Resistor_SMD:R_0603_1608Metric,100k 0.1%,R35,1,,https://www.lcsc.com/product-detail/Chip-Resistor-Surface-Mount_PANASONIC-ERA3AEB104V_C190609.html
+ERA3AEB203V,Panasonic,Resistor_SMD:R_0603_1608Metric,20.0k 0.1%,R36,1,C190611,https://jlcpcb.com/partdetail/C190611
+ERA3AEB4992V,Panasonic Industry,Resistor_SMD:R_0603_1608Metric,49.9k 0.1% 25ppm,R16,1,C491136,https://jlcpcb.com/partdetail/C491136
+GCM1885C1H122FA16D,Murata,Capacitor_SMD:C_0603_1608Metric,1.2n,"C82,C87",2,C1517816,https://jlcpcb.com/partdetail/C1517816
+GRM1555C1H101JA01D,Murata,Capacitor_SMD:C_0402_1005Metric,100pF 50V C0G,"C2,C6",2,C77177,https://jlcpcb.com/partdetail/C77177
+GRM1555C1H102JA01D,Murata,Capacitor_SMD:C_0402_1005Metric,1nF 50V C0G,"C3,C4",2,C76947,https://jlcpcb.com/partdetail/C76947
+GRM1555C1H220JA01D,Murata,Capacitor_SMD:C_0402_1005Metric,22pF 50V C0G,C64,1,C76960,https://jlcpcb.com/partdetail/C76960
+GRM155R71E104KE14D,Murata,Capacitor_SMD:C_0402_1005Metric,100n; 100nF 25V; 100nF 25V X7R,"C5,C14,C16,C20,C26,C27,C28,C29,C31,C32,C34,C36,C37,C38,C40,C54,C55,C56,C57,C63,C70",21,C77014,https://jlcpcb.com/partdetail/C77014
+GRM188R61A225KE34D,Murata,Capacitor_SMD:C_0603_1608Metric,2.2uF 10V X5R,"C52,C53",2,C86013,https://jlcpcb.com/partdetail/C86013
+GRM188R71E105KA12D,Murata,Capacitor_SMD:C_0603_1608Metric,1uF 25V X7R,"C61,C71",2,C86020,https://jlcpcb.com/partdetail/C86020
+GRM188R71H103KA01D,Murata,Capacitor_SMD:C_0603_1608Metric,10nF 50V X7R,C65,1,C77053,https://jlcpcb.com/partdetail/C77053
+GRM188Z71C475KE21D,Murata,Capacitor_SMD:C_0603_1608Metric,4.7uF 16V X7R,C30,1,C389010,https://jlcpcb.com/partdetail/C389010
+LMR43620MB5RPER,Texas Instruments,RFVD_MVP_Footprints:TI_RPE0009B_VQFN-HR-9_2x2mm_Stencil,LMR43620MB5RPER,U5,1,C22438086,https://jlcpcb.com/partdetail/C22438086
+LT3045EMSE#PBF,Analog Devices,Package_SO:MSOP-12-1EP_3x4.039mm_P0.65mm_EP1.651x2.845mm,LT3045EMSE#PBF (+5V_A),U4,1,C580012,https://jlcpcb.com/partdetail/C580012
+LTST-C190KGKT,Lite-On,LED_SMD:LED_0603_1608Metric,GREEN LED,D3,1,C125094,https://jlcpcb.com/partdetail/C125094
+MF-MSMF110/16-2,Bourns,Fuse:Fuse_1812_4532Metric,1.1A hold 16V PTC,F1,1,C210834,https://jlcpcb.com/partdetail/C210834
+OPA2320AQDGKRQ1,Texas Instruments,Package_SO:VSSOP-8_3x3mm_P0.65mm,OPA2320,"U2,U12",2,C189188,https://www.mouser.com/en/ProductDetail/Texas-Instruments/OPA2320AQDGKRQ1?qs=asCBFxFfL1Tf5MQ%2FadmMKA%3D%3D
+PESD2V5Y1BSFYL,Nexperia,RFVD_MVP_Footprints:PESD2V5Y1BSF_SOD962-2_ManufacturerLand,2.5V TVS 0.3pF max,D1,1,C552507,https://jlcpcb.com/partdetail/C552507
+"PESD5V0U1UL,315",Nexperia,Diode_SMD:D_SOD-882,5V ESD 2pF,"D8,D9,D10,D11,D12,D13,D14",7,C85401,https://jlcpcb.com/partdetail/C85401
+"PMEG6030EP,115",Nexperia,Diode_SMD:D_SOD-128,60V 3A Schottky,D2,1,C456127,https://jlcpcb.com/partdetail/C456127
+RC0402FR-07100KL,Yageo,Resistor_SMD:R_0402_1005Metric,100k 1%,R61,1,C60491,https://jlcpcb.com/partdetail/C60491
+RC0402FR-0710KL,Yageo,Resistor_SMD:R_0402_1005Metric,10k 1%,"R20,R21,R31",3,C60490,https://jlcpcb.com/partdetail/C60490
+RC0402FR-0714K3L,Yageo,Resistor_SMD:R_0402_1005Metric,14.3k 1%,R65,1,C185465,https://jlcpcb.com/partdetail/C185465
+RC0402FR-071KL,Yageo,Resistor_SMD:R_0402_1005Metric,1k 1%,"R17,R22",2,C106235,https://jlcpcb.com/partdetail/C106235
+RC0402FR-071RL,Yageo,Resistor_SMD:R_0402_1005Metric,1R 1%,R15,1,C185446,https://jlcpcb.com/partdetail/C185446
+RC0402FR-07330RL,Yageo,Resistor_SMD:R_0402_1005Metric,330R 1%,R60,1,C105875,https://jlcpcb.com/partdetail/C105875
+RC0402FR-0733K2L,Yageo,Resistor_SMD:R_0402_1005Metric,33.2k 1%,R64,1,C130276,https://jlcpcb.com/partdetail/C130276
+RC0402FR-0733RL,Yageo,Resistor_SMD:R_0402_1005Metric,33R 1%,R62,1,C138002,https://jlcpcb.com/partdetail/C138002
+RC0402FR-0747KL,Yageo,Resistor_SMD:R_0402_1005Metric,47k 1%,"R25,R26,R27,R28,R29",5,C93943,https://jlcpcb.com/partdetail/C93943
+RC0402FR-074K7L,Yageo,Resistor_SMD:R_0402_1005Metric,4.7k 1%,"R23,R24",2,C105871,https://jlcpcb.com/partdetail/C105871
+RC0603FR-07100KL,Yageo,Resistor_SMD:R_0603_1608Metric,100k 1%,"R52,R59,R63,R66,R67",5,C14675,https://jlcpcb.com/partdetail/C14675
+RC0603FR-0710KL,Yageo,Resistor_SMD:R_0603_1608Metric,10k; 10k 1%,"R39,R47,R53,R56,R57,R58",6,C98220,https://jlcpcb.com/partdetail/C98220
+RC0603FR-071KL,YAGEO,Resistor_SMD:R_0603_1608Metric,1k 1%,"R40,R41",2,C22548,https://jlcpcb.com/partdetail/C22548
+RC0603FR-0733RL,Yageo,Resistor_SMD:R_0603_1608Metric,33R 1%,"R30,R34,R42,R43,R44,R45,R46,R48,R49,R50",10,C108661,https://jlcpcb.com/partdetail/C108661
+RC0603FR-074K7L,Yageo,Resistor_SMD:R_0603_1608Metric,4.7k 1%,"R54,R55",2,C99782,https://jlcpcb.com/partdetail/C99782
+RC0603FR-0766K5L,Yageo,Resistor_SMD:R_0603_1608Metric,66.5k 1%,R51,1,C137691,https://jlcpcb.com/partdetail/C137691
+REF5030IDR,Texas Instruments,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm,REF5030IDR,U3,1,C2878155,https://jlcpcb.com/partdetail/C2878155
+RT0603BRD071K33L,YAGEO,Resistor_SMD:R_0603_1608Metric,1.33k,"R82,R83,R87,R88",4,C861196,https://jlcpcb.com/partdetail/C861196
+RT0603BRD072K15L,YAGEO,Resistor_SMD:R_0603_1608Metric,2.15k,R85,1,C861292,https://jlcpcb.com/partdetail/C861292
+RT0603BRD072K26L,YAGEO,Resistor_SMD:R_0603_1608Metric,2.26k,"R80,R81,R86",3,C861294,https://jlcpcb.com/partdetail/C861294
+RT0603BRD0747RL,YAGEO,Resistor_SMD:R_0603_1608Metric,47R,"R84,R89",2,C326724,https://jlcpcb.com/partdetail/C326724
+SN74LVC1G17DBVR,Texas Instruments,Package_TO_SOT_SMD:SOT-23-5,SN74LVC1G17,U11,1,C19829662,https://jlcpcb.com/partdetail/C19829662
+STM32H743VIT6,STMicroelectronics,Package_QFP:LQFP-100_14x14mm_P0.5mm,STM32H743VIT6,U6,1,C114409,https://jlcpcb.com/partdetail/C114409
+T520B476M010ATE035,KEMET,Capacitor_Tantalum_SMD:CP_EIA-3528-21_Kemet-B,47uF 10V 35mR POLYMER,"C39,C62",2,C141441,https://jlcpcb.com/partdetail/C141441
+TAJC476K020RNJ,KYOCERA AVX,Capacitor_Tantalum_SMD:CP_EIA-6032-28_Kemet-C,47uF 20V,C15,1,C145123,https://jlcpcb.com/partdetail/C145123
+TLV809EA46DBZR,Texas Instruments,Package_TO_SOT_SMD:SOT-23-3,TLV809EA46DBZR,U9,1,C1852111,https://jlcpcb.com/partdetail/C1852111
+TMP117MAIDRVR,Texas Instruments,RFVD_MVP_Footprints:TMP117_DRV_WSON6_NoPasteEP,TMP117MAIDRVR,U7,1,C2803242,https://jlcpcb.com/partdetail/C2803242
+TPD1E10B06DYAR,Texas Instruments,Diode_SMD:D_SOD-523,5.5V TVS 12pF,D7,1,C3712135,https://jlcpcb.com/partdetail/C3712135
+TPS2553DBVR,Texas Instruments,Package_TO_SOT_SMD:SOT-23-6,TPS2553DBVR,U10,1,C55266,https://jlcpcb.com/partdetail/C55266
+TSW-102-07-G-S,Samtec,Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical,BOOT0 / NORMALLY OPEN,JP1,1,C7402729,https://jlcpcb.com/partdetail/C7402729
+TSW-106-07-G-S,Samtec,Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical,BENCH UART / RECOVERY,J5,1,,https://www.digikey.com/en/products/detail/samtec-inc/TSW-106-07-G-S/1101321
+TSW-108-07-G-D,Samtec,Connector_PinHeader_2.54mm:PinHeader_2x08_P2.54mm_Vertical,DISPLAY HARNESS 2x8,J6,1,,https://www.mouser.com/en/ProductDetail/Samtec/TSW-108-07-G-D?qs=jyzYFa4oMQg0kuHhXNXiwg%3D%3D
+U.FL-R-SMT-1(01),Hirose Electric,Connector_Coaxial:U.FL_Hirose_U.FL-R-SMT-1_Vertical,U.FL AIMD SENSE,J1,1,C598199,https://www.digikey.com/en/products/detail/hirose-electric-co-ltd/U-FL-R-SMT-1-01/3978494
+XGL5030-472MEC,Coilcraft,Inductor_SMD:L_Coilcraft_XAL5030-XXX,4.7uH,L1,1,C3911503,https://www.coilcraft.com/en-us/products/power/shielded-inductors/molded-inductor/xgl/xgl5030/xgl5030-472/
