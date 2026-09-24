@@ -1,0 +1,8 @@
+*.kicad_prl
+*.lck
+~*.kicad_*
+*-backups/
+.konnect-backups/
+.konnect-clone-manifest.json
+.DS_Store
+Thumbs.db

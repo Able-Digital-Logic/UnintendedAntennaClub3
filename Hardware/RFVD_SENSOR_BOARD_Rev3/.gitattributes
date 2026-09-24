@@ -1,0 +1,11 @@
+*.kicad_pro -text -whitespace
+*.kicad_sch -text -whitespace
+*.kicad_pcb -text -whitespace
+*.kicad_sym -text -whitespace
+*.kicad_mod -text -whitespace
+fp-lib-table -text -whitespace
+sym-lib-table -text -whitespace
+*.step -filter -diff -merge -text
+*.stp -filter -diff -merge -text
+*.docx -text
+*.md text eol=lf

@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+
+  (lib (name "RFVD_MVP_Footprints") (type "KiCad") (uri "${KIPRJMOD}/libraries/RFVD_MVP_Footprints.pretty") (options "") (descr "")))
