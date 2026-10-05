@@ -1,0 +1,26 @@
+FAB NOTES - RFVD SENSOR-D REV A - 6 layers - 2026-10-04 - see MANUFACTURING_EMC_SPEC.md
+Numbers from board base_cp2a (sha256 c4383fe7a...) and its project files. Items marked OPEN are not yet in the board.
+
+1  BOARD   FR-4, 6 layers, 1.6 mm nominal (stackup sum in the board file 1.558 mm). IPC-A-600 class 2. Outline +/-0.2 mm.
+           Outline 52.00 x 90.00 mm on the Edge.Cuts centre line (52.05 x 90.05 mm incl. the 0.05 mm line), 4 x R3 corners.
+           W-edge notch for J3 (microSD) and J10 (USB-C): 2.5 mm deep, y 104.1-133.8 mm, R0.5 inner and outer corners.
+2  PANEL   Customer panel 120.0 x 90.0 mm, 2 boards, the right one rotated 180 deg. 2.0 mm routed gaps.
+           5.0 mm rails on the two 90 mm sides. 6 mouse-bite tabs, 5.0 mm wide: 5 x 0.60 mm NPTH at 0.95 mm pitch,
+           holes 0.2 mm inside the board edge. 4 x 2.0 mm NPTH tooling holes on the rails, one corner offset 5 mm.
+           3 fiducials per side on F AND B: 1.0 mm copper, 2.0 mm mask opening, 3.85 mm from the panel edge.
+           No V-cut. Do not add, move or remove tabs. Depanel by CUTTING the tabs, never by snapping.
+           (D27 alternative: 1-up frame 72.0 x 90.0 mm, 8.0 mm rails, 4 tabs, same tab positions and features.)
+3  STACKUP JLC06161H-3313 exactly, no substitution (Specify stackup = yes).
+           F.Cu 35 um | 3313 0.0994 mm | In1 GND 15.2 um | core 0.55 mm | In2 GND | 2116 0.1088 mm | In3 signal |
+           core 0.55 mm | In4 GND | 3313 0.0994 mm | B.Cu 35 um. In1, In2, In4 are solid GND planes.
+4  FINISH  ENIG. Solder mask green, 1:1 (expansion 0; OPEN: board setup is still 0.05 mm). Silkscreen white.
+5  VIAS    ALL vias IPC-4761 type VII: epoxy filled and copper capped (POFV), including vias in pads.
+           Per board: 918 x 0.20/0.45, 12 x 0.30/0.50, 75 x 0.30/0.60, 7 x 0.40/0.80 mm (drill/pad) = 1012 through vias.
+           Also fill the 8 x 0.30 mm thermal holes in the U402 pad. Do not fill: J10 slots, J11 1.0 mm, H5/H6 3.8 mm.
+           NPTH: J10 2 x 0.65, J6 3 x 0.99, J11 2 x 1.45, H1-H4 4 x 2.70 mm, panel 0.60 and 2.00 mm.
+6  ASSEMBLY JLC Standard PCBA, both sides, "Complete File" panel BOM/CPL (one row per placement, REF_1 / REF_2).
+           Per board 346 placements: TOP (F) 177, BOTTOM (B) 169. Reflow TOP first, BOTTOM last.
+           J10 USB-C: pin-in-paste on its 4 shell legs (OPEN: the footprint has no paste on them yet).
+           Do not place (paste removed): C321, C911, R310, R314, R903.
+           Confirm parts placement in the DFM preview (pin 1 and polarity, both sides).
+7  TEST    Flying-probe 100 % net test. AOI and SPI as standard.

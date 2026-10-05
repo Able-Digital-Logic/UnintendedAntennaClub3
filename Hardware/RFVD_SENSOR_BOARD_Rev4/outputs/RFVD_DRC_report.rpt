@@ -1,0 +1,526 @@
+** Drc report for RFVD_SENSOR_BOARD.kicad_pcb **
+** Created on 2026-10-04T18:58:44 **
+** Report includes: Errors, Warnings, Exclusions **
+
+** Found 110 DRC violations **
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(149.3266 mm, 65.4558 mm): Via [+5V_A] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(159.3036 mm, 92.1818 mm): Via [VSYS] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(135.1476 mm, 102.7914 mm): Via [/Screen and controls/LCD_CS_N] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(123.8000 mm, 96.4000 mm): Via [/Screen and controls/LCD_D0] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(141.0536 mm, 122.5234 mm): Via [/Screen and controls/LCD_D0] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(142.6540 mm, 122.6730 mm): Via [/Screen and controls/LCD_D1] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(123.7000 mm, 95.7000 mm): Via [/Screen and controls/LCD_D1] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(141.5536 mm, 124.4000 mm): Via [/Screen and controls/LCD_D2] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(144.1036 mm, 124.9734 mm): Via [/Screen and controls/LCD_D3] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(144.7540 mm, 122.6730 mm): Via [/Screen and controls/LCD_D5] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(145.6540 mm, 122.4730 mm): Via [/Screen and controls/LCD_D6] on F.Cu - B.Cu
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(135.7000 mm, 87.3500 mm): Track [/Screen and controls/LCD_D6] on In3.Cu, length 0.8500 mm
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(135.0000 mm, 87.3000 mm): Via [/Screen and controls/LCD_D7] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(145.7540 mm, 125.0730 mm): Via [/Screen and controls/LCD_D7] on F.Cu - B.Cu
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(141.6250 mm, 88.0000 mm): Track [LCD_RST] on In3.Cu, length 2.1213 mm
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(149.7540 mm, 122.1730 mm): Via [/Screen and controls/LCD_LED_K4] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(131.1155 mm, 99.0593 mm): Via [USB_DP] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(145.2036 mm, 113.2934 mm): Via [USB_DP] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(145.6036 mm, 112.8934 mm): Via [USB_DM] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(128.3000 mm, 140.2000 mm): Via [/Battery, charger and USB-C/QON_N] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(146.1536 mm, 112.1434 mm): Via [/Battery, charger and USB-C/QON_N] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(144.3300 mm, 110.7200 mm): Via [CHG_INT_N] on F.Cu - B.Cu
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(130.5976 mm, 89.3914 mm): Track [TP_SCL] on In3.Cu, length 0.4000 mm
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(134.4000 mm, 140.2000 mm): Via [MARK_N] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(142.2883 mm, 141.3434 mm): Via [NRST] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(140.4000 mm, 91.1500 mm): Via [EXP_3V3_SNS] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(125.3726 mm, 90.3164 mm): Via [EXP_CS0_N_MCU] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(137.4000 mm, 137.2000 mm): Via [EXP_CS0_N_MCU] on F.Cu - B.Cu
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(121.1172 mm, 87.6828 mm): Track [EXP_CS0_N_MCU] on In3.Cu, length 1.8627 mm
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(137.6000 mm, 138.1000 mm): Via [EXP_MISO_MCU] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(124.9778 mm, 90.7287 mm): Via [EXP_MISO_MCU] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(125.3726 mm, 92.7164 mm): Via [EXP_CS1_N_MCU] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(139.6336 mm, 137.1434 mm): Via [EXP_CS1_N_MCU] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(140.8036 mm, 125.1900 mm): Via [EXP_INT1_N_MCU] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(129.0726 mm, 93.5164 mm): Via [EXP_INT1_N_MCU] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(129.2226 mm, 96.3164 mm): Via [LCD_BL] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(142.2836 mm, 125.1900 mm): Via [EXP_DETECT_N_MCU] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(135.5976 mm, 103.1414 mm): Via [EXP_DETECT_N_MCU] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(135.5976 mm, 105.3414 mm): Via [EXP_RST_N_MCU] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(141.6336 mm, 137.1434 mm): Via [EXP_RST_N_MCU] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(142.2200 mm, 124.4500 mm): Via [EXP_IO1_MCU] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(138.9976 mm, 102.9414 mm): Via [EXP_IO1_MCU] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(139.5976 mm, 105.4414 mm): Via [EXP_IO0_MCU] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(140.8600 mm, 124.4200 mm): Via [EXP_IO0_MCU] on F.Cu - B.Cu
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(129.6000 mm, 140.2000 mm): Via [RECORD_N] on F.Cu - B.Cu
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(128.0926 mm, 90.6664 mm): Track [/Expansion mezzanine/EXP_SPI_SCK] on In3.Cu, length 0.5500 mm
+[via_dangling]: Via is not connected or connected on only one layer
+    Local override; warning
+    @(128.6926 mm, 91.9164 mm): Via [/Expansion mezzanine/EXP_SPI_MOSI] on F.Cu - B.Cu
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(118.0036 mm, 105.1000 mm): Segment on Edge.Cuts
+    @(119.1936 mm, 122.7634 mm): Segment of J10 on F.Silkscreen
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(118.0036 mm, 105.1000 mm): Segment on Edge.Cuts
+    @(119.1936 mm, 132.1634 mm): Segment of J10 on F.Silkscreen
+[lib_footprint_mismatch]: Footprint 'USB_C_Receptacle_HRO_TYPE-C-31-M-12' does not match copy in library 'RFVD_MVP_Footprints'
+    Local override; warning
+    @(121.1936 mm, 127.4634 mm): Footprint J10
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.2500 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(138.9750 mm, 92.6198 mm): Track [+5V_A] on In3.Cu, length 1.1500 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.2500 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(144.6710 mm, 95.2698 mm): Track [+5V_A] on In3.Cu, length 1.7000 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.2500 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(140.9500 mm, 93.9500 mm): Track [+5V_A] on In3.Cu, length 0.4523 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.2500 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(146.3710 mm, 95.2698 mm): Track [+5V_A] on In3.Cu, length 0.2828 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.2500 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(143.6710 mm, 94.2698 mm): Track [+5V_A] on In3.Cu, length 1.4142 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.2500 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(139.1552 mm, 93.9500 mm): Track [+5V_A] on In3.Cu, length 1.7948 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.2500 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(138.9750 mm, 93.7698 mm): Track [+5V_A] on In3.Cu, length 0.2548 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(141.9879 mm, 85.6003 mm): Track [+3V3_D] on In3.Cu, length 7.9000 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(132.0700 mm, 90.0000 mm): Track [+3V3_D] on In3.Cu, length 0.8300 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(132.1000 mm, 89.9000 mm): Track [+3V3_D] on In3.Cu, length 0.1000 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(158.7000 mm, 99.0000 mm): Track [+3V3_D] on In3.Cu, length 0.5000 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(139.2272 mm, 87.2201 mm): Track [+3V3_D] on In3.Cu, length 0.6000 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(160.9000 mm, 94.9000 mm): Track [+3V3_D] on In3.Cu, length 0.8485 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.2000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(138.5893 mm, 89.3857 mm): Track [+3V3_D] on In3.Cu, length 0.9899 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(160.9000 mm, 97.3000 mm): Track [+3V3_D] on In3.Cu, length 2.4000 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(132.3700 mm, 91.1300 mm): Track [+3V3_D] on In3.Cu, length 0.9800 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(128.6000 mm, 87.4000 mm): Track [+3V3_D] on In3.Cu, length 0.4243 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(151.8879 mm, 87.6003 mm): Track [+3V3_D] on In3.Cu, length 5.5000 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(140.5768 mm, 105.2455 mm): Track [+3V3_D] on In3.Cu, length 1.6263 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(159.2000 mm, 99.0000 mm): Track [+3V3_D] on In3.Cu, length 2.4042 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(149.8879 mm, 85.6003 mm): Track [+3V3_D] on In3.Cu, length 2.8284 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.2000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(138.5893 mm, 90.1400 mm): Track [+3V3_D] on In3.Cu, length 0.6000 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(128.9000 mm, 87.7000 mm): Track [+3V3_D] on In3.Cu, length 1.0000 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(146.0836 mm, 140.9634 mm): Track [+3V3_D] on In3.Cu, length 0.7935 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(157.3879 mm, 87.6003 mm): Track [+3V3_D] on In3.Cu, length 2.5456 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(133.3500 mm, 91.1300 mm): Track [+3V3_D] on In3.Cu, length 3.4082 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(129.9000 mm, 87.7000 mm): Track [+3V3_D] on In3.Cu, length 3.1113 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(138.8772 mm, 87.5701 mm): Track [+3V3_D] on In3.Cu, length 0.4950 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(132.0700 mm, 90.8300 mm): Track [+3V3_D] on In3.Cu, length 0.4243 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(146.6536 mm, 141.5154 mm): Track [+3V3_D] on In3.Cu, length 1.2000 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(137.7536 mm, 124.4000 mm): Track [+3V3_UI] on In3.Cu, length 1.0445 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(140.0496 mm, 126.6434 mm): Track [+3V3_UI] on In3.Cu, length 0.4950 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(150.9422 mm, 117.4016 mm): Track [+3V3_UI] on In3.Cu, length 4.8790 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(140.0496 mm, 127.9356 mm): Track [+3V3_UI] on In3.Cu, length 1.2922 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(134.4496 mm, 126.1356 mm): Track [+3V3_UI] on In3.Cu, length 3.4648 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(150.1922 mm, 124.0516 mm): Track [+3V3_UI] on In3.Cu, length 1.0607 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(137.0150 mm, 123.6614 mm): Track [+3V3_UI] on In3.Cu, length 1.8614 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(139.4496 mm, 128.5356 mm): Track [+3V3_UI] on In3.Cu, length 0.8485 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(134.4496 mm, 125.0856 mm): Track [+3V3_UI] on In3.Cu, length 1.0500 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(150.9422 mm, 123.3016 mm): Track [+3V3_UI] on In3.Cu, length 5.9000 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(140.3996 mm, 126.2934 mm): Track [+3V3_UI] on In3.Cu, length 4.5640 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(150.1922 mm, 124.6516 mm): Track [+3V3_UI] on In3.Cu, length 0.6000 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(144.9636 mm, 126.2934 mm): Track [+3V3_UI] on In3.Cu, length 0.4950 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.2000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(123.4406 mm, 135.8934 mm): Track [+3V3_EXP] on In3.Cu, length 0.1500 mm
+[track_width]: Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)
+    Rule: v11_in3_power_digital_width; warning
+    @(123.4406 mm, 136.8434 mm): Track [+3V3_EXP] on In3.Cu, length 0.9500 mm
+[track_segment_length]: Track segment length (rule 'v7_geom_smooth_critical' min length 0.1 mm; actual 0.099999 mm)
+    Rule: v7_geom_smooth_critical; warning
+    @(126.1799 mm, 91.2237 mm): Track [EXP_MISO_MCU] on F.Cu, length 0.1000 mm
+[track_segment_length]: Track segment length (rule 'v7_geom_smooth_critical' min length 0.1000 mm; actual 0.0500 mm)
+    Rule: v7_geom_smooth_critical; warning
+    @(140.8036 mm, 98.8434 mm): Track [Net-(U8-PC15)] on B.Cu, length 0.0500 mm
+[track_segment_length]: Track segment length (rule 'v7_geom_smooth_critical' min length 0.1000 mm; actual 0.0968 mm)
+    Rule: v7_geom_smooth_critical; warning
+    @(139.6746 mm, 81.0006 mm): Track [ADC_VENV] on F.Cu, length 0.0968 mm
+[track_segment_length]: Track segment length (rule 'v7_geom_smooth_critical' min length 0.1000 mm; actual 0.0788 mm)
+    Rule: v7_geom_smooth_critical; warning
+    @(138.3564 mm, 86.8172 mm): Track [ADC_VENV] on F.Cu, length 0.0788 mm
+[track_segment_length]: Track segment length (rule 'v7_geom_smooth_critical' min length 0.1000 mm; actual 0.0500 mm)
+    Rule: v7_geom_smooth_critical; warning
+    @(144.3036 mm, 124.3234 mm): Track [/Screen and controls/LCD_D4] on In3.Cu, length 0.0500 mm
+[track_segment_length]: Track segment length (rule 'v7_geom_smooth_critical' min length 0.1000 mm; actual 0.0345 mm)
+    Rule: v7_geom_smooth_critical; warning
+    @(134.8000 mm, 82.5000 mm): Track [/External ADC/ADC_REFCAP] on F.Cu, length 0.0345 mm
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(143.2055 mm, 114.4050 mm): Polygon of U301 on F.Silkscreen
+    @(143.4508 mm, 114.5834 mm): Segment of C309 on F.Silkscreen
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(139.5186 mm, 65.3044 mm): Polygon of U2 on F.Silkscreen
+    @(139.4186 mm, 64.9454 mm): Pad 2 [GND] of D1 on F.Cu
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(157.4636 mm, 126.0634 mm): Polygon of U302 on F.Silkscreen
+    @(156.9786 mm, 126.1634 mm): Pad 2 [/Battery, charger and USB-C/B_VC1] of R316 on F.Cu
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(138.3236 mm, 83.9934 mm): Polygon of U13 on F.Silkscreen
+    @(139.0360 mm, 83.4634 mm): Pad 1 [Net-(U13-REGCAP)] of C106 on F.Cu
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(143.2055 mm, 114.4050 mm): Polygon of U301 on F.Silkscreen
+    @(143.0786 mm, 114.9434 mm): Pad 1 [Net-(U301-PMID)] of C309 on F.Cu
+[length_out_of_range]: Track length out of range (rule 'len_source_stubs' max length 3.0000 mm; actual 4.6681 mm)
+    Rule: len_source_stubs; warning
+    @(126.9226 mm, 93.8164 mm): Pad 58 [PSRAM_IO0_MCU] of U8 on F.Cu
+    @(124.0000 mm, 93.3164 mm): Pad 1 [PSRAM_IO0_MCU] of RN60 on B.Cu
+[length_out_of_range]: Track length out of range (rule 'len_source_stubs' max length 3.0000 mm; actual 3.7110 mm)
+    Rule: len_source_stubs; warning
+    @(126.9226 mm, 94.3164 mm): Pad 59 [PSRAM_IO1_MCU] of U8 on F.Cu
+    @(124.0000 mm, 94.3164 mm): Pad 3 [PSRAM_IO1_MCU] of RN60 on B.Cu
+[length_out_of_range]: Track length out of range (rule 'len_source_stubs' max length 3.0000 mm; actual 5.0217 mm)
+    Rule: len_source_stubs; warning
+    @(126.9226 mm, 94.8164 mm): Pad 60 [PSRAM_IO3_MCU] of U8 on F.Cu
+    @(124.0000 mm, 93.8164 mm): Pad 2 [PSRAM_IO3_MCU] of RN60 on B.Cu
+[skew_out_of_range]: Skew between tracks out of range (rule 'skew_venv_eref' max skew 2.0000 mm; actual -2.2109 mm; target net length 14.5735 mm (from ADC_EREF); actual 12.3626 mm)
+    Rule: skew_venv_eref; warning
+    @(139.7714 mm, 81.0006 mm): Track [ADC_VENV] on F.Cu, length 0.7173 mm
+
+** Found 42 unconnected pads **
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(123.1386 mm, 93.0184 mm): Pad 3 [/SD and capture memory/PSRAM_IO2_RAM] of U9 on F.Cu
+    @(140.6226 mm, 103.6164 mm): Pad 2 [/SD and capture memory/PSRAM_IO2_RAM] of R64 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(135.1476 mm, 101.5914 mm): Track [/Screen and controls/LCD_CS_N] on B.Cu, length 1.2000 mm
+    @(136.2536 mm, 123.4734 mm): Track [/Screen and controls/LCD_CS_N] on F.Cu, length 1.4400 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(138.3200 mm, 98.6127 mm): Pad 2 [/Screen and controls/LCD_DC] of R213 on B.Cu
+    @(136.0536 mm, 121.7234 mm): Track [/Screen and controls/LCD_DC] on F.Cu, length 1.4142 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(137.2536 mm, 123.4734 mm): Pad 1 [/Screen and controls/LCD_WR_N] of C202 on B.Cu
+    @(134.5976 mm, 102.3914 mm): Pad 8 [/Screen and controls/LCD_WR_N] of RN203 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(141.9036 mm, 122.5234 mm): Track [/Screen and controls/LCD_D0] on F.Cu, length 0.8500 mm
+    @(124.3226 mm, 96.3164 mm): Pad 8 [/Screen and controls/LCD_D0] of RN201 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(142.6540 mm, 122.6730 mm): Via [/Screen and controls/LCD_D1] on F.Cu - B.Cu
+    @(124.3226 mm, 95.8164 mm): Pad 7 [/Screen and controls/LCD_D1] of RN201 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(143.2536 mm, 123.4734 mm): Pad 24 [/Screen and controls/LCD_D2] of J4 on F.Cu
+    @(134.5976 mm, 100.8914 mm): Pad 5 [/Screen and controls/LCD_D2] of RN203 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(143.7536 mm, 123.4734 mm): Pad 25 [/Screen and controls/LCD_D3] of J4 on F.Cu
+    @(134.5976 mm, 101.8914 mm): Pad 7 [/Screen and controls/LCD_D3] of RN203 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(144.2536 mm, 123.4734 mm): Pad 26 [/Screen and controls/LCD_D4] of J4 on F.Cu
+    @(135.1476 mm, 89.5914 mm): Pad 8 [/Screen and controls/LCD_D4] of RN202 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(144.7540 mm, 122.6730 mm): Via [/Screen and controls/LCD_D5] on F.Cu - B.Cu
+    @(135.1476 mm, 89.0914 mm): Pad 7 [/Screen and controls/LCD_D5] of RN202 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(135.1500 mm, 88.6000 mm): Track [/Screen and controls/LCD_D6] on B.Cu, length 0.3500 mm
+    @(145.6540 mm, 122.4730 mm): Via [/Screen and controls/LCD_D6] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(135.1476 mm, 88.0914 mm): Pad 5 [/Screen and controls/LCD_D7] of RN202 on B.Cu
+    @(145.7536 mm, 123.4734 mm): Pad 29 [/Screen and controls/LCD_D7] of J4 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(129.3536 mm, 117.5934 mm): Pad 2 [/Screen and controls/LCD_LED_K4] of D204 on B.Cu
+    @(149.7536 mm, 122.9734 mm): Track [/Screen and controls/LCD_LED_K4] on F.Cu, length 0.8000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(145.2036 mm, 113.5934 mm): Track [USB_DP] on F.Cu, length 0.3000 mm
+    @(131.1155 mm, 99.0593 mm): Track [USB_DP] on F.Cu, length 2.2000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(145.2036 mm, 113.8434 mm): Pad 6 [USB_DP] of U301 on F.Cu
+    @(128.0660 mm, 127.2130 mm): Track [USB_DP] on In3.Cu, length 2.5832 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(127.1150 mm, 107.8337 mm): Track [USB_DM] on F.Cu, length 14.2114 mm
+    @(145.6036 mm, 112.8934 mm): Via [USB_DM] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(146.1536 mm, 112.1434 mm): Via [/Battery, charger and USB-C/QON_N] on F.Cu - B.Cu
+    @(128.3986 mm, 139.9934 mm): Pad 2 [/Battery, charger and USB-C/QON_N] of SW5 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(144.4036 mm, 110.0434 mm): Track [CHG_INT_N] on F.Cu, length 0.6030 mm
+    @(146.2026 mm, 94.5464 mm): Track [CHG_INT_N] on B.Cu, length 2.7577 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(130.5976 mm, 89.3914 mm): Track [TP_SCL] on In3.Cu, length 0.4000 mm
+    @(156.7036 mm, 112.9934 mm): Pad 2 [TP_SCL] of R45 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(158.7036 mm, 112.9934 mm): Pad 5 [TP_INT] of J8 on F.Cu
+    @(138.0976 mm, 90.8614 mm): Pad 2 [TP_INT] of R906 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(134.6536 mm, 139.9934 mm): Pad 1 [MARK_N] of SW2 on F.Cu
+    @(150.6100 mm, 102.6000 mm): Pad 2 [MARK_N] of R47 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(142.0726 mm, 95.1624 mm): Track [NRST] on B.Cu, length 1.2728 mm
+    @(142.2786 mm, 140.9824 mm): Pad 3 [NRST] of J6 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(143.8148 mm, 99.9464 mm): Pad 1 [VBAT_RTC] of C603 on F.Cu
+    @(150.8646 mm, 99.9594 mm): Pad 1 [VBAT_RTC] of C327 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(148.3036 mm, 117.5934 mm): Pad 1 [/Screen and controls/LCD_BL_SW] of D201 on B.Cu
+    @(132.6620 mm, 121.0934 mm): Track [/Screen and controls/LCD_BL_SW] on In3.Cu, length 3.5000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(144.6140 mm, 138.0970 mm): Pad 2 [EXP_VHP_SNS] of R412 on B.Cu
+    @(140.2000 mm, 94.4800 mm): Track [EXP_VHP_SNS] on B.Cu, length 1.2728 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(141.5206 mm, 93.8424 mm): Track [EXP_3V3_SNS] on F.Cu, length 1.6263 mm
+    @(136.4690 mm, 137.1540 mm): Pad 2 [EXP_3V3_SNS] of R414 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(137.5836 mm, 137.1434 mm): Pad 1 [EXP_CS0_N_MCU] of R425 on B.Cu
+    @(126.9226 mm, 90.3164 mm): Pad 51 [EXP_CS0_N_MCU] of U8 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(137.6000 mm, 138.1000 mm): Via [EXP_MISO_MCU] on F.Cu - B.Cu
+    @(126.9226 mm, 91.3164 mm): Pad 53 [EXP_MISO_MCU] of U8 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(139.6336 mm, 137.1434 mm): Pad 1 [EXP_CS1_N_MCU] of R427 on B.Cu
+    @(126.9226 mm, 92.3164 mm): Pad 55 [EXP_CS1_N_MCU] of U8 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(140.8036 mm, 125.1900 mm): Pad 1 [EXP_INT1_N_MCU] of RN401 on B.Cu
+    @(128.8726 mm, 93.3164 mm): Track [EXP_INT1_N_MCU] on F.Cu, length 0.2828 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(151.4336 mm, 108.5189 mm): Pad 1 [LCD_BL] of R211 on B.Cu
+    @(127.6726 mm, 96.3164 mm): Track [LCD_BL] on F.Cu, length 1.5500 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(126.9226 mm, 97.8164 mm): Pad 66 [SD_D1_MCU] of U8 on F.Cu
+    @(131.6250 mm, 109.8900 mm): Pad 8 [SD_D1_MCU] of U901 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(135.5976 mm, 103.9914 mm): Pad 90 [EXP_DETECT_N_MCU] of U8 on F.Cu
+    @(142.2836 mm, 125.1900 mm): Via [EXP_DETECT_N_MCU] on F.Cu - B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(136.0976 mm, 104.8414 mm): Track [EXP_RST_N_MCU] on F.Cu, length 0.7071 mm
+    @(141.6336 mm, 137.1434 mm): Pad 1 [EXP_RST_N_MCU] of R431 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(139.0976 mm, 103.9914 mm): Pad 97 [EXP_IO1_MCU] of U8 on F.Cu
+    @(141.8800 mm, 124.7900 mm): Track [EXP_IO1_MCU] on B.Cu, length 0.4808 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(139.5976 mm, 104.7414 mm): Track [EXP_IO0_MCU] on F.Cu, length 0.7000 mm
+    @(141.1900 mm, 124.7500 mm): Track [EXP_IO0_MCU] on B.Cu, length 0.4667 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(129.8336 mm, 139.9934 mm): Pad 1 [RECORD_N] of SW1 on F.Cu
+    @(137.5500 mm, 100.8100 mm): Pad 2 [RECORD_N] of R46 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(128.0426 mm, 90.8164 mm): Pad 2 [/Expansion mezzanine/EXP_SPI_SCK] of R419 on B.Cu
+    @(137.1536 mm, 133.4934 mm): Pad 5 [/Expansion mezzanine/EXP_SPI_SCK] of J11 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(128.2926 mm, 92.0164 mm): Track [/Expansion mezzanine/EXP_SPI_MOSI] on B.Cu, length 0.3000 mm
+    @(137.6536 mm, 133.4934 mm): Pad 7 [/Expansion mezzanine/EXP_SPI_MOSI] of J11 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(144.1536 mm, 133.4934 mm): Pad 33 [/Expansion mezzanine/EXP_GATE] of J11 on B.Cu
+    @(139.0976 mm, 90.8614 mm): Pad 2 [/Expansion mezzanine/EXP_GATE] of R433 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(144.1536 mm, 127.9884 mm): Track [/Expansion mezzanine/EXP_ANA_MON] on B.Cu, length 0.7700 mm
+    @(139.3794 mm, 97.6434 mm): Pad 2 [/Expansion mezzanine/EXP_ANA_MON] of R435 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(144.6536 mm, 133.4934 mm): Pad 35 [/Expansion mezzanine/EXP_SYNC] of J11 on B.Cu
+    @(137.0976 mm, 101.7714 mm): Pad 2 [/Expansion mezzanine/EXP_SYNC] of R434 on B.Cu
+
+** Found 0 Footprint errors **
+
+** Ignored checks **
+    - Footprint has no courtyard defined
+    - Track endpoint not centered on via
+    - Tuning profile track geometries
+    - Footprint doesn't match symbol's footprint filters
+    - Footprint component type doesn't match footprint pads
+
+** End of Report **

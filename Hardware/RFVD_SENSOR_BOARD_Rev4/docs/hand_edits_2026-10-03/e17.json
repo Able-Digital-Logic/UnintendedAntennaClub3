@@ -1,0 +1,23 @@
+[
+ {"delseg": "PSRAM_IO3", "layer": "B.Cu", "a": [119.80, 90.20], "b": [120.20, 89.80]},
+ {"delvia": "BUCK_SYNC_MCU", "at": [136.35, 90.55]},
+ {"delvia": "BUCK_SYNC", "at": [137.05, 92.62]},
+ {"delseg": "EXP_3V3_EN", "layer": "In3.Cu", "a": [128.75, 85.89], "b": [129.20, 86.34]},
+ {"delseg": "EXP_INT0_N_MCU", "layer": "F.Cu", "a": [127.67, 92.82], "b": [127.87, 93.02]},
+ {"delseg": "EXP_INT0_N_MCU", "layer": "F.Cu", "a": [127.87, 93.02], "b": [128.72, 93.02]},
+ {"delseg": "EXP_INT0_N_MCU", "layer": "F.Cu", "a": [128.72, 93.02], "b": [129.27, 92.47]},
+ {"delvia": "EXP_INT0_N_MCU", "at": [129.27, 92.47]},
+ {"delseg": "LCD_RST", "layer": "In3.Cu", "a": [143.12, 89.50], "b": [143.50, 89.50]},
+ {"delseg": "LCD_RST", "layer": "In3.Cu", "a": [143.50, 89.50], "b": [143.90, 89.90]},
+ {"delseg": "LCD_RST", "layer": "In3.Cu", "a": [143.90, 89.90], "b": [144.47, 89.90]},
+ {"delseg": "LCD_RST", "layer": "In3.Cu", "a": [144.47, 89.90], "b": [145.03, 90.45]},
+ {"delseg": "LCD_RST", "layer": "In3.Cu", "a": [145.03, 90.45], "b": [146.15, 90.45]},
+ {"delseg": "LCD_RST", "layer": "In3.Cu", "a": [146.15, 90.45], "b": [146.32, 90.62]},
+ {"delseg": "LCD_RST", "layer": "In3.Cu", "a": [146.32, 90.62], "b": [146.32, 91.10]},
+ {"delseg": "Net-(Q202-D)", "layer": "F.Cu", "a": [153.10, 105.70], "b": [154.00, 105.70]},
+ {"delvia": "Net-(U8-PC14)", "at": [141.05, 99.45]},
+ {"delvia": "SWCLK", "at": [127.80, 103.99]},
+ {"delseg": "SWDIO", "layer": "F.Cu", "a": [122.70, 136.32], "b": [122.40, 136.02]},
+ {"delvia": "SWDIO", "at": [122.40, 136.02]},
+ {"delvia": "SWO", "at": [135.10, 104.84]}
+]

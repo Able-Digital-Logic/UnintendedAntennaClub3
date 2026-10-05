@@ -1,0 +1,101 @@
+--- C:/Users/gabor/Documents/RFVDProject_SeniorDsgn/RFVD_Authoritative/03_hardware/RFVD_SENSOR_BOARD_GITHUB/RFVD_SENSOR_BOARD.kicad_dru	2026-10-02 01:35:34.718762100 -0500
++++ C:/Users/gabor/Documents/RFVDProject_SeniorDsgn/RFVD_Authoritative/03_hardware/RFVD_SENSOR_BOARD_LAYOUT_HANDOFF_2026-10-02/RFVD_SENSOR_BOARD.kicad_dru	2026-10-02 23:34:42.101233200 -0500
+@@ -70,9 +70,11 @@
+ # ======================================================================= 2. Track widths (opt = router default)
+ # 2026-10-02: Default track 0.12 mm (was min 0.15 / opt 0.2) with the digital classes at 0.10 mm clearance, so tracks
+ # fit between the back-side 0402s (one lane = 0.12 + 2 x 0.10 = 0.32 mm). JLC multilayer limit 0.09/0.09 mm.
++# 2026-10-02 (layout completion, user: smallest no-surcharge size that still suits the signal): Default min
++# 0.12 -> 0.10 mm (JLC multilayer 0.09/0.09 mm; ~59 ohm microstrip, slow GPIO only). opt stays 0.12 mm.
+ (rule "w_default"
+    (condition "A.hasExactNetclass('Default')")
+-   (constraint track_width (min 0.12mm) (opt 0.12mm)))
++   (constraint track_width (min 0.1mm) (opt 0.12mm)))
+ 
+ # 0.15 mm microstrip over GND (3313): 54.1 ohm bare / 50.7 ohm with JLC's published mask (1.2 mil over
+ # substrate, 0.6 mil over trace, Er 3.8) - independent non-uniform-grid field solve + Hammerstad-Jensen.
+@@ -395,8 +397,22 @@
+ # Other small pads keep no_via_in_small_smd_pad; different-net holes are still caught by hole_clearance.
+ # v4 adds: R300, R415, R438 (same-net GND via-in-pad, POFV).
+ # 2026-10-02 adds: C907 (same-net CHG_INT_N via in C907.1 for U8 pin 22; the pin has no other legal via site).
++# 2026-10-02 (layout completion) adds J1, J300: same-net GND vias in the U.FL ground pads (RF return,
++# lead-placed; POFV filled and capped, JLC 6-layer via-in-pad process).
+ (rule "v3_pofv_via_in_pad"
+-   (condition "A.Type == 'Via' && B.Type == 'Pad' && A.Net == B.Net && (B.memberOfFootprint('U6') || B.memberOfFootprint('U702') || B.memberOfFootprint('TP13') || B.memberOfFootprint('C21') || B.memberOfFootprint('C22') || B.memberOfFootprint('R903') || B.memberOfFootprint('C12') || B.memberOfFootprint('C20') || B.memberOfFootprint('C25') || B.memberOfFootprint('C37') || B.memberOfFootprint('R17') || B.memberOfFootprint('C309') || B.memberOfFootprint('C306') || B.memberOfFootprint('C313') || B.memberOfFootprint('C317') || B.memberOfFootprint('C307') || B.memberOfFootprint('R11') || B.memberOfFootprint('R12') || B.memberOfFootprint('R300') || B.memberOfFootprint('R415') || B.memberOfFootprint('R438') || B.memberOfFootprint('C907') || B.memberOfFootprint('J3') || B.memberOfFootprint('D4') || B.memberOfFootprint('D5') || B.memberOfFootprint('D6') || B.memberOfFootprint('D7') || B.memberOfFootprint('D8') || B.memberOfFootprint('D9') || B.memberOfFootprint('D10'))")
++   (condition "A.Type == 'Via' && B.Type == 'Pad' && A.Net == B.Net && (B.memberOfFootprint('J1') || B.memberOfFootprint('J300') || B.memberOfFootprint('U6') || B.memberOfFootprint('U702') || B.memberOfFootprint('TP13') || B.memberOfFootprint('C21') || B.memberOfFootprint('C22') || B.memberOfFootprint('R903') || B.memberOfFootprint('C12') || B.memberOfFootprint('C20') || B.memberOfFootprint('C25') || B.memberOfFootprint('C37') || B.memberOfFootprint('R17') || B.memberOfFootprint('C309') || B.memberOfFootprint('C306') || B.memberOfFootprint('C313') || B.memberOfFootprint('C317') || B.memberOfFootprint('C307') || B.memberOfFootprint('R11') || B.memberOfFootprint('R12') || B.memberOfFootprint('R300') || B.memberOfFootprint('R415') || B.memberOfFootprint('R438') || B.memberOfFootprint('C907') || B.memberOfFootprint('J3') || B.memberOfFootprint('D4') || B.memberOfFootprint('D5') || B.memberOfFootprint('D6') || B.memberOfFootprint('D7') || B.memberOfFootprint('D8') || B.memberOfFootprint('D9') || B.memberOfFootprint('D10'))")
++   (constraint physical_hole_clearance (min 0.1mm))
++   (severity ignore))
++
++# 2026-10-02 (layout completion) R-VIP: every via on this 6-layer board is resin-filled and capped (BM-05 above; JLC
++# includes POFV at no charge on 6-20 layer orders, and makes via-in-pad the default from 6 layers), so the 4-layer
++# reasons behind no_via_in_small_smd_pad (POFV surcharge, open hole wicking solder) no longer apply: same-net
++# via-in-pad is allowed in every SMD pad. A via wider than a fine-pitch pin (0.45 mm via in a 0.25-0.30 mm pin) only
++# overhangs under the tented mask; its copper and hole spacing to the neighbouring pins is still checked by the
++# clearance / hole_clearance rules. Used for the B-side series parts and filters stacked under IC/connector pins
++# (stackplace.py + stackvia.py) and for GND via-in-pad at decoupling caps.
++(rule "layout_pofv_via_in_pad_6l"
++   (condition "A.Type == 'Via' && B.Type == 'Pad' && A.Net == B.Net && B.Pad_Type == 'SMD'")
+    (constraint physical_hole_clearance (min 0.1mm))
+    (severity ignore))
+ 
+@@ -464,18 +480,20 @@
+ 
+ # v3 K16: DISP lane - only the U8 pin 22-25 display/charger GPIO (both sides of their limiters) and BUCK_SYNC (3 mm
+ # shared run per routing_notes); no GND stitching vias.
++# 2026-10-02 (layout completion): GND stitching vias are allowed inside the K16/K18/K19 lanes (they are
++# the lane net's return path); foreign signal tracks and vias stay disallowed.
+ (rule "v3_K16_disp_lane_nets"
+-   (condition "(A.Type == 'Track' || A.Type == 'Arc' || A.Type == 'Via') && A.existsOnLayer('B.Cu') && A.intersectsArea('K16_DISP_LANE') && A.NetName != 'CHG_INT_N' && A.NetName != 'LCD_TE_MCU' && A.NetName != '/Screen and controls/LCD_TE' && A.NetName != '/STM32H743 controller/LCD_RST_MCU' && A.NetName != 'LCD_RST' && A.NetName != '/STM32H743 controller/TP_RST_MCU' && A.NetName != 'TP_RST' && A.NetName != 'BUCK_SYNC' && A.NetName != '/STM32H743 controller/BUCK_SYNC_MCU'")
++   (condition "((A.Type == 'Track' || A.Type == 'Arc' || A.Type == 'Via') && A.existsOnLayer('B.Cu') && A.intersectsArea('K16_DISP_LANE') && A.NetName != 'CHG_INT_N' && A.NetName != 'LCD_TE_MCU' && A.NetName != '/Screen and controls/LCD_TE' && A.NetName != '/STM32H743 controller/LCD_RST_MCU' && A.NetName != 'LCD_RST' && A.NetName != '/STM32H743 controller/TP_RST_MCU' && A.NetName != 'TP_RST' && A.NetName != 'BUCK_SYNC' && A.NetName != '/STM32H743 controller/BUCK_SYNC_MCU') && !(A.Type == 'Via' && A.hasNetclass('Ground'))")
+    (constraint disallow track via))
+ 
+ # v3 K18 (R57/R58, BR3): +3V3_D feed channel on B.Cu - +3V3_D only, no vias.
+ (rule "v3_K18_br3_feed"
+-   (condition "A.existsOnLayer('B.Cu') && A.intersectsArea('K18_BR3_FEED') && (A.Type == 'Via' || ((A.Type == 'Track' || A.Type == 'Arc') && A.NetName != '+3V3_D'))")
++   (condition "(A.existsOnLayer('B.Cu') && A.intersectsArea('K18_BR3_FEED') && (A.Type == 'Via' || ((A.Type == 'Track' || A.Type == 'Arc') && A.NetName != '+3V3_D'))) && !(A.Type == 'Via' && A.hasNetclass('Ground'))")
+    (constraint disallow track via))
+ 
+ # v3 K19a/b/c (R55, BR4/PCE-10): VSYS_U7 branch - VSYS only (tracks and the one VSYS via at 224.0, 53.2), no stitching vias.
+ (rule "v3_K19_vsys_branch"
+-   (condition "(A.Type == 'Track' || A.Type == 'Arc' || A.Type == 'Via') && A.existsOnLayer('B.Cu') && A.intersectsArea('K19?_VSYS*') && A.NetName != 'VSYS'")
++   (condition "((A.Type == 'Track' || A.Type == 'Arc' || A.Type == 'Via') && A.existsOnLayer('B.Cu') && A.intersectsArea('K19?_VSYS*') && A.NetName != 'VSYS') && !(A.Type == 'Via' && A.hasNetclass('Ground'))")
+    (constraint disallow track via))
+ 
+ # v3 K20a/K20b (MC-01): the fallback-ADC lanes carry only their own net.
+@@ -627,3 +645,37 @@
+    (layer "In3.Cu")
+    (condition "A.hasNetclass('RF_Input') || A.hasNetclass('RF_50R') || A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin')")
+    (constraint disallow track))
++
++# =====================================================================================================================
++# v9 (2026-10-02, layout completion): REGN is the BQ25798 internal 5 V gate-drive LDO output (4.7 uF C312 + NTC bias
++# R306/R308, STAT pull-up R312 and the charge LED R19: < 50 mA). It inherits Power_Battery (0.5 mm / 0.2 mm) from the
++# class pattern, which cannot leave U301 pin 5 (0.2 mm pad at 0.4 mm pitch between BTST1 and D+). IPC-2152: 0.15 mm
++# carries 0.5 A at dT 10 C, 0.3 mm opt keeps the 4.7 uF loop low-inductance. SW nets keep their own 0.2 mm rules.
++(rule "v9_regn_light"
++   (condition "A.NetName == '/Battery, charger and USB-C/REGN'")
++   (constraint track_width (min 0.15mm) (opt 0.3mm)))
++
++(rule "v9_regn_clearance"
++   (condition "A.NetName == '/Battery, charger and USB-C/REGN' && !B.hasNetclass('Power_Buck_SW') && !B.hasNetclass('Analog_Precision') && !B.hasNetclass('Ref_Kelvin') && !B.hasNetclass('RF_Input') && !B.hasNetclass('RF_50R')")
++   (constraint clearance (min 0.15mm)))
++
++# v9 (2026-10-02, layout completion): neck-down at the charger power caps. U301 (BQ25798, 0.4 mm pitch) is ringed by its
++# PMID/VBUS/SYS/BAT/REGN caps within 1-2 mm; Power_Battery/Power_Digital minimum widths cannot reach those pads
++# between neighbouring pads. A 0.2 mm x <=1 mm neck inside a C3xx courtyard adds ~2.5 mOhm and ~0.2 nH.
++(rule "v9_w_power_neckdown_chg_caps"
++   (condition "(A.hasNetclass('Power_Battery') || A.hasNetclass('Power_Digital')) && A.intersectsCourtyard('C3??')")
++   (constraint track_width (min 0.2mm) (opt 0.3mm)))
++
++# v10 (2026-10-02 night, DRC clean-up): the four BQ25798 bootstrap-path vias (BTST1/BTST2 and the SW1/SW2 drops to
++# C310/C311 on B) carry only bootstrap-capacitor charge (gate drive), not inductor current - the SW current runs on F
++# from U301 pins 26/28 straight into L301. Their class (Power_Battery) asks 0.6/0.3; 0.45/0.20 POFV is enough here.
++(rule "v10_chg_bootstrap_vias"
++   (condition "A.Type == 'Via' && (A.NetName == 'Net-(U301-BTST1)' || A.NetName == 'Net-(U301-BTST2)' || A.NetName == 'Net-(U301-SW1)' || A.NetName == 'Net-(U301-SW2)')")
++   (constraint hole_size (min 0.2mm) (opt 0.3mm) (max 0.4mm))
++   (constraint via_diameter (min 0.45mm) (opt 0.5mm) (max 0.8mm)))
++
++# v10: REGN keeps its v9_regn_light 0.15 mm minimum inside the C3xx courtyards too (v9_w_power_neckdown_chg_caps comes
++# later in the file and was overriding it with 0.2 mm for this < 50 mA net).
++(rule "v10_regn_light_in_chg_caps"
++   (condition "A.NetName == '/Battery, charger and USB-C/REGN' && A.intersectsCourtyard('C3??')")
++   (constraint track_width (min 0.15mm) (opt 0.3mm)))

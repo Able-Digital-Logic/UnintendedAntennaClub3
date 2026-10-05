@@ -1,0 +1,921 @@
+(version 1)
+# RFVD SENSOR-D custom DRC rules - KiCad 10.0.x syntax.
+# Syntax checked against the rules help embedded in KiCad 10.0.5 (_pcbnew.dll) and parse-tested with
+# kicad-cli 10.0.5 on a scratch copy (sentinel-rule method; kicad-cli silently ignores a file that fails
+# to parse, so a sentinel proves the whole file loaded). Verified semantics (kicad-cli 10.0.5):
+# hasNetclass() accepts wildcards ('Digital*' and '*Power' matched DigitalPower), intersectsCourtyard('U*')
+# and memberOfFootprint('H*') accept wildcards, NetName == '*/SD_D?' is a wildcard compare,
+# hasExactNetclass('DigitalPower') does NOT match the composite 'DigitalPower,Default'.
+# Precedence: "Later rules take precedence over earlier rules; once a matching rule is found no further
+# rules will be checked." -> generic/smaller rules first, specific/larger rules later.
+# Netclass tests use hasNetclass() (A.NetClass == 'X' is equivalent for composites). Nets that are ONLY in
+# Default are tested with hasExactNetclass('Default'): A.NetClass == 'Default' / hasNetclass('Default')
+# also match every composite "X,Default" netclass (verified with kicad-cli on this board).
+# Stackup basis (2026-10-01): JLC06161H-3313, 6 layers. F.Cu/B.Cu 35 um over 0.0994 mm 3313 prepreg (Er 4.1) to
+# In1/In4; In1.Cu = In2.Cu = In4.Cu = GND planes, In3.Cu = buried signal layer (see v8 at the end). Was JLC04161H-3313.
+# U13 = external ADC AD7380BCPZ-RL7 (External_ADC.kicad_sch).
+#
+# SIGNOFF rules (2026-10-01). Lines starting with '#SIGNOFF ' are complete rules switched off on purpose, in place.
+# KiCad sizes the interactive router's obstacle search by the LARGEST clearance in any rule, whatever the rule's
+# condition, so the BUCK_SYNC spacing rules (5 mm to RF, 5 mm to the board edge, 3 mm to the LSE crystal nets) made
+# every net search 5 mm around the cursor and hand routing dropped to about 5 fps (kicad-cli DRC on a routed copy:
+# rule overhead 12.4 s with them, 4.5 s without). drc_signoff.py (next to this file) strips the '#SIGNOFF ' prefix
+# on a scratch copy, which restores the original order and so the precedence, proves the file loaded with a
+# sentinel rule and runs the full DRC. Run it before making fab outputs. Park any new rule above 2 mm clearance here.
+
+# ======================================================================= 0. JLCPCB fabrication limits
+# JLC capabilities (2026-09-28): "PTH to Track: 0.28mm", "Inner layer PTH pad hole to copper clearance: 0.3mm"
+
+# 2026-10-02: JLC SMD pad-to-pad floor (0.15 mm) for the classes whose own clearance is below it (Default/HighSpeed_*/
+# Harness_IO = 0.10 mm). A custom clearance rule REPLACES the netclass clearance even when smaller (kicad-cli 10.0 test),
+# so the classes with a larger clearance (Power_Battery, Power_Buck_SW = 0.20 mm) are excluded and keep their netclass
+# value for pad pairs. Add any class raised above 0.15 mm here. (v11, critique RULES-08)
+(rule "jlc_smd_pad_to_pad_floor"
+   (condition "A.Type == 'Pad' && B.Type == 'Pad' && !A.hasNetclass('Power_Battery') && !B.hasNetclass('Power_Battery') && !A.hasNetclass('Power_Buck_SW') && !B.hasNetclass('Power_Buck_SW')")
+   (constraint clearance (min 0.15mm)))
+
+(rule "fab_pth_hole_clearance"
+   (condition "A.Type == 'Pad' && A.Pad_Type == 'Through-hole'")
+   (constraint hole_clearance (min 0.3mm)))
+
+# JLC: "Pad Hole-to-Hole Spacing: 0.45mm" (the capability page gives no same-/different-net qualifier)
+(rule "fab_pad_hole_to_hole"
+   (condition "A.Type == 'Pad' && B.Type == 'Pad'")
+   (constraint hole_to_hole (min 0.45mm)))
+
+# JLC multilayer 1 oz "PTH annular ring": "Recommended 0.20 mm or above; absolute minimum 0.15 mm".
+# KiCad 10 annular_width also checks PTH pads (verified: J4/J7/JP1 pads reported), so the board-wide 0.10 mm
+# via minimum would otherwise pass a 0.10 mm PTH ring. All current PTH pads pass 0.20 mm.
+(rule "fab_pth_annular"
+   (condition "A.Type == 'Pad' && A.Pad_Type == 'Through-hole'")
+   (constraint annular_width (min 0.2mm)))
+
+# JLC: "Min. Non-plated holes: 0.50mm"
+(rule "fab_npth_min"
+   (condition "A.Pad_Type == 'NPTH, mechanical'")
+   (constraint hole_size (min 0.5mm)))
+
+# JLC free tier: "standard holes (with a diameter of >= 0.3mm)"; tented via holes "ideally 0.4 mm or less"
+(rule "fab_via_window"
+   (condition "A.Type == 'Via'")
+   (constraint hole_size (min 0.3mm) (max 0.4mm))
+   (constraint via_diameter (min 0.5mm) (max 0.8mm)))
+
+# ======================================================================= 1. Via-in-pad policy
+# v11 (2026-10-04, critique RULES-09): every via is resin-filled and copper-capped (POFV, free on JLC 6-20 layer
+# orders), so same-net via-in-pad is allowed in every pad. Different-net copper and hole spacing stay checked by the
+# clearance / hole_clearance rules. The old no_via_in_small_smd_pad rule and its two severity-ignore exemptions
+# (v3_pofv_via_in_pad, layout_pofv_via_in_pad_6l) cancelled each other and were removed together: DRC identical.
+
+# ======================================================================= 2. Track widths (opt = router default)
+# 2026-10-02: Default track 0.12 mm (was min 0.15 / opt 0.2) with the digital classes at 0.10 mm clearance, so tracks
+# fit between the back-side 0402s (one lane = 0.12 + 2 x 0.10 = 0.32 mm). JLC multilayer limit 0.09/0.09 mm.
+# 2026-10-02 (layout completion, user: smallest no-surcharge size that still suits the signal): Default min
+# 0.12 -> 0.10 mm (JLC multilayer 0.09/0.09 mm; ~59 ohm microstrip, slow GPIO only). opt stays 0.12 mm.
+(rule "w_default"
+   (condition "A.hasExactNetclass('Default')")
+   (constraint track_width (min 0.1mm) (opt 0.12mm)))
+
+# 0.15 mm microstrip over GND (3313): 54.1 ohm bare / 50.7 ohm with JLC's published mask (1.2 mil over
+# substrate, 0.6 mil over trace, Er 3.8) - independent non-uniform-grid field solve + Hammerstad-Jensen.
+# max 0.20 mm (46.5 ohm bare / 44.0 ohm masked) keeps the 33-ohm source terminations in range.
+(rule "w_highspeed"
+   (condition "A.hasNetclass('HighSpeed_*')")
+   (constraint track_width (min 0.15mm) (opt 0.15mm) (max 0.2mm)))
+
+# RF input is NOT a 50-ohm system (3.0 k series into 250-ohm RFIN); 0.20 mm = 46.5 ohm bare / 44.0 masked.
+(rule "w_rf"
+   (condition "A.hasNetclass('RF_Input')")
+   (constraint track_width (min 0.15mm) (opt 0.2mm) (max 0.3mm)))
+
+# CAL_IN port (J300 -> R300||R301 termination -> C300) IS a 50-ohm line: 0.15 mm on F.Cu over solid In1 = 50.7 ohm masked.
+(rule "w_rf50"
+   (condition "A.hasNetclass('RF_50R')")
+   (constraint track_width (min 0.15mm) (opt 0.15mm) (max 0.16mm)))
+
+(rule "w_analog"
+   (condition "A.hasNetclass('Analog_Precision')")
+   (constraint track_width (min 0.15mm) (opt 0.2mm)))
+
+(rule "w_ref"
+   (condition "A.hasNetclass('Ref_Kelvin')")
+   (constraint track_width (min 0.2mm) (opt 0.3mm)))
+
+(rule "w_harness"
+   (condition "A.hasNetclass('Harness_IO')")
+   (constraint track_width (min 0.15mm) (opt 0.15mm)))
+
+# IPC-2152 fig. 5-1 fit, 1 oz external, dT 10 C: 0.15 A -> 0.01 mm; width chosen for DC drop/inductance.
+(rule "w_power_analog"
+   (condition "A.hasNetclass('Power_Analog')")
+   (constraint track_width (min 0.25mm) (opt 0.4mm)))
+
+# +3V3_D 1.0 A design -> 0.29 mm at dT 10 C; 0.5 mm x 35 um -> 39 mOhm per 40 mm (rho 1.72e-8) -> 39 mV at 1 A
+(rule "w_power_digital"
+   (condition "A.hasNetclass('Power_Digital')")
+   (constraint track_width (min 0.3mm) (opt 0.5mm)))
+
+# PTC hold 1.1 A -> 0.34 mm; PTC trip 2.2 A -> 1.20 mm (dT 10 C)
+(rule "w_power_battery"
+   (condition "A.hasNetclass('Power_Battery')")
+   (constraint track_width (min 0.5mm) (opt 1.0mm)))
+
+# Buck SW: 2 A converter rating -> 1.0 mm at dT 10 C; opt 0.8 mm on a < 4 mm run
+(rule "w_buck_sw"
+   (condition "A.hasNetclass('Power_Buck_SW')")
+   (constraint track_width (min 0.5mm) (opt 0.8mm)))
+
+# SW inside the U6/C35 courtyards: pin neck-down and the U6.5-C35.2 bootstrap branch (gate charge only)
+(rule "w_buck_sw_neck__F"
+   (layer "F.Cu")
+   (condition "A.hasNetclass('Power_Buck_SW') && (((A.Type == 'Via' && A.intersectsCourtyard('U6')) || A.intersectsCourtyard('U6')) || ((A.Type == 'Via' && A.intersectsCourtyard('C35')) || A.intersectsCourtyard('C35')))")
+   (constraint track_width (min 0.2mm) (opt 0.35mm)))
+(rule "w_buck_sw_neck__B"
+   (layer "B.Cu")
+   (condition "A.hasNetclass('Power_Buck_SW') && (((A.Type == 'Via' && A.intersectsCourtyard('U6'))) || ((A.Type == 'Via' && A.intersectsCourtyard('C35'))))")
+   (constraint track_width (min 0.2mm) (opt 0.35mm)))
+(rule "w_buck_sw_neck__I"
+   (layer inner)
+   (condition "A.hasNetclass('Power_Buck_SW') && ((A.Type == 'Via' && A.intersectsCourtyard('U6')) || (A.Type == 'Via' && A.intersectsCourtyard('C35')))")
+   (constraint track_width (min 0.2mm) (opt 0.35mm)))
+
+(rule "w_gnd"
+   (condition "A.hasNetclass('Ground')")
+   (constraint track_width (min 0.2mm) (opt 0.4mm)))
+
+# Neck-down inside IC courtyards (LQFP 0.30, LFCSP 0.25, MSOP 0.40, VQFN-HR 0.225 mm pads)
+(rule "w_power_neckdown_in_ic__F"
+   (layer "F.Cu")
+   (condition "(A.hasNetclass('Power_Digital') || A.hasNetclass('Power_Analog') || A.hasNetclass('Power_Battery') || A.hasNetclass('Ground') || A.hasNetclass('Ref_Kelvin')) && ((A.Type == 'Via' && A.intersectsCourtyard('U*')) || A.intersectsCourtyard('U1') || A.intersectsCourtyard('U10') || A.intersectsCourtyard('U11') || A.intersectsCourtyard('U13') || A.intersectsCourtyard('U2') || A.intersectsCourtyard('U3') || A.intersectsCourtyard('U301') || A.intersectsCourtyard('U302') || A.intersectsCourtyard('U303') || A.intersectsCourtyard('U4') || A.intersectsCourtyard('U402') || A.intersectsCourtyard('U403') || A.intersectsCourtyard('U5') || A.intersectsCourtyard('U6') || A.intersectsCourtyard('U7') || A.intersectsCourtyard('U702') || A.intersectsCourtyard('U8') || A.intersectsCourtyard('U9'))")
+   (constraint track_width (min 0.2mm) (opt 0.3mm)))
+(rule "w_power_neckdown_in_ic__B"
+   (layer "B.Cu")
+   (condition "(A.hasNetclass('Power_Digital') || A.hasNetclass('Power_Analog') || A.hasNetclass('Power_Battery') || A.hasNetclass('Ground') || A.hasNetclass('Ref_Kelvin')) && ((A.Type == 'Via' && A.intersectsCourtyard('U*')) || A.intersectsCourtyard('U304') || A.intersectsCourtyard('U401') || A.intersectsCourtyard('U701') || A.intersectsCourtyard('U901'))")
+   (constraint track_width (min 0.2mm) (opt 0.3mm)))
+(rule "w_power_neckdown_in_ic__I"
+   (layer inner)
+   (condition "(A.hasNetclass('Power_Digital') || A.hasNetclass('Power_Analog') || A.hasNetclass('Power_Battery') || A.hasNetclass('Ground') || A.hasNetclass('Ref_Kelvin')) && (A.Type == 'Via' && A.intersectsCourtyard('U*'))")
+   (constraint track_width (min 0.2mm) (opt 0.3mm)))
+
+# BOOT sits in the switching class for spacing but carries only gate-drive charge
+(rule "w_buck_boot"
+   (condition "A.NetName == 'Net-(U6-BOOT)' || A.NetName == '*BUCK_BOOT'")
+   (constraint track_width (min 0.15mm) (opt 0.3mm)))
+
+# ======================================================================= 3. Spacing: digital aggressors
+# High-speed track/via to other signal copper >= 0.20 mm (fan-out inside IC courtyards exempt)
+(rule "sp_highspeed_to_signal__F"
+   (layer "F.Cu")
+   (condition "A.hasNetclass('HighSpeed_*') && A.Type != 'Pad' && B.Type != 'Zone' && !B.hasNetclass('Ground') && !(B.NetName == 'unconnected-*') && !((A.Type == 'Via' && A.intersectsCourtyard('U*')) || A.intersectsCourtyard('U1') || A.intersectsCourtyard('U10') || A.intersectsCourtyard('U11') || A.intersectsCourtyard('U13') || A.intersectsCourtyard('U2') || A.intersectsCourtyard('U3') || A.intersectsCourtyard('U301') || A.intersectsCourtyard('U302') || A.intersectsCourtyard('U303') || A.intersectsCourtyard('U4') || A.intersectsCourtyard('U402') || A.intersectsCourtyard('U403') || A.intersectsCourtyard('U5') || A.intersectsCourtyard('U6') || A.intersectsCourtyard('U7') || A.intersectsCourtyard('U702') || A.intersectsCourtyard('U8') || A.intersectsCourtyard('U9')) && !((B.Type == 'Via' && B.intersectsCourtyard('U*')) || B.intersectsCourtyard('U1') || B.intersectsCourtyard('U10') || B.intersectsCourtyard('U11') || B.intersectsCourtyard('U13') || B.intersectsCourtyard('U2') || B.intersectsCourtyard('U3') || B.intersectsCourtyard('U301') || B.intersectsCourtyard('U302') || B.intersectsCourtyard('U303') || B.intersectsCourtyard('U4') || B.intersectsCourtyard('U402') || B.intersectsCourtyard('U403') || B.intersectsCourtyard('U5') || B.intersectsCourtyard('U6') || B.intersectsCourtyard('U7') || B.intersectsCourtyard('U702') || B.intersectsCourtyard('U8') || B.intersectsCourtyard('U9'))")
+   (constraint clearance (min 0.2mm)))
+(rule "sp_highspeed_to_signal__B"
+   (layer "B.Cu")
+   (condition "A.hasNetclass('HighSpeed_*') && A.Type != 'Pad' && B.Type != 'Zone' && !B.hasNetclass('Ground') && !(B.NetName == 'unconnected-*') && !((A.Type == 'Via' && A.intersectsCourtyard('U*')) || A.intersectsCourtyard('U304') || A.intersectsCourtyard('U401') || A.intersectsCourtyard('U701') || A.intersectsCourtyard('U901')) && !((B.Type == 'Via' && B.intersectsCourtyard('U*')) || B.intersectsCourtyard('U304') || B.intersectsCourtyard('U401') || B.intersectsCourtyard('U701') || B.intersectsCourtyard('U901'))")
+   (constraint clearance (min 0.2mm)))
+(rule "sp_highspeed_to_signal__I"
+   (layer inner)
+   (condition "A.hasNetclass('HighSpeed_*') && A.Type != 'Pad' && B.Type != 'Zone' && !B.hasNetclass('Ground') && !(B.NetName == 'unconnected-*') && !(A.Type == 'Via' && A.intersectsCourtyard('U*')) && !(B.Type == 'Via' && B.intersectsCourtyard('U*'))")
+   (constraint clearance (min 0.2mm)))
+
+# Clocks: 3W (3 x 0.15 mm centre spacing -> 0.30 mm edge gap)
+# 2026-10-02: fine-pitch fan-out exempt like U* (sp_highspeed_to_signal 0.2 mm still applies there). Measured gap from a
+# 0.15 mm track centred on the clock pad to the neighbouring pad: J11 and D401 0.275 mm (0.5 mm pitch, 0.3 mm pads),
+# RN203 0.275 mm, J4 0.300 mm (zero margin), so 0.30 mm cannot be met at these pins.
+(rule "sp_clock_3w__F"
+   (layer "F.Cu")
+   (condition "A.hasNetclass('HighSpeed_Clock') && A.Type != 'Pad' && B.Type != 'Zone' && !B.hasNetclass('Ground') && !(B.NetName == 'unconnected-*') && !((A.Type == 'Via' && A.intersectsCourtyard('U*')) || A.intersectsCourtyard('U1') || A.intersectsCourtyard('U10') || A.intersectsCourtyard('U11') || A.intersectsCourtyard('U13') || A.intersectsCourtyard('U2') || A.intersectsCourtyard('U3') || A.intersectsCourtyard('U301') || A.intersectsCourtyard('U302') || A.intersectsCourtyard('U303') || A.intersectsCourtyard('U4') || A.intersectsCourtyard('U402') || A.intersectsCourtyard('U403') || A.intersectsCourtyard('U5') || A.intersectsCourtyard('U6') || A.intersectsCourtyard('U7') || A.intersectsCourtyard('U702') || A.intersectsCourtyard('U8') || A.intersectsCourtyard('U9')) && !((B.Type == 'Via' && B.intersectsCourtyard('U*')) || B.intersectsCourtyard('U1') || B.intersectsCourtyard('U10') || B.intersectsCourtyard('U11') || B.intersectsCourtyard('U13') || B.intersectsCourtyard('U2') || B.intersectsCourtyard('U3') || B.intersectsCourtyard('U301') || B.intersectsCourtyard('U302') || B.intersectsCourtyard('U303') || B.intersectsCourtyard('U4') || B.intersectsCourtyard('U402') || B.intersectsCourtyard('U403') || B.intersectsCourtyard('U5') || B.intersectsCourtyard('U6') || B.intersectsCourtyard('U7') || B.intersectsCourtyard('U702') || B.intersectsCourtyard('U8') || B.intersectsCourtyard('U9')) && !((A.Type == 'Via' && A.intersectsCourtyard('J4')) || A.intersectsCourtyard('J4')) && !((B.Type == 'Via' && B.intersectsCourtyard('J4')) || B.intersectsCourtyard('J4')) && !((A.Type == 'Via' && A.intersectsCourtyard('J11'))) && !((B.Type == 'Via' && B.intersectsCourtyard('J11'))) && !((A.Type == 'Via' && A.intersectsCourtyard('D401'))) && !((B.Type == 'Via' && B.intersectsCourtyard('D401'))) && !((A.Type == 'Via' && A.intersectsCourtyard('RN203'))) && !((B.Type == 'Via' && B.intersectsCourtyard('RN203')))")
+   (constraint clearance (min 0.3mm)))
+(rule "sp_clock_3w__B"
+   (layer "B.Cu")
+   (condition "A.hasNetclass('HighSpeed_Clock') && A.Type != 'Pad' && B.Type != 'Zone' && !B.hasNetclass('Ground') && !(B.NetName == 'unconnected-*') && !((A.Type == 'Via' && A.intersectsCourtyard('U*')) || A.intersectsCourtyard('U304') || A.intersectsCourtyard('U401') || A.intersectsCourtyard('U701') || A.intersectsCourtyard('U901')) && !((B.Type == 'Via' && B.intersectsCourtyard('U*')) || B.intersectsCourtyard('U304') || B.intersectsCourtyard('U401') || B.intersectsCourtyard('U701') || B.intersectsCourtyard('U901')) && !((A.Type == 'Via' && A.intersectsCourtyard('J4'))) && !((B.Type == 'Via' && B.intersectsCourtyard('J4'))) && !((A.Type == 'Via' && A.intersectsCourtyard('J11')) || A.intersectsCourtyard('J11')) && !((B.Type == 'Via' && B.intersectsCourtyard('J11')) || B.intersectsCourtyard('J11')) && !((A.Type == 'Via' && A.intersectsCourtyard('D401')) || A.intersectsCourtyard('D401')) && !((B.Type == 'Via' && B.intersectsCourtyard('D401')) || B.intersectsCourtyard('D401')) && !((A.Type == 'Via' && A.intersectsCourtyard('RN203')) || A.intersectsCourtyard('RN203')) && !((B.Type == 'Via' && B.intersectsCourtyard('RN203')) || B.intersectsCourtyard('RN203'))")
+   (constraint clearance (min 0.3mm)))
+(rule "sp_clock_3w__I"
+   (layer inner)
+   (condition "A.hasNetclass('HighSpeed_Clock') && A.Type != 'Pad' && B.Type != 'Zone' && !B.hasNetclass('Ground') && !(B.NetName == 'unconnected-*') && !(A.Type == 'Via' && A.intersectsCourtyard('U*')) && !(B.Type == 'Via' && B.intersectsCourtyard('U*')) && !(A.Type == 'Via' && A.intersectsCourtyard('J4')) && !(B.Type == 'Via' && B.intersectsCourtyard('J4')) && !(A.Type == 'Via' && A.intersectsCourtyard('J11')) && !(B.Type == 'Via' && B.intersectsCourtyard('J11')) && !(A.Type == 'Via' && A.intersectsCourtyard('D401')) && !(B.Type == 'Via' && B.intersectsCourtyard('D401')) && !(A.Type == 'Via' && A.intersectsCourtyard('RN203')) && !(B.Type == 'Via' && B.intersectsCourtyard('RN203'))")
+   (constraint clearance (min 0.3mm)))
+
+# SW/BOOT copper to other signal tracks/vias >= 0.5 mm. Excluded victims: GND, battery, +3V3_D and U6's
+# decoupled VCC (low-impedance DC nodes); U6 courtyard exempt (VCC pin 7 is adjacent to BOOT pin 6).
+(rule "sp_buck_sw_to_signal__F"
+   (layer "F.Cu")
+   (condition "A.hasNetclass('Power_Buck_SW') && (B.Type == 'Track' || B.Type == 'Via') && !B.hasNetclass('Power_Buck_SW') && !B.hasNetclass('Ground') && !B.hasNetclass('Power_Battery') && !B.hasNetclass('Power_Digital') && !(B.NetName == '*/BUCK_VCC') && !((A.Type == 'Via' && A.intersectsCourtyard('U6')) || A.intersectsCourtyard('U6')) && !((B.Type == 'Via' && B.intersectsCourtyard('U6')) || B.intersectsCourtyard('U6'))")
+   (constraint clearance (min 0.5mm)))
+(rule "sp_buck_sw_to_signal__B"
+   (layer "B.Cu")
+   (condition "A.hasNetclass('Power_Buck_SW') && (B.Type == 'Track' || B.Type == 'Via') && !B.hasNetclass('Power_Buck_SW') && !B.hasNetclass('Ground') && !B.hasNetclass('Power_Battery') && !B.hasNetclass('Power_Digital') && !(B.NetName == '*/BUCK_VCC') && !((A.Type == 'Via' && A.intersectsCourtyard('U6'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U6')))")
+   (constraint clearance (min 0.5mm)))
+(rule "sp_buck_sw_to_signal__I"
+   (layer inner)
+   (condition "A.hasNetclass('Power_Buck_SW') && (B.Type == 'Track' || B.Type == 'Via') && !B.hasNetclass('Power_Buck_SW') && !B.hasNetclass('Ground') && !B.hasNetclass('Power_Battery') && !B.hasNetclass('Power_Digital') && !(B.NetName == '*/BUCK_VCC') && !(A.Type == 'Via' && A.intersectsCourtyard('U6')) && !(B.Type == 'Via' && B.intersectsCourtyard('U6'))")
+   (constraint clearance (min 0.5mm)))
+
+# ======================================================================= 4. Spacing: RF input
+# Gap between RF copper and GND pour (CPWG gap 0.25 mm; lowers shunt C at the 231-ohm node)
+(rule "sp_rf_to_gnd_pour"
+   (condition "(A.hasNetclass('RF_Input') || A.hasNetclass('RF_50R')) && B.Type == 'Zone' && B.hasNetclass('Ground')")
+   (constraint clearance (min 0.25mm)))
+
+# GND stitching vias beside the RF path stay outside the gap (U2 exposed-pad vias exempt)
+(rule "sp_rf_to_gnd_via__F"
+   (layer "F.Cu")
+   (condition "(A.hasNetclass('RF_Input') || A.hasNetclass('RF_50R')) && B.Type == 'Via' && B.hasNetclass('Ground') && !((B.Type == 'Via' && B.intersectsCourtyard('U2')) || B.intersectsCourtyard('U2'))")
+   (constraint clearance (min 0.3mm)))
+(rule "sp_rf_to_gnd_via__B"
+   (layer "B.Cu")
+   (condition "(A.hasNetclass('RF_Input') || A.hasNetclass('RF_50R')) && B.Type == 'Via' && B.hasNetclass('Ground') && !((B.Type == 'Via' && B.intersectsCourtyard('U2')))")
+   (constraint clearance (min 0.3mm)))
+(rule "sp_rf_to_gnd_via__I"
+   (layer inner)
+   (condition "(A.hasNetclass('RF_Input') || A.hasNetclass('RF_50R')) && B.Type == 'Via' && B.hasNetclass('Ground') && !(B.Type == 'Via' && B.intersectsCourtyard('U2'))")
+   (constraint clearance (min 0.3mm)))
+
+# RF copper to any other non-GND copper >= 0.5 mm (pad-pad pairs and U2 pin fan-out exempt).
+# RF_50R (CAL_IN) <-> RF_Input (CAL_INJ at C300) is exempt: the feed ends ~0.4 mm from C300's CAL_INJ pad by design.
+(rule "sp_rf_keepaway__F"
+   (layer "F.Cu")
+   (condition "(A.hasNetclass('RF_Input') || A.hasNetclass('RF_50R')) && !B.hasNetclass('RF_Input') && !B.hasNetclass('RF_50R') && !B.hasNetclass('Ground') && !(A.Type == 'Pad' && B.Type == 'Pad') && !((A.Type == 'Via' && A.intersectsCourtyard('U2')) || A.intersectsCourtyard('U2')) && !((B.Type == 'Via' && B.intersectsCourtyard('U2')) || B.intersectsCourtyard('U2'))")
+   (constraint clearance (min 0.5mm)))
+(rule "sp_rf_keepaway__B"
+   (layer "B.Cu")
+   (condition "(A.hasNetclass('RF_Input') || A.hasNetclass('RF_50R')) && !B.hasNetclass('RF_Input') && !B.hasNetclass('RF_50R') && !B.hasNetclass('Ground') && !(A.Type == 'Pad' && B.Type == 'Pad') && !((A.Type == 'Via' && A.intersectsCourtyard('U2'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U2')))")
+   (constraint clearance (min 0.5mm)))
+(rule "sp_rf_keepaway__I"
+   (layer inner)
+   (condition "(A.hasNetclass('RF_Input') || A.hasNetclass('RF_50R')) && !B.hasNetclass('RF_Input') && !B.hasNetclass('RF_50R') && !B.hasNetclass('Ground') && !(A.Type == 'Pad' && B.Type == 'Pad') && !(A.Type == 'Via' && A.intersectsCourtyard('U2')) && !(B.Type == 'Via' && B.intersectsCourtyard('U2'))")
+   (constraint clearance (min 0.5mm)))
+
+# ======================================================================= 5. Spacing: precision-analog victims
+# Victims = Analog_Precision, Ref_Kelvin, RF_Input. Exempt: pad-pad pairs, unconnected pins, and items
+# touching the U2 / U8 / U13 courtyards (0.5 mm-pitch fan-out). Elsewhere the router enforces the gap.
+(rule "sp_analog_to_default_digital__F"
+   (layer "F.Cu")
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasExactNetclass('Default') && !(B.NetName == 'unconnected-*') && !(A.Type == 'Pad' && B.Type == 'Pad') && !((A.Type == 'Via' && A.intersectsCourtyard('U2')) || A.intersectsCourtyard('U2')) && !((B.Type == 'Via' && B.intersectsCourtyard('U2')) || B.intersectsCourtyard('U2')) && !((A.Type == 'Via' && A.intersectsCourtyard('U8')) || A.intersectsCourtyard('U8')) && !((B.Type == 'Via' && B.intersectsCourtyard('U8')) || B.intersectsCourtyard('U8')) && !((A.Type == 'Via' && A.intersectsCourtyard('U13')) || A.intersectsCourtyard('U13')) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')) || B.intersectsCourtyard('U13'))")
+   (constraint clearance (min 0.5mm)))
+(rule "sp_analog_to_default_digital__B"
+   (layer "B.Cu")
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasExactNetclass('Default') && !(B.NetName == 'unconnected-*') && !(A.Type == 'Pad' && B.Type == 'Pad') && !((A.Type == 'Via' && A.intersectsCourtyard('U2'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U2'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U8'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U8'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U13'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')))")
+   (constraint clearance (min 0.5mm)))
+(rule "sp_analog_to_default_digital__I"
+   (layer inner)
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasExactNetclass('Default') && !(B.NetName == 'unconnected-*') && !(A.Type == 'Pad' && B.Type == 'Pad') && !(A.Type == 'Via' && A.intersectsCourtyard('U2')) && !(B.Type == 'Via' && B.intersectsCourtyard('U2')) && !(A.Type == 'Via' && A.intersectsCourtyard('U8')) && !(B.Type == 'Via' && B.intersectsCourtyard('U8')) && !(A.Type == 'Via' && A.intersectsCourtyard('U13')) && !(B.Type == 'Via' && B.intersectsCourtyard('U13'))")
+   (constraint clearance (min 0.5mm)))
+
+# U7 exempt: LT3045 MSOP-12 SET (pin 8, Analog_Precision) sits 0.65 mm from PGFB (pin 7, BATT_PROT); a 0.20 mm
+# SET track on pin 8's axis is only 0.65-0.10-0.20 = 0.35 mm from pin 7, so 0.5 mm is geometrically impossible.
+(rule "sp_analog_to_digital_power__F"
+   (layer "F.Cu")
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && (B.hasNetclass('Power_Digital') || B.hasNetclass('Power_Battery')) && !(A.Type == 'Pad' && B.Type == 'Pad') && !((A.Type == 'Via' && A.intersectsCourtyard('U2')) || A.intersectsCourtyard('U2')) && !((B.Type == 'Via' && B.intersectsCourtyard('U2')) || B.intersectsCourtyard('U2')) && !((A.Type == 'Via' && A.intersectsCourtyard('U7')) || A.intersectsCourtyard('U7')) && !((B.Type == 'Via' && B.intersectsCourtyard('U7')) || B.intersectsCourtyard('U7')) && !((A.Type == 'Via' && A.intersectsCourtyard('U8')) || A.intersectsCourtyard('U8')) && !((B.Type == 'Via' && B.intersectsCourtyard('U8')) || B.intersectsCourtyard('U8')) && !((A.Type == 'Via' && A.intersectsCourtyard('U13')) || A.intersectsCourtyard('U13')) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')) || B.intersectsCourtyard('U13'))")
+   (constraint clearance (min 0.5mm)))
+(rule "sp_analog_to_digital_power__B"
+   (layer "B.Cu")
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && (B.hasNetclass('Power_Digital') || B.hasNetclass('Power_Battery')) && !(A.Type == 'Pad' && B.Type == 'Pad') && !((A.Type == 'Via' && A.intersectsCourtyard('U2'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U2'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U7'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U7'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U8'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U8'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U13'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')))")
+   (constraint clearance (min 0.5mm)))
+(rule "sp_analog_to_digital_power__I"
+   (layer inner)
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && (B.hasNetclass('Power_Digital') || B.hasNetclass('Power_Battery')) && !(A.Type == 'Pad' && B.Type == 'Pad') && !(A.Type == 'Via' && A.intersectsCourtyard('U2')) && !(B.Type == 'Via' && B.intersectsCourtyard('U2')) && !(A.Type == 'Via' && A.intersectsCourtyard('U7')) && !(B.Type == 'Via' && B.intersectsCourtyard('U7')) && !(A.Type == 'Via' && A.intersectsCourtyard('U8')) && !(B.Type == 'Via' && B.intersectsCourtyard('U8')) && !(A.Type == 'Via' && A.intersectsCourtyard('U13')) && !(B.Type == 'Via' && B.intersectsCourtyard('U13'))")
+   (constraint clearance (min 0.5mm)))
+
+(rule "sp_analog_to_harness__F"
+   (layer "F.Cu")
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasNetclass('Harness_IO') && !(A.Type == 'Pad' && B.Type == 'Pad') && !((A.Type == 'Via' && A.intersectsCourtyard('U2')) || A.intersectsCourtyard('U2')) && !((B.Type == 'Via' && B.intersectsCourtyard('U2')) || B.intersectsCourtyard('U2')) && !((A.Type == 'Via' && A.intersectsCourtyard('U8')) || A.intersectsCourtyard('U8')) && !((B.Type == 'Via' && B.intersectsCourtyard('U8')) || B.intersectsCourtyard('U8')) && !((A.Type == 'Via' && A.intersectsCourtyard('U13')) || A.intersectsCourtyard('U13')) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')) || B.intersectsCourtyard('U13'))")
+   (constraint clearance (min 1.0mm)))
+(rule "sp_analog_to_harness__B"
+   (layer "B.Cu")
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasNetclass('Harness_IO') && !(A.Type == 'Pad' && B.Type == 'Pad') && !((A.Type == 'Via' && A.intersectsCourtyard('U2'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U2'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U8'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U8'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U13'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')))")
+   (constraint clearance (min 1.0mm)))
+(rule "sp_analog_to_harness__I"
+   (layer inner)
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasNetclass('Harness_IO') && !(A.Type == 'Pad' && B.Type == 'Pad') && !(A.Type == 'Via' && A.intersectsCourtyard('U2')) && !(B.Type == 'Via' && B.intersectsCourtyard('U2')) && !(A.Type == 'Via' && A.intersectsCourtyard('U8')) && !(B.Type == 'Via' && B.intersectsCourtyard('U8')) && !(A.Type == 'Via' && A.intersectsCourtyard('U13')) && !(B.Type == 'Via' && B.intersectsCourtyard('U13'))")
+   (constraint clearance (min 1.0mm)))
+
+# NEXT <= K/(1+(D/H)^2): D = 1.15 mm centre (1.0 gap + 0.15), H = 0.0994 mm -> <= 0.74 % of aggressor swing
+(rule "sp_analog_to_highspeed__F"
+   (layer "F.Cu")
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasNetclass('HighSpeed_*') && !(A.Type == 'Pad' && B.Type == 'Pad') && !((A.Type == 'Via' && A.intersectsCourtyard('U2')) || A.intersectsCourtyard('U2')) && !((B.Type == 'Via' && B.intersectsCourtyard('U2')) || B.intersectsCourtyard('U2')) && !((A.Type == 'Via' && A.intersectsCourtyard('U8')) || A.intersectsCourtyard('U8')) && !((B.Type == 'Via' && B.intersectsCourtyard('U8')) || B.intersectsCourtyard('U8')) && !((A.Type == 'Via' && A.intersectsCourtyard('U13')) || A.intersectsCourtyard('U13')) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')) || B.intersectsCourtyard('U13'))")
+   (constraint clearance (min 1.0mm)))
+(rule "sp_analog_to_highspeed__B"
+   (layer "B.Cu")
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasNetclass('HighSpeed_*') && !(A.Type == 'Pad' && B.Type == 'Pad') && !((A.Type == 'Via' && A.intersectsCourtyard('U2'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U2'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U8'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U8'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U13'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')))")
+   (constraint clearance (min 1.0mm)))
+(rule "sp_analog_to_highspeed__I"
+   (layer inner)
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasNetclass('HighSpeed_*') && !(A.Type == 'Pad' && B.Type == 'Pad') && !(A.Type == 'Via' && A.intersectsCourtyard('U2')) && !(B.Type == 'Via' && B.intersectsCourtyard('U2')) && !(A.Type == 'Via' && A.intersectsCourtyard('U8')) && !(B.Type == 'Via' && B.intersectsCourtyard('U8')) && !(A.Type == 'Via' && A.intersectsCourtyard('U13')) && !(B.Type == 'Via' && B.intersectsCourtyard('U13'))")
+   (constraint clearance (min 1.0mm)))
+
+(rule "sp_analog_to_buck_sw"
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasNetclass('Power_Buck_SW')")
+   (constraint clearance (min 2.0mm)))
+
+# ======================================================================= 6. Vias
+# RF input: no signal vias (stays on F.Cu over In1 GND); GND stitching vias are allowed
+(rule "via_none_on_rf"
+   (condition "A.Type == 'Via' && (A.hasNetclass('RF_Input') || A.hasNetclass('RF_50R'))")
+   (constraint disallow via))
+
+# SW and BOOT stay on F.Cu - no via stubs through the GND planes
+(rule "via_none_on_buck_sw"
+   (condition "A.Type == 'Via' && A.hasNetclass('Power_Buck_SW')")
+   (constraint disallow via))
+
+# v11: via_signal_default / via_power_gnd removed (shadowed by v3_via_pofv_signal / v3_via_pofv_gnd_power, same
+# conditions; critique RULES-09).
+
+# 0.4 mm drill: ~1.6 A per via -> use >= 2 per layer change for the 2.2 A PTC trip current
+(rule "via_battery"
+   (condition "A.Type == 'Via' && A.hasNetclass('Power_Battery')")
+   (constraint hole_size (min 0.3mm) (opt 0.4mm) (max 0.4mm))
+   (constraint via_diameter (min 0.6mm) (opt 0.8mm) (max 0.8mm)))
+
+# In1.Cu / In2.Cu / In4.Cu are solid GND reference planes: no tracks (v8 rules at the end) and no non-GND pours (below).
+# v11: planes_no_tracks removed (overridden by the v8 per-layer rules; critique RULES-09).
+
+(rule "planes_gnd_only"
+   (layer inner)
+   (condition "A.Type == 'Zone' && A.NetName != '' && !A.hasNetclass('Ground')")
+   (constraint disallow zone)
+   (severity warning))
+
+# ======================================================================= 7. Board edge and mechanical
+# High-speed, clock, analog, RF and SW tracks/vias >= 1.0 mm from Edge.Cuts. Pads, and the last
+# segments inside the edge connectors J1 (U.FL) and J3 (microSD) courtyards, are exempt.
+# All other copper: board default 0.5 mm.
+(rule "edge_sensitive_and_aggressor__F"
+   (layer "F.Cu")
+   (condition "(A.hasNetclass('HighSpeed_*') || A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input') || A.hasNetclass('RF_50R') || A.hasNetclass('Power_Buck_SW')) && A.Type != 'Pad' && !((A.Type == 'Via' && A.intersectsCourtyard('J1')) || A.intersectsCourtyard('J1')) && !((A.Type == 'Via' && A.intersectsCourtyard('J300')) || A.intersectsCourtyard('J300')) && !((A.Type == 'Via' && A.intersectsCourtyard('J3')) || A.intersectsCourtyard('J3'))")
+   (constraint edge_clearance (min 1.0mm)))
+(rule "edge_sensitive_and_aggressor__B"
+   (layer "B.Cu")
+   (condition "(A.hasNetclass('HighSpeed_*') || A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input') || A.hasNetclass('RF_50R') || A.hasNetclass('Power_Buck_SW')) && A.Type != 'Pad' && !((A.Type == 'Via' && A.intersectsCourtyard('J1'))) && !((A.Type == 'Via' && A.intersectsCourtyard('J300'))) && !((A.Type == 'Via' && A.intersectsCourtyard('J3')))")
+   (constraint edge_clearance (min 1.0mm)))
+(rule "edge_sensitive_and_aggressor__I"
+   (layer inner)
+   (condition "(A.hasNetclass('HighSpeed_*') || A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input') || A.hasNetclass('RF_50R') || A.hasNetclass('Power_Buck_SW')) && A.Type != 'Pad' && !(A.Type == 'Via' && A.intersectsCourtyard('J1')) && !(A.Type == 'Via' && A.intersectsCourtyard('J300')) && !(A.Type == 'Via' && A.intersectsCourtyard('J3'))")
+   (constraint edge_clearance (min 1.0mm)))
+
+# M2.5 fixing holes H1-H4 (2.7 mm NPTH, POM-C bosses) - v4 rewrite. Only COPPER items are tested (pads, vias, tracks, arcs,
+# zones of any non-GND net; the H footprints' own items excluded): >= 1.4 mm from the hole wall = r 2.75 mm from the centre,
+# i.e. an ISO 7045 M2.5 pan head (dk 5.0) + 0.25 mm that scrapes through the mask can only touch GND. Silk, text fields,
+# courtyards and the hole's own footprint are not copper and are no longer tested here (F courtyards vs the head: the
+# H1-H4 F.CrtYd r 2.95 in the normal courtyard test; B side boss r 3.25: mech_h1_h4_boss_*).
+(rule "mounting_hole_keepout"
+   (condition "B.Type == 'Pad' && (B.memberOfFootprint('H1') || B.memberOfFootprint('H2') || B.memberOfFootprint('H3') || B.memberOfFootprint('H4')) && (A.Type == 'Pad' || A.Type == 'Via' || A.Type == 'Track' || A.Type == 'Arc' || A.Type == 'Zone') && !A.memberOfFootprint('H?') && !A.hasNetclass('Ground')")
+   (constraint physical_hole_clearance (min 1.4mm)))
+
+# K7 without a rule area: no via of any net inside the dia 6.5 boss footprint (via edge >= 1.9 mm from the 2.7 mm hole wall).
+(rule "mech_h1_h4_boss_no_via"
+   (condition "A.Type == 'Via' && B.Type == 'Pad' && (B.memberOfFootprint('H1') || B.memberOfFootprint('H2') || B.memberOfFootprint('H3') || B.memberOfFootprint('H4'))")
+   (constraint physical_hole_clearance (min 1.9mm)))
+
+# K7 on B without a rule area: B-side courtyards stay outside the dia 6.5 boss (>= 1.9 mm from the hole wall).
+(rule "mech_h1_h4_boss_courtyard_B"
+   (layer "B.Courtyard")
+   (condition "B.Type == 'Pad' && (B.memberOfFootprint('H1') || B.memberOfFootprint('H2') || B.memberOfFootprint('H3') || B.memberOfFootprint('H4')) && !A.memberOfFootprint('H?')")
+   (constraint physical_hole_clearance (min 1.9mm)))
+
+# H5/H6 = BZXC BSMTSOM2 M2 SMT standoffs on B (6.2 mm GND land on B, 3.8 mm plated hole, 4.4 mm GND ring on every layer).
+# The body and fillet are on B (covered by their B.CrtYd r 3.35 in the courtyard test). On F only the GND ring surfaces:
+# K11 intent without a rule area = non-GND F copper >= 0.5 mm from the hole wall (r >= 2.4 = ring + 0.2).
+(rule "mech_h5_h6_standoff_F"
+   (layer "F.Cu")
+   (condition "B.Type == 'Pad' && (B.memberOfFootprint('H5') || B.memberOfFootprint('H6')) && (A.Type == 'Pad' || A.Type == 'Via' || A.Type == 'Track' || A.Type == 'Arc' || A.Type == 'Zone') && !A.memberOfFootprint('H?') && !A.hasNetclass('Ground')")
+   (constraint physical_hole_clearance (min 0.5mm)))
+
+# ======================================================================= 8. Length and skew
+# RF input nets <= 6 mm each (0.124 pF/mm bare, 0.138 pF/mm masked for 0.20 mm over In1)
+(rule "len_rf"
+   (condition "A.hasNetclass('RF_Input')")
+   (constraint length (max 6mm)))
+
+# R1/R2 midpoint is the highest-impedance RF node (1550||1750 = 822 ohm with a 50-ohm source). Two 0402 pads
+# (~0.17 pF each, field solve) + 1.5 mm x 0.138 pF/mm = 0.55 pF -> pole 354 MHz, 0.53 dB at 128 MHz.
+# At the 6 mm general cap it would be 1.17 pF -> 165 MHz pole, 2.0 dB at 128 MHz vs 0.6 dB at 64 MHz.
+# Currently routed: 0.88 mm.
+(rule "len_rf_mid"
+   (condition "A.NetName == 'Net-(R1-Pad1)' || A.NetName == '*RF_IN_MID'")
+   (constraint length (max 1.5mm)))
+
+# Driver pin -> series damping resistor stubs <= 3 mm (EMC design target ~2 mm; 3 mm = 18 ps, so this
+# is a loop-area/placement rule, not a timing rule -> warning)
+# 2026-10-02: the LCD is an 8080 parallel bus (U8 FMC -> RN201-RN203 47R); the SPI-LCD names and *HSE_OSC /
+# Net-(R57-Pad1) matched no net. Placement note: LCD_D2_MCU/LCD_D3_MCU (PD0/PD1 -> RN201) and LCD_DC_MCU
+# (PE6 -> RN203) are 10.4 / 11.1 / 8.8 mm apart in a straight line, so they will warn until RN201/RN203 are split or moved.
+# v11: SD_*_MCU left this rule (S-19): the SD series resistance is inside U901 (EMIF06) at the socket, so the MCU-side
+# SD line is a whole unterminated run, not a stub. The full-path skew (D0 vs CLK 13.1 mm at cp2b) stays inside the 17 mm
+# D20 budget of skew_sdmmc, and firmware keeps SDMMC1 at medium output speed (FIRMWARE_NOTES s.3).
+(rule "len_source_stubs"
+   (condition "A.NetName == 'PSRAM_CLK_MCU' || A.NetName == 'PSRAM_IO?_MCU' || A.NetName == 'LCD_WR_N_MCU' || A.NetName == 'Net-(Y1-OUT)'")
+   (constraint length (max 3mm))
+   (severity warning))
+
+# v11 (2026-10-04): LCD 8080 data / CS / DC source stubs (U8 FMC pin -> RN201 / RN202 / RN203 / R213). See the note above.
+(rule "len_source_stubs_lcd"
+   (condition "A.NetName == 'LCD_D?_MCU' || A.NetName == 'LCD_CS_N_MCU' || A.NetName == 'LCD_DC_MCU'")
+   (constraint length (max 16mm))
+   (severity warning))
+
+# PSRAM clock escapes U8 pin 36 inward through a via (forced by the U13 island); 1.6 mm via height counts.
+(rule "len_psram_clk_inward"
+   (condition "A.NetName == 'PSRAM_CLK_MCU'")
+   (constraint length (max 4.5mm))
+   (severity warning))
+
+# U9 pin -> R61/R63/R65/R67 stubs <= 3 mm
+# (len_psram_ram_stubs removed in v11: S-17 deleted the RAM-end resistors R61/R63/R65/R67; RN60 is at the MCU side.)
+
+# SDMMC card side (R30-R35 -> J3). Firmware: 100 MHz kernel, ClockDiv 2 -> 25 MHz; budget at 50 MHz HS:
+# card tIH 2 ns x 5 % = 100 ps / 6.0 ps/mm (masked) = 17 mm. v11 (lead decision D20, 2026-10-04): 17 mm at the 25 MHz
+# DS rate the firmware uses (was 10 mm, a margin DS mode does not need). NB KiCad 'length' is the TOTAL copper of
+# the net, so the 47k pull-up (R27-R29, R36, R37) and TVS (D4-D9) branches count: keep each branch <= 1 mm.
+(rule "skew_sdmmc"
+   (condition "A.NetName == '*/SD_CLK' || A.NetName == '*/SD_CMD' || A.NetName == '*/SD_D?'")
+   (constraint skew (max 17mm))
+   (constraint length (max 60mm)))
+
+# QUADSPI mid-bus (R39/R60/R62/R64/R66 -> U9/R61..): 133.3 MHz kernel / 2 = 66.7 MHz; APS6404L
+# tACLK 5.5 ns, tKOH 1.5 ns -> read window 15 - 5.5 + 1.5 = 11 ns; 2 % = 220 ps -> 37 mm -> 15 mm
+(rule "skew_qspi"
+   (condition "A.NetName == 'Net-(U9-SCLK)' || A.NetName == '*PSRAM_CLK' || A.NetName == '*/PSRAM_IO?_RAM'")
+   (constraint skew (max 15mm))
+   (constraint length (max 40mm)))
+
+(rule "len_qspi_cs"
+   (condition "A.NetName == 'PSRAM_CS_N'")
+   (constraint length (max 45mm)))
+
+# Planned external ADC SPI (assumed SCLK <= 80 MHz, 12.5 ns): 25 mm each way = 0.30 ns round trip
+(rule "len_adc_spi"
+   (condition "A.NetName == '*ADC_SCK*' || A.NetName == '*ADC_SCLK*' || A.NetName == '*ADC_SDO*' || A.NetName == '*ADC_SDI*' || A.NetName == '*ADC_CS*' || A.NetName == '*ADC_CNV*'")
+   (constraint length (max 25mm)))
+
+# v11 (critique EXTADC-03): R103 sits at the U13 SDOA source (AD7380 p.16), so the damped SDOA run is the long one and
+# a cross-net skew rule no longer describes the timing. Per-net caps instead: 9 mm = 54 ps / 4 mm = 24 ps, against
+# +1.9 ns MISO setup slack at 40 MHz (checkpoint 2a lengths: SDOA 5.11 mm, SCLK 2.36 mm).
+(rule "len_adc_sdoa_mcu"
+   (condition "A.NetName == 'EXTADC_SDOA'")
+   (constraint length (max 9mm)))
+
+(rule "len_adc_sclk_mcu"
+   (condition "A.NetName == 'EXTADC_SCLK'")
+   (constraint length (max 4mm)))
+
+# HSE 8 MHz (R26 -> U8 PH0): 8th/16th harmonics = 64/128 MHz
+(rule "len_hse"
+   (condition "A.NetName == 'Net-(U8-PH0)' || A.NetName == '*HSE_IN'")
+   (constraint length (max 15mm)))
+
+# Pseudo-differential detector pair (VENV/EREF) into the ADC - keep the two routes equal. Justified because
+# firmware samples them simultaneously: acquisition.c ADC1 ch3 (PA6) + ADC2 ch4 (PC4), ADC_DUALMODE_REGSIMULT.
+(rule "skew_venv_eref"
+   (condition "A.NetName == 'ADC_VENV' || A.NetName == 'ADC_EREF'")
+   (constraint skew (max 2mm))
+   (severity warning))
+
+# ======================================================================= v3 ADDITIONS (floor2 v3 apply, 2026-09-29)
+# Append BELOW the existing rules (later rules take precedence). Every rule name starts with 'v3_' (no clash with the
+# existing file). Rules that use intersectsArea('<name>') only work once the named rule areas in manual_keepouts.md
+# exist; until then they silently never match. NOT parse-tested (no kicad-cli run in this pass): after appending, add a
+# sentinel rule and run DRC once to prove the file still loads (kicad-cli ignores a file that fails to parse).
+# Syntax checked against the rules help embedded in KiCad 10 _pcbnew.dll: intersectsArea/existsOnLayer/memberOfFootprint
+# accept * and ?; (constraint disallow ... footprint); zone_connection thermal_reliefs; A.Net == B.Net; (severity ignore).
+
+# v3 BM-05: every via is resin-filled and capped (POFV), 0.45/0.20 mm stitching and signal vias. Relaxes the 0.30 mm
+# free-tier floor of fab_via_window/via_power_gnd/via_signal_default; router defaults (opt) are unchanged.
+# Power_Battery vias keep via_battery (0.3/0.6) except the K19 VSYS_U7 branch below.
+(rule "v3_via_pofv_gnd_power"
+   (condition "A.Type == 'Via' && (A.hasNetclass('Power_Digital') || A.hasNetclass('Power_Analog') || A.hasNetclass('Ground'))")
+   (constraint hole_size (min 0.2mm) (opt 0.2mm) (max 0.4mm))
+   (constraint via_diameter (min 0.45mm) (opt 0.45mm) (max 0.8mm)))
+
+(rule "v3_via_pofv_signal"
+   (condition "A.Type == 'Via' && !A.hasNetclass('Power_*') && !A.hasNetclass('Ground')")
+   (constraint hole_size (min 0.2mm) (opt 0.2mm) (max 0.4mm))
+   (constraint via_diameter (min 0.45mm) (opt 0.45mm) (max 0.8mm)))
+
+# v4/v11: C27 (VSYS polymer) was removed in checkpoint 2 (S-8); its VSYS via-in-pad note no longer applies.
+
+# v4: U6 pin-9 bar vias are 0.45/0.20 POFV (0.225 mm to pins 1/8, annular 0.125); rule v3_via_u6_ep_pofv removed.
+# Every via on the board is now >= 0.45 mm / 0.20 mm (JLC small-via surcharge avoided); Power_Battery vias stay 0.6/0.3 (via_battery).
+
+# v11: v3_pofv_via_in_pad / layout_pofv_via_in_pad_6l removed with no_via_in_small_smd_pad (see section 1).
+
+# v3 PCE-04: GND_F_outer_fill / GND_B_outer_fill are created with pad_connection 'solid' (Konnect add_zone has no
+# 'Reliefs for PTH only'); this restores thermal reliefs on plated through-hole pads (H5/H6 standoffs, J10 and J11 shell
+# tabs) on the outer layers only. In1/In2 stay solid as planned. U402 pad 9 is its thermal-via field: kept solid.
+(rule "v3_zone_outer_tht_reliefs"
+   (layer outer)
+   (condition "((A.Type == 'Pad' && A.Pad_Type == 'Through-hole' && !A.memberOfFootprint('U402')) || (B.Type == 'Pad' && B.Pad_Type == 'Through-hole' && !B.memberOfFootprint('U402')))")
+   (constraint zone_connection thermal_reliefs))
+
+# v3 K2 (R10): no GND pour or via within 0.35 mm of the J1 / J300 U.FL centre pins (the filler honours clearance rules;
+# this replaces drawing the K2 boxes, which would void more GND than intended). Planned GND vias: 0.84 / 0.88 mm.
+(rule "v3_K2_ufl_centre_to_gnd"
+   (condition "A.Type == 'Pad' && (A.memberOfFootprint('J1') || A.memberOfFootprint('J300')) && !A.hasNetclass('Ground') && B.hasNetclass('Ground') && (B.Type == 'Zone' || B.Type == 'Via')")
+   (constraint clearance (min 0.35mm)))
+
+# v3 R19/R23: aggressor classes (HighSpeed_*, Harness_IO, Power_Buck_SW) may not route inside the AFE partition except
+# through the declared bridges BR1 (SPI4) / BR2 (U8 analog corner), the K16 DISP lane head, or inside the U13/U8
+# courtyards. Warning only: review each hit. Buck_SW vias are left to via_none_on_buck_sw (error). This rule and
+# v3_allow_chg_boot_vias sit BEFORE the error-level disallow rules so they can never shadow them (the last matching
+# rule of a constraint type wins).
+(rule "v3_afe_partition_aggressors__F"
+   (layer "F.Cu")
+   (condition "(((A.Type == 'Track' || A.Type == 'Arc') && (A.hasNetclass('HighSpeed_*') || A.hasNetclass('Harness_IO') || A.hasNetclass('Power_Buck_SW'))) || (A.Type == 'Via' && (A.hasNetclass('HighSpeed_*') || A.hasNetclass('Harness_IO')))) && A.intersectsArea('AFE_PARTITION') && !A.intersectsArea('BR1_SPI4_BRIDGE') && !A.intersectsArea('BR2_ANALOG_CORNER') && !A.intersectsArea('K16_DISP_LANE') && !((A.Type == 'Via' && A.intersectsCourtyard('U13')) || A.intersectsCourtyard('U13')) && !((A.Type == 'Via' && A.intersectsCourtyard('U8')) || A.intersectsCourtyard('U8'))")
+   (constraint disallow track via)
+   (severity warning))
+(rule "v3_afe_partition_aggressors__B"
+   (layer "B.Cu")
+   (condition "(((A.Type == 'Track' || A.Type == 'Arc') && (A.hasNetclass('HighSpeed_*') || A.hasNetclass('Harness_IO') || A.hasNetclass('Power_Buck_SW'))) || (A.Type == 'Via' && (A.hasNetclass('HighSpeed_*') || A.hasNetclass('Harness_IO')))) && A.intersectsArea('AFE_PARTITION') && !A.intersectsArea('BR1_SPI4_BRIDGE') && !A.intersectsArea('BR2_ANALOG_CORNER') && !A.intersectsArea('K16_DISP_LANE') && !((A.Type == 'Via' && A.intersectsCourtyard('U13'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U8')))")
+   (constraint disallow track via)
+   (severity warning))
+(rule "v3_afe_partition_aggressors__I"
+   (layer inner)
+   (condition "(((A.Type == 'Track' || A.Type == 'Arc') && (A.hasNetclass('HighSpeed_*') || A.hasNetclass('Harness_IO') || A.hasNetclass('Power_Buck_SW'))) || (A.Type == 'Via' && (A.hasNetclass('HighSpeed_*') || A.hasNetclass('Harness_IO')))) && A.intersectsArea('AFE_PARTITION') && !A.intersectsArea('BR1_SPI4_BRIDGE') && !A.intersectsArea('BR2_ANALOG_CORNER') && !A.intersectsArea('K16_DISP_LANE') && !(A.Type == 'Via' && A.intersectsCourtyard('U13')) && !(A.Type == 'Via' && A.intersectsCourtyard('U8'))")
+   (constraint disallow track via)
+   (severity warning))
+
+# v3 FLAG: the plan puts the BTST caps C310/C311 on B.Cu under U301 (F), so BTST1/2 and SW1/2 need one via each - which
+# via_none_on_buck_sw forbids. Exempted here ONLY inside U301/C310/C311 courtyards, pending the real BQ25798 land
+# (moving C310/C311 to F at the pins, as R49 requires for U6's CBOOT, removes the need for this rule).
+(rule "v3_allow_chg_boot_vias__F"
+   (layer "F.Cu")
+   (condition "A.Type == 'Via' && (A.NetName == 'Net-(U301-SW?)' || A.NetName == 'Net-(U301-BTST?)') && (((A.Type == 'Via' && A.intersectsCourtyard('U301')) || A.intersectsCourtyard('U301')) || ((A.Type == 'Via' && A.intersectsCourtyard('C310'))) || ((A.Type == 'Via' && A.intersectsCourtyard('C311'))))")
+   (constraint disallow via)
+   (severity ignore))
+(rule "v3_allow_chg_boot_vias__B"
+   (layer "B.Cu")
+   (condition "A.Type == 'Via' && (A.NetName == 'Net-(U301-SW?)' || A.NetName == 'Net-(U301-BTST?)') && (((A.Type == 'Via' && A.intersectsCourtyard('U301'))) || ((A.Type == 'Via' && A.intersectsCourtyard('C310')) || A.intersectsCourtyard('C310')) || ((A.Type == 'Via' && A.intersectsCourtyard('C311')) || A.intersectsCourtyard('C311')))")
+   (constraint disallow via)
+   (severity ignore))
+(rule "v3_allow_chg_boot_vias__I"
+   (layer inner)
+   (condition "A.Type == 'Via' && (A.NetName == 'Net-(U301-SW?)' || A.NetName == 'Net-(U301-BTST?)') && ((A.Type == 'Via' && A.intersectsCourtyard('U301')) || (A.Type == 'Via' && A.intersectsCourtyard('C310')) || (A.Type == 'Via' && A.intersectsCourtyard('C311')))")
+   (constraint disallow via)
+   (severity ignore))
+
+# v3 K3 (R10): inside the RF corridor only RF_Input/RF_50R and GND tracks/vias (U2 pins 1/3/4 fan-out exempt).
+(rule "v3_K3_rf_corridor_nets__F"
+   (layer "F.Cu")
+   (condition "(A.Type == 'Track' || A.Type == 'Arc' || A.Type == 'Via') && A.intersectsArea('K3_RF_CORRIDOR') && !A.hasNetclass('RF_Input') && !A.hasNetclass('RF_50R') && !A.hasNetclass('Ground') && !((A.Type == 'Via' && A.intersectsCourtyard('U2')) || A.intersectsCourtyard('U2'))")
+   (constraint disallow track via))
+(rule "v3_K3_rf_corridor_nets__B"
+   (layer "B.Cu")
+   (condition "(A.Type == 'Track' || A.Type == 'Arc' || A.Type == 'Via') && A.intersectsArea('K3_RF_CORRIDOR') && !A.hasNetclass('RF_Input') && !A.hasNetclass('RF_50R') && !A.hasNetclass('Ground') && !((A.Type == 'Via' && A.intersectsCourtyard('U2')))")
+   (constraint disallow track via))
+(rule "v3_K3_rf_corridor_nets__I"
+   (layer inner)
+   (condition "(A.Type == 'Track' || A.Type == 'Arc' || A.Type == 'Via') && A.intersectsArea('K3_RF_CORRIDOR') && !A.hasNetclass('RF_Input') && !A.hasNetclass('RF_50R') && !A.hasNetclass('Ground') && !(A.Type == 'Via' && A.intersectsCourtyard('U2'))")
+   (constraint disallow track via))
+
+# v3 K6 + K10B (R10/R40): B.Cu under the RF strip and under Y1/C93 = GND pour and GND vias only.
+(rule "v3_K6_K10B_gnd_only"
+   (condition "(A.Type == 'Track' || A.Type == 'Arc' || A.Type == 'Via') && A.existsOnLayer('B.Cu') && (A.intersectsArea('K6_B_RF_END') || A.intersectsArea('K10B_HSE_SHADOW')) && (A.Type != 'Via' || !A.hasNetclass('Ground'))")
+   (constraint disallow track via))
+
+# v3 K10F (R40): F.Cu inside the HSE cell carries only Net-(Y1-OUT), Net-(U8-PH0), +3V3_D and GND.
+(rule "v3_K10F_hse_cell_nets"
+   (condition "(A.Type == 'Track' || A.Type == 'Arc' || A.Type == 'Via') && A.existsOnLayer('F.Cu') && A.intersectsArea('K10F_HSE_CELL') && A.NetName != 'Net-(Y1-OUT)' && A.NetName != 'Net-(U8-PH0)' && A.NetName != '+3V3_D' && A.NetName != 'GND'")
+   (constraint disallow track via))
+
+# v3 R40/L3: OSC_IN (Y1 pad 3 -> R26 -> PH0) stays on F.Cu, no via anywhere.
+(rule "v3_K10_hse_no_via"
+   (condition "A.Type == 'Via' && (A.NetName == 'Net-(Y1-OUT)' || A.NetName == 'Net-(U8-PH0)')")
+   (constraint disallow via))
+
+# v3 K17 (R48/AN2867): LSE guard on B.Cu - only PC14/PC15 and GND copper inside.
+(rule "v3_K17_lse_guard_nets"
+   (condition "(A.Type == 'Track' || A.Type == 'Arc' || A.Type == 'Via') && A.existsOnLayer('B.Cu') && A.intersectsArea('K17_LSE_GUARD') && A.NetName != 'Net-(U8-PC14)' && A.NetName != 'Net-(U8-PC15)' && A.NetName != 'GND'")
+   (constraint disallow track via))
+
+# v3 K15 (R19, BR5): housekeeping channel - B.Cu carries only I2C_SCL, I2C_SDA, +3V3_D; no vias at all.
+(rule "v3_K15_br5_channel"
+   (condition "A.existsOnLayer('B.Cu') && A.intersectsArea('K15_BR5_CHANNEL') && (A.Type == 'Via' || ((A.Type == 'Track' || A.Type == 'Arc') && A.NetName != 'I2C_SCL' && A.NetName != 'I2C_SDA' && A.NetName != '+3V3_D'))")
+   (constraint disallow track via))
+
+# v3 K16: DISP lane - only the U8 pin 22-25 display/charger GPIO (both sides of their limiters) and BUCK_SYNC (3 mm
+# shared run per routing_notes); no GND stitching vias.
+# 2026-10-02 (layout completion): GND stitching vias are allowed inside the K16/K18/K19 lanes (they are
+# the lane net's return path); foreign signal tracks and vias stay disallowed.
+(rule "v3_K16_disp_lane_nets"
+   (condition "((A.Type == 'Track' || A.Type == 'Arc' || A.Type == 'Via') && A.existsOnLayer('B.Cu') && A.intersectsArea('K16_DISP_LANE') && A.NetName != 'CHG_INT_N' && A.NetName != 'LCD_TE_MCU' && A.NetName != '/Screen and controls/LCD_TE' && A.NetName != '/STM32H743 controller/LCD_RST_MCU' && A.NetName != 'LCD_RST' && A.NetName != '/STM32H743 controller/TP_RST_MCU' && A.NetName != 'TP_RST' && A.NetName != 'BUCK_SYNC' && A.NetName != '/STM32H743 controller/BUCK_SYNC_MCU') && !(A.Type == 'Via' && A.hasNetclass('Ground'))")
+   (constraint disallow track via))
+
+# v3 K18 (R57/R58, BR3): +3V3_D feed channel on B.Cu - +3V3_D only, no vias.
+(rule "v3_K18_br3_feed"
+   (condition "(A.existsOnLayer('B.Cu') && A.intersectsArea('K18_BR3_FEED') && (A.Type == 'Via' || ((A.Type == 'Track' || A.Type == 'Arc') && A.NetName != '+3V3_D'))) && !(A.Type == 'Via' && A.hasNetclass('Ground'))")
+   (constraint disallow track via))
+
+# K19a/b: B.Cu VSYS-only cells over the routed VSYS (K19a x 140.6-145.2 y 105.84-106.24; K19b x 162.9-164.2
+# y 63.0-85.6); K19c removed (v11, critique RT-04). No stitching vias inside.
+(rule "v3_K19_vsys_branch"
+   (condition "((A.Type == 'Track' || A.Type == 'Arc' || A.Type == 'Via') && A.existsOnLayer('B.Cu') && A.intersectsArea('K19?_VSYS*') && A.NetName != 'VSYS') && !(A.Type == 'Via' && A.hasNetclass('Ground'))")
+   (constraint disallow track via))
+
+# v3 K20a/K20b (MC-01): the fallback-ADC lanes carry only their own net.
+(rule "v3_K20a_eref_lane"
+   (condition "(A.Type == 'Track' || A.Type == 'Arc' || A.Type == 'Via') && A.existsOnLayer('B.Cu') && A.intersectsArea('K20a_EREF_LANE') && A.NetName != 'ADC_EREF'")
+   (constraint disallow track via))
+
+(rule "v3_K20b_venv_lane"
+   (condition "(A.Type == 'Track' || A.Type == 'Arc' || A.Type == 'Via') && A.existsOnLayer('B.Cu') && A.intersectsArea('K20b_VENV_LANE') && A.NetName != 'ADC_VENV'")
+   (constraint disallow track via))
+
+# v3 K11: where the J11/H5/H6 holes surface on F, no non-GND F copper.
+(rule "v3_K11_holes_F_gnd_only"
+   (condition "(A.Type == 'Track' || A.Type == 'Arc' || A.Type == 'Via') && A.existsOnLayer('F.Cu') && A.intersectsArea('K11_*') && !A.hasNetclass('Ground')")
+   (constraint disallow track via))
+
+# v3 K4/K11: no F-side footprint in the TFT fold-loop envelope or over the J11/H5/H6 holes.
+(rule "v3_keepout_F_footprints"
+   (condition "A.Type == 'Footprint' && A.Layer == 'F.Cu' && (A.intersectsArea('K4_TFT_LOOP') || A.intersectsArea('K11_*'))")
+   (constraint disallow footprint))
+
+# v3 K6/K10B/K12/K13/K16: no B-side footprint under the RF strip, under Y1/C93, over the J10/J6 tails, in the U402
+# thermal-via field or in the DISP lane.
+(rule "v3_keepout_B_footprints"
+   (condition "A.Type == 'Footprint' && A.Layer == 'B.Cu' && (A.intersectsArea('K6_B_RF_END') || A.intersectsArea('K10B_HSE_SHADOW') || A.intersectsArea('K12_*') || A.intersectsArea('K13_U402_VIAFIELD') || A.intersectsArea('K16_DISP_LANE'))")
+   (constraint disallow footprint))
+
+# v3 K7 (BM-08): M2.5 boss keep-out, dia 6.5 mm around H1-H4 (2.7 mm NPTH) - no footprint (either side) and no via.
+(rule "v3_K7_boss_no_footprint"
+   (condition "A.Type == 'Footprint' && A.intersectsArea('K7_H?') && A.Reference != 'H1' && A.Reference != 'H2' && A.Reference != 'H3' && A.Reference != 'H4'")
+   (constraint disallow footprint))
+
+(rule "v3_K7_boss_no_via"
+   (condition "A.Type == 'Via' && A.intersectsArea('K7_H?')")
+   (constraint disallow via))
+
+# v3 K9: no test pads or jumpers on B in the battery window (the pouch sits 1.15 mm below B.Cu). Height (<= 0.55 mm)
+# cannot be expressed in DRU - see manual_keepouts.md.
+(rule "v3_K9_batt_window_no_tp_jp"
+   (condition "A.Type == 'Footprint' && A.Layer == 'B.Cu' && A.intersectsArea('K9_BATT_WINDOW') && (A.Reference == 'TP*' || A.Reference == 'JP*')")
+   (constraint disallow footprint))
+
+# v3 R57/R58 (L2): no +3V3_D copper within 2 mm of +3V3_A copper past FB1 (same layer). FB1 itself is exempt;
+# on the v3 placement no other +3V3_D/+3V3_A pad pair is closer than 2 mm.
+(rule "v3_sp_3v3d_to_3v3a__F"
+   (layer "F.Cu")
+   (condition "((A.NetName == '+3V3_D' && B.NetName == '+3V3_A') || (A.NetName == '+3V3_A' && B.NetName == '+3V3_D')) && !((A.Type == 'Via' && A.intersectsCourtyard('FB1')) || A.intersectsCourtyard('FB1')) && !((B.Type == 'Via' && B.intersectsCourtyard('FB1')) || B.intersectsCourtyard('FB1'))")
+   (constraint clearance (min 2.0mm)))
+(rule "v3_sp_3v3d_to_3v3a__B"
+   (layer "B.Cu")
+   (condition "((A.NetName == '+3V3_D' && B.NetName == '+3V3_A') || (A.NetName == '+3V3_A' && B.NetName == '+3V3_D')) && !((A.Type == 'Via' && A.intersectsCourtyard('FB1'))) && !((B.Type == 'Via' && B.intersectsCourtyard('FB1')))")
+   (constraint clearance (min 2.0mm)))
+(rule "v3_sp_3v3d_to_3v3a__I"
+   (layer inner)
+   (condition "((A.NetName == '+3V3_D' && B.NetName == '+3V3_A') || (A.NetName == '+3V3_A' && B.NetName == '+3V3_D')) && !(A.Type == 'Via' && A.intersectsCourtyard('FB1')) && !(B.Type == 'Via' && B.intersectsCourtyard('FB1'))")
+   (constraint clearance (min 2.0mm)))
+
+# v3 L4 (NE-02): BUCK_SYNC >= 5 mm from the RF input copper, U2 and J1. SIGNOFF rule (see the header).
+#SIGNOFF (rule "v3_buck_sync_rf_5mm"
+#SIGNOFF    (condition "(A.NetName == 'BUCK_SYNC' || A.NetName == '*/BUCK_SYNC_MCU') && (B.hasNetclass('RF_Input') || B.hasNetclass('RF_50R') || B.memberOfFootprint('U2') || B.memberOfFootprint('J1'))")
+#SIGNOFF    (constraint clearance (min 5.0mm)))
+
+# v3 L4: BUCK_SYNC target <= 40 mm total and >= 5 mm from Edge.Cuts (pads exempt) - warnings. Split 2026-10-01 from
+# v3_buck_sync_len_edge: the length check stays live, the 5 mm edge clearance is a SIGNOFF rule (see the header).
+# Same condition and position, so precedence is unchanged.
+(rule "v3_buck_sync_len"
+   (condition "(A.NetName == 'BUCK_SYNC' || A.NetName == '*/BUCK_SYNC_MCU') && A.Type != 'Pad'")
+   (constraint length (max 40mm))
+   (severity warning))
+#SIGNOFF (rule "v3_buck_sync_edge_5mm"
+#SIGNOFF    (condition "(A.NetName == 'BUCK_SYNC' || A.NetName == '*/BUCK_SYNC_MCU') && A.Type != 'Pad'")
+#SIGNOFF    (constraint edge_clearance (min 5.0mm))
+#SIGNOFF    (severity warning))
+
+# v3: 06_netclass moves EXP_VHP (Power_Battery, min 0.5 mm) and +3V3_EXP (Power_Digital, min 0.3 mm) onto J11 pins
+# 19-22 / 3-4 / 37-38 (0.30 mm pads at 0.50 mm pitch). Neck-down inside the J11 courtyard only (w_power_neckdown_in_ic
+# covers U* courtyards, not J11).
+(rule "v3_w_power_neckdown_j11__F"
+   (layer "F.Cu")
+   (condition "(A.hasNetclass('Power_Battery') || A.hasNetclass('Power_Digital')) && ((A.Type == 'Via' && A.intersectsCourtyard('J11')))")
+   (constraint track_width (min 0.2mm) (opt 0.25mm)))
+(rule "v3_w_power_neckdown_j11__B"
+   (layer "B.Cu")
+   (condition "(A.hasNetclass('Power_Battery') || A.hasNetclass('Power_Digital')) && ((A.Type == 'Via' && A.intersectsCourtyard('J11')) || A.intersectsCourtyard('J11'))")
+   (constraint track_width (min 0.2mm) (opt 0.25mm)))
+(rule "v3_w_power_neckdown_j11__I"
+   (layer inner)
+   (condition "(A.hasNetclass('Power_Battery') || A.hasNetclass('Power_Digital')) && (A.Type == 'Via' && A.intersectsCourtyard('J11'))")
+   (constraint track_width (min 0.2mm) (opt 0.25mm)))
+
+# v3 06_netclass puts Net-(U301-SW1/SW2) and Net-(U301-BTST1/BTST2) in Power_Buck_SW (like Net-(U6-SW)/(U6-BOOT)).
+# Pin neck-down inside the U301 (0.4 mm pitch) and C310/C311 courtyards; BTST carries gate charge only.
+(rule "v3_w_chg_sw_neck__F"
+   (layer "F.Cu")
+   (condition "A.hasNetclass('Power_Buck_SW') && (((A.Type == 'Via' && A.intersectsCourtyard('U301')) || A.intersectsCourtyard('U301')) || ((A.Type == 'Via' && A.intersectsCourtyard('C310'))) || ((A.Type == 'Via' && A.intersectsCourtyard('C311'))))")
+   (constraint track_width (min 0.2mm) (opt 0.35mm)))
+(rule "v3_w_chg_sw_neck__B"
+   (layer "B.Cu")
+   (condition "A.hasNetclass('Power_Buck_SW') && (((A.Type == 'Via' && A.intersectsCourtyard('U301'))) || ((A.Type == 'Via' && A.intersectsCourtyard('C310')) || A.intersectsCourtyard('C310')) || ((A.Type == 'Via' && A.intersectsCourtyard('C311')) || A.intersectsCourtyard('C311')))")
+   (constraint track_width (min 0.2mm) (opt 0.35mm)))
+(rule "v3_w_chg_sw_neck__I"
+   (layer inner)
+   (condition "A.hasNetclass('Power_Buck_SW') && ((A.Type == 'Via' && A.intersectsCourtyard('U301')) || (A.Type == 'Via' && A.intersectsCourtyard('C310')) || (A.Type == 'Via' && A.intersectsCourtyard('C311')))")
+   (constraint track_width (min 0.2mm) (opt 0.35mm)))
+
+(rule "v3_w_chg_btst"
+   (condition "A.NetName == 'Net-(U301-BTST?)'")
+   (constraint track_width (min 0.15mm) (opt 0.3mm)))
+
+# v3: U301 pin fan-out is exempt from the 0.5 mm SW-to-signal gap (as U6 is in sp_buck_sw_to_signal); analog/RF victims keep
+# sp_analog_to_buck_sw (2.0 mm).
+(rule "v3_sp_chg_sw_in_u301__F"
+   (layer "F.Cu")
+   (condition "A.hasNetclass('Power_Buck_SW') && (((A.Type == 'Via' && A.intersectsCourtyard('U301')) || A.intersectsCourtyard('U301')) || ((B.Type == 'Via' && B.intersectsCourtyard('U301')) || B.intersectsCourtyard('U301'))) && (B.Type == 'Track' || B.Type == 'Arc' || B.Type == 'Via') && !B.hasNetclass('Power_Buck_SW') && !B.hasNetclass('Analog_Precision') && !B.hasNetclass('Ref_Kelvin') && !B.hasNetclass('RF_Input') && !B.hasNetclass('RF_50R')")
+   (constraint clearance (min 0.2mm)))
+(rule "v3_sp_chg_sw_in_u301__B"
+   (layer "B.Cu")
+   (condition "A.hasNetclass('Power_Buck_SW') && (((A.Type == 'Via' && A.intersectsCourtyard('U301'))) || ((B.Type == 'Via' && B.intersectsCourtyard('U301')))) && (B.Type == 'Track' || B.Type == 'Arc' || B.Type == 'Via') && !B.hasNetclass('Power_Buck_SW') && !B.hasNetclass('Analog_Precision') && !B.hasNetclass('Ref_Kelvin') && !B.hasNetclass('RF_Input') && !B.hasNetclass('RF_50R')")
+   (constraint clearance (min 0.2mm)))
+(rule "v3_sp_chg_sw_in_u301__I"
+   (layer inner)
+   (condition "A.hasNetclass('Power_Buck_SW') && ((A.Type == 'Via' && A.intersectsCourtyard('U301')) || (B.Type == 'Via' && B.intersectsCourtyard('U301'))) && (B.Type == 'Track' || B.Type == 'Arc' || B.Type == 'Via') && !B.hasNetclass('Power_Buck_SW') && !B.hasNetclass('Analog_Precision') && !B.hasNetclass('Ref_Kelvin') && !B.hasNetclass('RF_Input') && !B.hasNetclass('RF_50R')")
+   (constraint clearance (min 0.2mm)))
+
+# v4/v5: the Hirose U.FL lands (J1 and J300 - J1 lost its allow_soldermask_bridges attribute in the 2026-09-29 library refresh), identical to J1 which already carries allow_soldermask_bridges) and the open solder jumpers
+# JP401/JP402 have a DESIGNED mask opening across both pads (Konnect cannot set the footprint attribute; see manual items).
+(rule "v4_bridged_mask_jumpers_ufl"
+   (condition "A.memberOfFootprint('JP401') || A.memberOfFootprint('JP402') || A.memberOfFootprint('J300') || A.memberOfFootprint('J1')")
+   (constraint bridged_mask)
+   (severity ignore))
+
+# =====================================================================================================================
+# v7 (2026-09-30) approved DRC gate. Sources: review/chief geom_smoothing_rules (tested kicad-cli 10.0.5), routing-kit
+# SI policy, fab/EMC spec (EMC-05). Angles are UNITLESS: a unit such as 'deg' makes KiCad drop the WHOLE file.
+# For the same constraint the LAST matching rule wins, so the general angle rule precedes the critical one.
+# track_angle is the interior angle (180 straight, 135 = one 45-degree bend, 90 = right angle); junctions on a pad are
+# skipped and arcs are never checked, so filleted corners pass.
+# =====================================================================================================================
+(rule "v7_geom_signal_no_right_or_acute"
+   (condition "A.Type == 'Track' && !A.hasNetclass('Ground') && !A.hasNetclass('Power_*') ")
+   (constraint track_angle (min 95))
+   (severity warning))
+
+(rule "v7_geom_smooth_critical"
+   (condition "A.Type == 'Track' && (A.hasNetclass('RF_Input') || A.hasNetclass('RF_50R') || A.hasNetclass('HighSpeed_*') || A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.NetName == 'USB_DP' || A.NetName == 'USB_DM' || A.NetName == 'Net-(U8-PC14)' || A.NetName == 'Net-(U8-PC15)')")
+   (constraint track_angle (min 134))
+   (constraint track_segment_length (min 0.1mm))
+   (severity warning))
+
+# USB full-speed pair: router picks 0.15 mm automatically (Default class opt is 0.20 mm). 0.15/0.15 = ~90 ohm diff.
+(rule "v7_usb_fs_width"
+   (condition "A.NetName == 'USB_DP' || A.NetName == 'USB_DM'")
+   (constraint track_width (min 0.15mm) (opt 0.15mm) (max 0.2mm)))
+
+# EMC-05: BUCK_SYNC (both sides of R901) at least 3 mm from LSE copper (PC14/PC15, Y2, C601/C602) on the same layer.
+# SIGNOFF rule (see the header).
+#SIGNOFF (rule "v7_emc05_buck_sync_lse_3mm"
+#SIGNOFF    (condition "(A.NetName == 'BUCK_SYNC' || A.NetName == '*/BUCK_SYNC_MCU') && (B.NetName == 'Net-(U8-PC14)' || B.NetName == 'Net-(U8-PC15)')")
+#SIGNOFF    (constraint clearance (min 3mm)))
+
+# S04 (Y2 SII SC-16S, leaflet: no circuit patterns on the crystal mounting area): rule area K21_Y2_GAP bans B.Cu tracks
+# and pour between the Y2 pads (v11, critique LED-05). WAIVER: the U8 pin-8 PC14 via (0.45/0.20, resin-filled, capped)
+# ring sits 0.298 mm from Y2 pad 1 (PC15) and overlaps pad 2 (same net); a 0.45 via has no legal spot outside the gap
+# (east: K16_DISP_LANE; west: the PC15 via). Vias stay allowed in K21 so that via is not flagged.
+
+# =====================================================================================================================
+# v8 (2026-10-01) 6 copper layers, JLC06161H-3313 (lead approved): F.Cu / In1 GND / In2 GND / In3 SIGNAL / In4 GND /
+# B.Cu. F.Cu-In1 and In4-B.Cu keep the 0.0994 mm 3313 spacing, so the outer-layer references are unchanged. In3 sits
+# 0.1088 mm (2116) under the In2 plane and 0.55 mm above In4: a buried routing layer for digital buses and power
+# feeds. Disallow rules use the (layer ...) clause, which was tested on B.Cu tracks (kicad-cli 10.0.5). For one item
+# only the LAST matching disallow rule is reported, so these sit at the end of the file.
+# =====================================================================================================================
+(rule "v8_no_tracks_on_In1_plane"
+   (layer "In1.Cu")
+   (constraint disallow track))
+
+(rule "v8_no_tracks_on_In2_plane"
+   (layer "In2.Cu")
+   (constraint disallow track))
+
+(rule "v8_no_tracks_on_In4_plane"
+   (layer "In4.Cu")
+   (constraint disallow track))
+
+# RF, analog-precision and reference nets stay on the outer layers next to their solid planes; In3 is digital/power.
+(rule "v8_sensitive_nets_off_In3"
+   (layer "In3.Cu")
+   (condition "A.hasNetclass('RF_Input') || A.hasNetclass('RF_50R') || A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin')")
+   (constraint disallow track))
+
+# =====================================================================================================================
+# v9 (2026-10-02, layout completion): REGN is the BQ25798 internal 5 V gate-drive LDO output (4.7 uF C312 + NTC bias
+# R306/R308, STAT pull-up R312 and the charge LED R19: < 50 mA). It inherits Power_Battery (0.5 mm / 0.2 mm) from the
+# class pattern, which cannot leave U301 pin 5 (0.2 mm pad at 0.4 mm pitch between BTST1 and D+). IPC-2152: 0.15 mm
+# carries 0.5 A at dT 10 C, 0.3 mm opt keeps the 4.7 uF loop low-inductance. SW nets keep their own 0.2 mm rules.
+(rule "v9_regn_light"
+   (condition "A.NetName == '/Battery, charger and USB-C/REGN'")
+   (constraint track_width (min 0.15mm) (opt 0.3mm)))
+
+(rule "v9_regn_clearance"
+   (condition "A.NetName == '/Battery, charger and USB-C/REGN' && !B.hasNetclass('Power_Buck_SW') && !B.hasNetclass('Analog_Precision') && !B.hasNetclass('Ref_Kelvin') && !B.hasNetclass('RF_Input') && !B.hasNetclass('RF_50R')")
+   (constraint clearance (min 0.15mm)))
+
+# v9 (2026-10-02, layout completion): neck-down at the charger power caps. U301 (BQ25798, 0.4 mm pitch) is ringed by its
+# PMID/VBUS/SYS/BAT/REGN caps within 1-2 mm; Power_Battery/Power_Digital minimum widths cannot reach those pads
+# between neighbouring pads. A 0.2 mm x <=1 mm neck inside a C3xx courtyard adds ~2.5 mOhm and ~0.2 nH.
+(rule "v9_w_power_neckdown_chg_caps__F"
+   (layer "F.Cu")
+   (condition "(A.hasNetclass('Power_Battery') || A.hasNetclass('Power_Digital')) && ((A.Type == 'Via' && A.intersectsCourtyard('C3??')) || A.intersectsCourtyard('C300') || A.intersectsCourtyard('C301') || A.intersectsCourtyard('C303') || A.intersectsCourtyard('C306') || A.intersectsCourtyard('C307') || A.intersectsCourtyard('C308') || A.intersectsCourtyard('C309') || A.intersectsCourtyard('C312') || A.intersectsCourtyard('C313') || A.intersectsCourtyard('C314') || A.intersectsCourtyard('C315') || A.intersectsCourtyard('C316') || A.intersectsCourtyard('C317') || A.intersectsCourtyard('C318') || A.intersectsCourtyard('C319') || A.intersectsCourtyard('C320') || A.intersectsCourtyard('C322') || A.intersectsCourtyard('C323') || A.intersectsCourtyard('C324') || A.intersectsCourtyard('C325') || A.intersectsCourtyard('C326') || A.intersectsCourtyard('C327'))")
+   (constraint track_width (min 0.2mm) (opt 0.3mm)))
+(rule "v9_w_power_neckdown_chg_caps__B"
+   (layer "B.Cu")
+   (condition "(A.hasNetclass('Power_Battery') || A.hasNetclass('Power_Digital')) && ((A.Type == 'Via' && A.intersectsCourtyard('C3??')) || A.intersectsCourtyard('C304') || A.intersectsCourtyard('C305') || A.intersectsCourtyard('C310') || A.intersectsCourtyard('C311') || A.intersectsCourtyard('C321'))")
+   (constraint track_width (min 0.2mm) (opt 0.3mm)))
+(rule "v9_w_power_neckdown_chg_caps__I"
+   (layer inner)
+   (condition "(A.hasNetclass('Power_Battery') || A.hasNetclass('Power_Digital')) && (A.Type == 'Via' && A.intersectsCourtyard('C3??'))")
+   (constraint track_width (min 0.2mm) (opt 0.3mm)))
+
+# v10 (2026-10-02 night, DRC clean-up): the four BQ25798 bootstrap-path vias (BTST1/BTST2 and the SW1/SW2 drops to
+# C310/C311 on B) carry only bootstrap-capacitor charge (gate drive), not inductor current - the SW current runs on F
+# from U301 pins 26/28 straight into L301. Their class (Power_Battery) asks 0.6/0.3; 0.45/0.20 POFV is enough here.
+(rule "v10_chg_bootstrap_vias"
+   (condition "A.Type == 'Via' && (A.NetName == 'Net-(U301-BTST1)' || A.NetName == 'Net-(U301-BTST2)' || A.NetName == 'Net-(U301-SW1)' || A.NetName == 'Net-(U301-SW2)')")
+   (constraint hole_size (min 0.2mm) (opt 0.3mm) (max 0.4mm))
+   (constraint via_diameter (min 0.45mm) (opt 0.5mm) (max 0.8mm)))
+
+# v10: REGN keeps its v9_regn_light 0.15 mm minimum inside the C3xx courtyards too (v9_w_power_neckdown_chg_caps comes
+# later in the file and was overriding it with 0.2 mm for this < 50 mA net).
+(rule "v10_regn_light_in_chg_caps__F"
+   (layer "F.Cu")
+   (condition "A.NetName == '/Battery, charger and USB-C/REGN' && ((A.Type == 'Via' && A.intersectsCourtyard('C3??')) || A.intersectsCourtyard('C300') || A.intersectsCourtyard('C301') || A.intersectsCourtyard('C303') || A.intersectsCourtyard('C306') || A.intersectsCourtyard('C307') || A.intersectsCourtyard('C308') || A.intersectsCourtyard('C309') || A.intersectsCourtyard('C312') || A.intersectsCourtyard('C313') || A.intersectsCourtyard('C314') || A.intersectsCourtyard('C315') || A.intersectsCourtyard('C316') || A.intersectsCourtyard('C317') || A.intersectsCourtyard('C318') || A.intersectsCourtyard('C319') || A.intersectsCourtyard('C320') || A.intersectsCourtyard('C322') || A.intersectsCourtyard('C323') || A.intersectsCourtyard('C324') || A.intersectsCourtyard('C325') || A.intersectsCourtyard('C326') || A.intersectsCourtyard('C327'))")
+   (constraint track_width (min 0.15mm) (opt 0.3mm)))
+(rule "v10_regn_light_in_chg_caps__B"
+   (layer "B.Cu")
+   (condition "A.NetName == '/Battery, charger and USB-C/REGN' && ((A.Type == 'Via' && A.intersectsCourtyard('C3??')) || A.intersectsCourtyard('C304') || A.intersectsCourtyard('C305') || A.intersectsCourtyard('C310') || A.intersectsCourtyard('C311') || A.intersectsCourtyard('C321'))")
+   (constraint track_width (min 0.15mm) (opt 0.3mm)))
+(rule "v10_regn_light_in_chg_caps__I"
+   (layer inner)
+   (condition "A.NetName == '/Battery, charger and USB-C/REGN' && (A.Type == 'Via' && A.intersectsCourtyard('C3??'))")
+   (constraint track_width (min 0.15mm) (opt 0.3mm)))
+
+# 2a fix (2026-10-04, P1-5 Kelvin sense): the 0.15 mm PACK_RAW sense track from J2.1 to R315.1 (BQ29209 VC2) runs on B
+# inside the J2 courtyard; the rest of PACK_RAW is Power_Battery (>= 0.5 mm). J2 is mounted on B, so the exemption is
+# B.Cu-only. The sense track carries only the VC2 filter current.
+(rule "v10_pack_raw_kelvin"
+   (layer "B.Cu")
+   (condition "A.NetName == '/Battery, charger and USB-C/PACK_RAW' && A.intersectsCourtyard('J2')")
+   (constraint track_width (min 0.12mm)))
+
+# =====================================================================================================================
+# v11 (2026-10-04, checkpoint 3)
+# =====================================================================================================================
+# P1-7 (critique SVC-01): nothing foreign on F.Cu under the USB-C shell J10 (F is the layer the metal shell sits on).
+# In3 under J10 is fine (stripline between In2/In4 GND) and B is behind three GND planes.
+(rule "v11_j10_shell_no_foreign_F"
+   (layer "F.Cu")
+   (condition "A.Type != 'Pad' && A.Type != 'Zone' && A.intersectsCourtyard('J10') && !(A.NetName == 'VBUS' || A.NetName == 'GND' || A.NetName == 'USB_DP' || A.NetName == 'USB_DM' || A.NetName == '*/CC1' || A.NetName == '*/CC2')")
+   (constraint disallow track via))
+
+# P1-6 (critique RULES-02): inner copper is 0.5 oz (15.2 um), so power on In3 needs width. Battery-class trunks >= 0.8 mm
+# (1.0 where room allows; REGN excluded: a 30 mA LDO rail), digital/analog power >= 0.4 mm (warning).
+(rule "v11_in3_power_battery_width"
+   (layer "In3.Cu")
+   (condition "A.hasNetclass('Power_Battery') && A.NetName != '/Battery, charger and USB-C/REGN'")
+   (constraint track_width (min 0.8mm) (opt 1.0mm)))
+
+(rule "v11_in3_power_digital_width"
+   (layer "In3.Cu")
+   (condition "A.hasNetclass('Power_Digital') || A.hasNetclass('Power_Analog')")
+   (constraint track_width (min 0.4mm) (opt 0.6mm))
+   (severity warning))
+
+# (P1-5 PACK_RAW Kelvin exemption: moved to the 2a fix package as v10_pack_raw_kelvin, 2026-10-04)
+
+# v11 P0-5: neck-length caps (see the patch notes). Severity error: a long neck is a real IR-drop / fusing risk.
+(rule "v11_neck_len_power_battery"
+   (layer outer)
+   (condition "A.Type == 'Track' && A.hasNetclass('Power_Battery') && A.Width < 0.5mm && A.NetName != '/Battery, charger and USB-C/REGN' && !(A.NetName == '/Battery, charger and USB-C/PACK_RAW' && A.intersectsCourtyard('J2')) && !(A.NetName == 'VBAT_PACK' && (A.intersectsCourtyard('U303') || A.intersectsCourtyard('C326')))")
+   (constraint track_segment_length (max 1.0mm)))
+(rule "v11_neck_len_power_battery_inner"
+   (layer inner)
+   (condition "A.Type == 'Track' && A.hasNetclass('Power_Battery') && A.Width < 0.5mm && A.NetName != '/Battery, charger and USB-C/REGN' && !(A.NetName == 'VBAT_PACK' && (A.intersectsCourtyard('U303') || A.intersectsCourtyard('C326')))")
+   (constraint track_segment_length (max 1.0mm)))
+(rule "v11_neck_len_power_digital"
+   (layer outer)
+   (condition "A.Type == 'Track' && A.hasNetclass('Power_Digital') && A.Width < 0.3mm && A.NetName != 'VBAT_RTC'")
+   (constraint track_segment_length (max 1.0mm)))
+(rule "v11_neck_len_power_digital_inner"
+   (layer inner)
+   (condition "A.Type == 'Track' && A.hasNetclass('Power_Digital') && A.Width < 0.3mm && A.NetName != 'VBAT_RTC'")
+   (constraint track_segment_length (max 1.0mm)))
+(rule "v11_neck_len_power_analog"
+   (layer outer)
+   (condition "A.Type == 'Track' && A.hasNetclass('Power_Analog') && A.Width < 0.25mm")
+   (constraint track_segment_length (max 1.0mm)))
+(rule "v11_neck_len_power_analog_inner"
+   (layer inner)
+   (condition "A.Type == 'Track' && A.hasNetclass('Power_Analog') && A.Width < 0.25mm")
+   (constraint track_segment_length (max 1.0mm)))
+
+# ---- side guards for the side-aware courtyard exemptions above (dru_sideaware.py). If a part listed here
+# ---- is flipped, these assertions fail: re-run tools/dru_sideaware.py on the new board.
+(rule "zz_side_guard_F"
+   (condition "A.Type == 'Footprint' && (A.Reference == 'C300' || A.Reference == 'C301' || A.Reference == 'C303' || A.Reference == 'C306' || A.Reference == 'C307' || A.Reference == 'C308' || A.Reference == 'C309' || A.Reference == 'C312' || A.Reference == 'C313' || A.Reference == 'C314' || A.Reference == 'C315' || A.Reference == 'C316' || A.Reference == 'C317' || A.Reference == 'C318' || A.Reference == 'C319' || A.Reference == 'C320' || A.Reference == 'C322' || A.Reference == 'C323' || A.Reference == 'C324' || A.Reference == 'C325' || A.Reference == 'C326' || A.Reference == 'C327' || A.Reference == 'C35' || A.Reference == 'FB1' || A.Reference == 'J1' || A.Reference == 'J3' || A.Reference == 'J300' || A.Reference == 'J4' || A.Reference == 'U1' || A.Reference == 'U10' || A.Reference == 'U11' || A.Reference == 'U13' || A.Reference == 'U2' || A.Reference == 'U3' || A.Reference == 'U301' || A.Reference == 'U302' || A.Reference == 'U303' || A.Reference == 'U4' || A.Reference == 'U402' || A.Reference == 'U403' || A.Reference == 'U5' || A.Reference == 'U6' || A.Reference == 'U7' || A.Reference == 'U702' || A.Reference == 'U8' || A.Reference == 'U9')")
+   (constraint assertion "A.Layer == 'F.Cu'")
+   (severity error))
+(rule "zz_side_guard_B"
+   (condition "A.Type == 'Footprint' && (A.Reference == 'C304' || A.Reference == 'C305' || A.Reference == 'C310' || A.Reference == 'C311' || A.Reference == 'C321' || A.Reference == 'D401' || A.Reference == 'J11' || A.Reference == 'RN203' || A.Reference == 'U304' || A.Reference == 'U401' || A.Reference == 'U701' || A.Reference == 'U901')")
+   (constraint assertion "A.Layer == 'B.Cu'")
+   (severity error))
