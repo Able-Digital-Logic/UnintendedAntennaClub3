@@ -1,0 +1,18 @@
+(footprint "Crystal_SMD_Abracon_ABS05-2Pin_1.6x1.0mm"
+  (version 20240108)
+  (generator "konnect")
+  (layer "F.Cu")
+  (descr "Abracon ABS05 32.768 kHz tuning-fork crystal, 1.6 x 1.0 mm, height 0.50 mm max; 2-pad land per Abracon ABS05 datasheet (https://abracon.com/Resonators/ABS05.pdf); no silk inside the courtyard")
+  (attr smd)
+  (tags "crystal 32.768kHz Abracon ABS05 1610")
+  (pad "1" smd roundrect (at -0.55 0) (size 0.5 1) (layers "F.Cu" "F.Paste" "F.Mask")  (roundrect_rratio 0.25))
+  (pad "2" smd roundrect (at 0.55 0) (size 0.5 1) (layers "F.Cu" "F.Paste" "F.Mask")  (roundrect_rratio 0.25))
+  (fp_rect (start -1.1 -0.75) (end 1.1 0.75) (stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd"))
+  (fp_rect (start -0.8 -0.5) (end 0.8 0.5) (stroke (width 0.1) (type solid)) (fill none) (layer "F.Fab"))
+  (fp_text reference "REF**" (at 0.0000 -1.7500 0) (layer "F.SilkS") (effects (font (size 1 1) (thickness 0.15))))
+  (fp_text value "Crystal_SMD_Abracon_ABS05-2Pin_1.6x1.0mm" (at 0.0000 1.7500 0) (layer "F.Fab") (effects (font (size 1 1) (thickness 0.15))))
+  (model "${KIPRJMOD}/libraries/3dmodels/ABS05-32.768KHZ-7-T.stp"
+    (offset (xyz 0 0 0))
+    (scale (xyz 1 1 1))
+    (rotate (xyz -90 0 0)))
+)

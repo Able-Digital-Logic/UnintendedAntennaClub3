@@ -1,0 +1,2735 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-10-04T18:58:53",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning",
+        "exclusion"
+    ],
+    "kicad_version": "10.0.6",
+    "schematic_parity": [],
+    "source": "RFVD_SENSOR_BOARD.kicad_pcb",
+    "unconnected_items": [
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 3 [/SD and capture memory/PSRAM_IO2_RAM] of U9 on F.Cu",
+                    "pos": {
+                        "x": 123.1386,
+                        "y": 93.0184
+                    },
+                    "uuid": "15f0c616-78d1-4816-9519-197731f1c634"
+                },
+                {
+                    "description": "Pad 2 [/SD and capture memory/PSRAM_IO2_RAM] of R64 on B.Cu",
+                    "pos": {
+                        "x": 140.6226,
+                        "y": 103.6164
+                    },
+                    "uuid": "0828c99d-b7c6-444e-b209-bece8264b21d"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Track [/Screen and controls/LCD_CS_N] on B.Cu, length 1.2000 mm",
+                    "pos": {
+                        "x": 135.1476,
+                        "y": 101.5914
+                    },
+                    "uuid": "bf66c6df-1352-4dcb-bc0b-0e8e2f79cdb0"
+                },
+                {
+                    "description": "Track [/Screen and controls/LCD_CS_N] on F.Cu, length 1.4400 mm",
+                    "pos": {
+                        "x": 136.2536,
+                        "y": 123.4734
+                    },
+                    "uuid": "743eec03-9a06-4290-ae9d-c9d1ba879e77"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 2 [/Screen and controls/LCD_DC] of R213 on B.Cu",
+                    "pos": {
+                        "x": 138.32,
+                        "y": 98.6127
+                    },
+                    "uuid": "4de2b649-7d26-4c89-a2c8-927ba2aeb988"
+                },
+                {
+                    "description": "Track [/Screen and controls/LCD_DC] on F.Cu, length 1.4142 mm",
+                    "pos": {
+                        "x": 136.0536,
+                        "y": 121.7234
+                    },
+                    "uuid": "449f21f1-7976-4440-ae1f-b9783183d04c"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 1 [/Screen and controls/LCD_WR_N] of C202 on B.Cu",
+                    "pos": {
+                        "x": 137.2536,
+                        "y": 123.4734
+                    },
+                    "uuid": "030d6202-4eca-448b-9e84-445b6827b958"
+                },
+                {
+                    "description": "Pad 8 [/Screen and controls/LCD_WR_N] of RN203 on B.Cu",
+                    "pos": {
+                        "x": 134.5976,
+                        "y": 102.3914
+                    },
+                    "uuid": "a78fcac7-7ebf-499f-92ce-4168046f1eb2"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Track [/Screen and controls/LCD_D0] on F.Cu, length 0.8500 mm",
+                    "pos": {
+                        "x": 141.9036,
+                        "y": 122.5234
+                    },
+                    "uuid": "ae819240-62f9-4e0f-9432-b76cd678f1b1"
+                },
+                {
+                    "description": "Pad 8 [/Screen and controls/LCD_D0] of RN201 on F.Cu",
+                    "pos": {
+                        "x": 124.3226,
+                        "y": 96.3164
+                    },
+                    "uuid": "33f330dd-5997-4bc4-8448-864ba9f1e92c"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Via [/Screen and controls/LCD_D1] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 142.654,
+                        "y": 122.673
+                    },
+                    "uuid": "2eff673e-cc6b-4ec5-8a55-f1e1de748be0"
+                },
+                {
+                    "description": "Pad 7 [/Screen and controls/LCD_D1] of RN201 on F.Cu",
+                    "pos": {
+                        "x": 124.3226,
+                        "y": 95.8164
+                    },
+                    "uuid": "254f4b47-6956-4bd7-954c-da70c7dd5dee"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 24 [/Screen and controls/LCD_D2] of J4 on F.Cu",
+                    "pos": {
+                        "x": 143.2536,
+                        "y": 123.4734
+                    },
+                    "uuid": "045c7b5c-9114-41d3-a4c9-055a279a6e88"
+                },
+                {
+                    "description": "Pad 5 [/Screen and controls/LCD_D2] of RN203 on B.Cu",
+                    "pos": {
+                        "x": 134.5976,
+                        "y": 100.8914
+                    },
+                    "uuid": "47c2c4b7-611d-4f39-8a44-0b55f0bfd8b0"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 25 [/Screen and controls/LCD_D3] of J4 on F.Cu",
+                    "pos": {
+                        "x": 143.7536,
+                        "y": 123.4734
+                    },
+                    "uuid": "5d4dd8d5-b3a1-4b85-82f8-20ea3fa4cdd4"
+                },
+                {
+                    "description": "Pad 7 [/Screen and controls/LCD_D3] of RN203 on B.Cu",
+                    "pos": {
+                        "x": 134.5976,
+                        "y": 101.8914
+                    },
+                    "uuid": "13c04b03-340a-4da4-acb1-5216fe6a06b4"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 26 [/Screen and controls/LCD_D4] of J4 on F.Cu",
+                    "pos": {
+                        "x": 144.2536,
+                        "y": 123.4734
+                    },
+                    "uuid": "78fc0632-5b37-4b02-8a4e-bceb1bcce714"
+                },
+                {
+                    "description": "Pad 8 [/Screen and controls/LCD_D4] of RN202 on B.Cu",
+                    "pos": {
+                        "x": 135.1476,
+                        "y": 89.5914
+                    },
+                    "uuid": "ab748ee3-9206-4c68-b649-b060f126bc27"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Via [/Screen and controls/LCD_D5] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 144.754,
+                        "y": 122.673
+                    },
+                    "uuid": "c11359b5-105a-4df4-88ab-a6e8beca07ea"
+                },
+                {
+                    "description": "Pad 7 [/Screen and controls/LCD_D5] of RN202 on B.Cu",
+                    "pos": {
+                        "x": 135.1476,
+                        "y": 89.0914
+                    },
+                    "uuid": "b7a0c4a9-75ce-4591-9245-06909b988a9f"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Track [/Screen and controls/LCD_D6] on B.Cu, length 0.3500 mm",
+                    "pos": {
+                        "x": 135.15,
+                        "y": 88.6
+                    },
+                    "uuid": "ee05c4cb-ce10-4207-8c0d-335208a1268b"
+                },
+                {
+                    "description": "Via [/Screen and controls/LCD_D6] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 145.654,
+                        "y": 122.473
+                    },
+                    "uuid": "5590f0b0-596a-44a4-8598-ef0ea0aaf069"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 5 [/Screen and controls/LCD_D7] of RN202 on B.Cu",
+                    "pos": {
+                        "x": 135.1476,
+                        "y": 88.0914
+                    },
+                    "uuid": "6c7626cb-77eb-49c8-93bf-bb524ffaf3c8"
+                },
+                {
+                    "description": "Pad 29 [/Screen and controls/LCD_D7] of J4 on F.Cu",
+                    "pos": {
+                        "x": 145.7536,
+                        "y": 123.4734
+                    },
+                    "uuid": "641cd0ca-5273-47e4-ab0f-317b54278963"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 2 [/Screen and controls/LCD_LED_K4] of D204 on B.Cu",
+                    "pos": {
+                        "x": 129.3536,
+                        "y": 117.5934
+                    },
+                    "uuid": "82865895-4f48-46d0-8a46-f04d19f24583"
+                },
+                {
+                    "description": "Track [/Screen and controls/LCD_LED_K4] on F.Cu, length 0.8000 mm",
+                    "pos": {
+                        "x": 149.7536,
+                        "y": 122.9734
+                    },
+                    "uuid": "b8fe2c57-4b5b-4f68-966f-2eac72bc5a7c"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Track [USB_DP] on F.Cu, length 0.3000 mm",
+                    "pos": {
+                        "x": 145.2036,
+                        "y": 113.5934
+                    },
+                    "uuid": "6240e3e7-d4de-4821-a612-7661e5ef81d2"
+                },
+                {
+                    "description": "Track [USB_DP] on F.Cu, length 2.2000 mm",
+                    "pos": {
+                        "x": 131.1155,
+                        "y": 99.0593
+                    },
+                    "uuid": "0a782a70-a72f-47a0-8bd4-c8fa42b354db"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 6 [USB_DP] of U301 on F.Cu",
+                    "pos": {
+                        "x": 145.2036,
+                        "y": 113.8434
+                    },
+                    "uuid": "75be64f1-2c47-42d3-b58c-ca51f8143441"
+                },
+                {
+                    "description": "Track [USB_DP] on In3.Cu, length 2.5832 mm",
+                    "pos": {
+                        "x": 128.066,
+                        "y": 127.213
+                    },
+                    "uuid": "5aff57c6-816b-4851-8a8d-3e899a74e17f"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Track [USB_DM] on F.Cu, length 14.2114 mm",
+                    "pos": {
+                        "x": 127.115,
+                        "y": 107.8337
+                    },
+                    "uuid": "e68eeb56-41b9-4bf7-b022-f5a383c71ec1"
+                },
+                {
+                    "description": "Track [USB_DM] on F.Cu, length 0.7000 mm",
+                    "pos": {
+                        "x": 145.6036,
+                        "y": 113.5934
+                    },
+                    "uuid": "0dde9d8c-c820-45ca-8c73-d99edd0b3546"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Track [/Battery, charger and USB-C/QON_N] on F.Cu, length 0.3000 mm",
+                    "pos": {
+                        "x": 146.4536,
+                        "y": 112.1434
+                    },
+                    "uuid": "26087bb7-697f-4bad-8e0e-bfdca68bac15"
+                },
+                {
+                    "description": "Pad 2 [/Battery, charger and USB-C/QON_N] of SW5 on F.Cu",
+                    "pos": {
+                        "x": 128.3986,
+                        "y": 139.9934
+                    },
+                    "uuid": "7e6c001d-d0b2-448c-82ad-418ded4d4685"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Track [CHG_INT_N] on F.Cu, length 0.6030 mm",
+                    "pos": {
+                        "x": 144.4036,
+                        "y": 110.0434
+                    },
+                    "uuid": "7348225a-1b74-4c1c-a87f-e7b23692c824"
+                },
+                {
+                    "description": "Track [CHG_INT_N] on B.Cu, length 2.7577 mm",
+                    "pos": {
+                        "x": 146.2026,
+                        "y": 94.5464
+                    },
+                    "uuid": "661ea9ba-42ef-4f21-a0a3-678858309eed"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Track [TP_SCL] on In3.Cu, length 0.4000 mm",
+                    "pos": {
+                        "x": 130.5976,
+                        "y": 89.3914
+                    },
+                    "uuid": "26faa4b8-24b6-4fc8-bbb7-881522f194eb"
+                },
+                {
+                    "description": "Pad 2 [TP_SCL] of R45 on B.Cu",
+                    "pos": {
+                        "x": 156.7036,
+                        "y": 112.9934
+                    },
+                    "uuid": "1c1b07c0-49b7-4bdd-b96c-84498108c7bc"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 5 [TP_INT] of J8 on F.Cu",
+                    "pos": {
+                        "x": 158.7036,
+                        "y": 112.9934
+                    },
+                    "uuid": "d8a0aa31-efb5-4cdb-8aed-b18a12ec4063"
+                },
+                {
+                    "description": "Pad 2 [TP_INT] of R906 on B.Cu",
+                    "pos": {
+                        "x": 138.0976,
+                        "y": 90.8614
+                    },
+                    "uuid": "6969c358-305d-4db3-ad2f-aecaef849bbd"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 1 [MARK_N] of SW2 on F.Cu",
+                    "pos": {
+                        "x": 134.6536,
+                        "y": 139.9934
+                    },
+                    "uuid": "5ad5cea4-3136-46b4-b333-c8a65fe56770"
+                },
+                {
+                    "description": "Pad 2 [MARK_N] of R47 on B.Cu",
+                    "pos": {
+                        "x": 150.61,
+                        "y": 102.6
+                    },
+                    "uuid": "d12eddd3-28d0-482c-aa97-c68f0c100fe2"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Track [NRST] on B.Cu, length 1.2728 mm",
+                    "pos": {
+                        "x": 142.0726,
+                        "y": 95.1624
+                    },
+                    "uuid": "bb528ef5-341d-4ad2-a7ab-0f1596c506b4"
+                },
+                {
+                    "description": "Pad 3 [NRST] of J6 on F.Cu",
+                    "pos": {
+                        "x": 142.2786,
+                        "y": 140.9824
+                    },
+                    "uuid": "2768406d-d8aa-4893-9678-4495a47c3051"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 1 [VBAT_RTC] of C603 on F.Cu",
+                    "pos": {
+                        "x": 143.8148,
+                        "y": 99.9464
+                    },
+                    "uuid": "c68a8edf-0530-4e9d-8cf4-b2cc3e215b93"
+                },
+                {
+                    "description": "Pad 1 [VBAT_RTC] of C327 on F.Cu",
+                    "pos": {
+                        "x": 150.8646,
+                        "y": 99.9594
+                    },
+                    "uuid": "273c81da-bfcd-4dd6-a34c-ff0b6aac112e"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 1 [/Screen and controls/LCD_BL_SW] of D201 on B.Cu",
+                    "pos": {
+                        "x": 148.3036,
+                        "y": 117.5934
+                    },
+                    "uuid": "8e3add68-15f5-41ee-a726-018eb6421b77"
+                },
+                {
+                    "description": "Track [/Screen and controls/LCD_BL_SW] on In3.Cu, length 3.5000 mm",
+                    "pos": {
+                        "x": 132.662,
+                        "y": 121.0934
+                    },
+                    "uuid": "8aed6d0f-e4c5-4398-8a55-47bed5874ec7"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 2 [EXP_VHP_SNS] of R412 on B.Cu",
+                    "pos": {
+                        "x": 144.614,
+                        "y": 138.097
+                    },
+                    "uuid": "f38e2f62-031c-4a7c-bf90-68a9e660f120"
+                },
+                {
+                    "description": "Track [EXP_VHP_SNS] on B.Cu, length 1.2728 mm",
+                    "pos": {
+                        "x": 140.2,
+                        "y": 94.48
+                    },
+                    "uuid": "94cf7e53-5229-4a95-b3ca-83746dc3cbec"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Track [EXP_3V3_SNS] on F.Cu, length 1.6263 mm",
+                    "pos": {
+                        "x": 141.5206,
+                        "y": 93.8424
+                    },
+                    "uuid": "785185c6-c039-4342-bd3e-47e8940703f3"
+                },
+                {
+                    "description": "Pad 2 [EXP_3V3_SNS] of R414 on B.Cu",
+                    "pos": {
+                        "x": 136.469,
+                        "y": 137.154
+                    },
+                    "uuid": "a70cd8e4-5908-42b8-b90c-f18ee1f4dcaa"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 1 [EXP_CS0_N_MCU] of R425 on B.Cu",
+                    "pos": {
+                        "x": 137.5836,
+                        "y": 137.1434
+                    },
+                    "uuid": "319d8bee-55db-4ff4-b97b-19ccec3deb8a"
+                },
+                {
+                    "description": "Pad 51 [EXP_CS0_N_MCU] of U8 on F.Cu",
+                    "pos": {
+                        "x": 126.9226,
+                        "y": 90.3164
+                    },
+                    "uuid": "fd56c85e-3fd8-4587-a633-a25a273e71cb"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Via [EXP_MISO_MCU] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 137.6,
+                        "y": 138.1
+                    },
+                    "uuid": "45137882-d804-4989-a342-fb07da17c070"
+                },
+                {
+                    "description": "Pad 53 [EXP_MISO_MCU] of U8 on F.Cu",
+                    "pos": {
+                        "x": 126.9226,
+                        "y": 91.3164
+                    },
+                    "uuid": "a4877021-c0ab-4631-a152-e167ea904a9e"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 1 [EXP_CS1_N_MCU] of R427 on B.Cu",
+                    "pos": {
+                        "x": 139.6336,
+                        "y": 137.1434
+                    },
+                    "uuid": "42d7e902-358d-4f28-84df-b9303a6d4f35"
+                },
+                {
+                    "description": "Pad 55 [EXP_CS1_N_MCU] of U8 on F.Cu",
+                    "pos": {
+                        "x": 126.9226,
+                        "y": 92.3164
+                    },
+                    "uuid": "6715bf2f-dcfc-449d-8c6c-6259efc97364"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 1 [EXP_INT1_N_MCU] of RN401 on B.Cu",
+                    "pos": {
+                        "x": 140.8036,
+                        "y": 125.19
+                    },
+                    "uuid": "2a40b0f8-0a24-4314-b8e8-2cabd939c02c"
+                },
+                {
+                    "description": "Track [EXP_INT1_N_MCU] on F.Cu, length 0.2828 mm",
+                    "pos": {
+                        "x": 128.8726,
+                        "y": 93.3164
+                    },
+                    "uuid": "c98b5c02-3b52-437a-9582-a108dc92ff6e"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 1 [LCD_BL] of R211 on B.Cu",
+                    "pos": {
+                        "x": 151.4336,
+                        "y": 108.5189
+                    },
+                    "uuid": "e7a18920-fef3-49ab-99f0-7b8c6ebc740a"
+                },
+                {
+                    "description": "Track [LCD_BL] on F.Cu, length 1.5500 mm",
+                    "pos": {
+                        "x": 127.6726,
+                        "y": 96.3164
+                    },
+                    "uuid": "5d965555-07f5-49a1-918a-ae516a2d0199"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 66 [SD_D1_MCU] of U8 on F.Cu",
+                    "pos": {
+                        "x": 126.9226,
+                        "y": 97.8164
+                    },
+                    "uuid": "5b5a12a8-ef14-437f-b761-9862753db4d2"
+                },
+                {
+                    "description": "Pad 8 [SD_D1_MCU] of U901 on B.Cu",
+                    "pos": {
+                        "x": 131.625,
+                        "y": 109.89
+                    },
+                    "uuid": "2bea0150-ec30-4e47-9dd0-661c0b553f5f"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 90 [EXP_DETECT_N_MCU] of U8 on F.Cu",
+                    "pos": {
+                        "x": 135.5976,
+                        "y": 103.9914
+                    },
+                    "uuid": "25e529ec-d1e2-44ba-9c29-c1a44df6e60b"
+                },
+                {
+                    "description": "Via [EXP_DETECT_N_MCU] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 142.2836,
+                        "y": 125.19
+                    },
+                    "uuid": "3a695a5a-6536-4066-83a9-4bee342e3796"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Track [EXP_RST_N_MCU] on F.Cu, length 0.7071 mm",
+                    "pos": {
+                        "x": 136.0976,
+                        "y": 104.8414
+                    },
+                    "uuid": "f6c219b5-f25d-4e30-af74-74c1d5377434"
+                },
+                {
+                    "description": "Pad 1 [EXP_RST_N_MCU] of R431 on B.Cu",
+                    "pos": {
+                        "x": 141.6336,
+                        "y": 137.1434
+                    },
+                    "uuid": "613a3574-b231-46ee-8fc8-b5e733e6f468"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 97 [EXP_IO1_MCU] of U8 on F.Cu",
+                    "pos": {
+                        "x": 139.0976,
+                        "y": 103.9914
+                    },
+                    "uuid": "7f896147-bbe9-4f78-9325-e38e98e8da98"
+                },
+                {
+                    "description": "Track [EXP_IO1_MCU] on B.Cu, length 0.4808 mm",
+                    "pos": {
+                        "x": 141.88,
+                        "y": 124.79
+                    },
+                    "uuid": "93791f2c-f979-414f-9e62-b7372c41fa7a"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Track [EXP_IO0_MCU] on F.Cu, length 0.7000 mm",
+                    "pos": {
+                        "x": 139.5976,
+                        "y": 104.7414
+                    },
+                    "uuid": "8915cd45-5d92-4e83-a7ad-80ad9f0d4894"
+                },
+                {
+                    "description": "Track [EXP_IO0_MCU] on B.Cu, length 0.4667 mm",
+                    "pos": {
+                        "x": 141.19,
+                        "y": 124.75
+                    },
+                    "uuid": "6ad09575-97a7-43d3-a0ab-ea60fef7e726"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 1 [RECORD_N] of SW1 on F.Cu",
+                    "pos": {
+                        "x": 129.8336,
+                        "y": 139.9934
+                    },
+                    "uuid": "e8a68168-9b8d-4f32-8c50-a3af73bbdb52"
+                },
+                {
+                    "description": "Pad 2 [RECORD_N] of R46 on B.Cu",
+                    "pos": {
+                        "x": 137.55,
+                        "y": 100.81
+                    },
+                    "uuid": "319e1b41-36a6-4ab8-9384-cab926d26972"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 2 [/Expansion mezzanine/EXP_SPI_SCK] of R419 on B.Cu",
+                    "pos": {
+                        "x": 128.0426,
+                        "y": 90.8164
+                    },
+                    "uuid": "e2408c14-587f-423a-99bb-19db3b33e32f"
+                },
+                {
+                    "description": "Pad 5 [/Expansion mezzanine/EXP_SPI_SCK] of J11 on B.Cu",
+                    "pos": {
+                        "x": 137.1536,
+                        "y": 133.4934
+                    },
+                    "uuid": "d82e5e84-2683-4136-a310-f13f110ceae5"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Track [/Expansion mezzanine/EXP_SPI_MOSI] on B.Cu, length 0.3000 mm",
+                    "pos": {
+                        "x": 128.2926,
+                        "y": 92.0164
+                    },
+                    "uuid": "eb75138e-645b-496f-8f53-89fe557137fa"
+                },
+                {
+                    "description": "Pad 7 [/Expansion mezzanine/EXP_SPI_MOSI] of J11 on B.Cu",
+                    "pos": {
+                        "x": 137.6536,
+                        "y": 133.4934
+                    },
+                    "uuid": "310367ff-fd6c-44c5-98b5-c5131c5c2f53"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 33 [/Expansion mezzanine/EXP_GATE] of J11 on B.Cu",
+                    "pos": {
+                        "x": 144.1536,
+                        "y": 133.4934
+                    },
+                    "uuid": "6c161265-b9a7-43bf-8024-43c42487e4aa"
+                },
+                {
+                    "description": "Pad 2 [/Expansion mezzanine/EXP_GATE] of R433 on B.Cu",
+                    "pos": {
+                        "x": 139.0976,
+                        "y": 90.8614
+                    },
+                    "uuid": "ce9d18dc-c21e-4480-b5e0-2194dee00821"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Track [/Expansion mezzanine/EXP_ANA_MON] on B.Cu, length 0.7700 mm",
+                    "pos": {
+                        "x": 144.1536,
+                        "y": 127.9884
+                    },
+                    "uuid": "4c325f19-c439-4f6b-98b3-beb5e14a5723"
+                },
+                {
+                    "description": "Pad 2 [/Expansion mezzanine/EXP_ANA_MON] of R435 on B.Cu",
+                    "pos": {
+                        "x": 139.3794,
+                        "y": 97.6434
+                    },
+                    "uuid": "58092c5a-de90-4430-a37f-a4e3de1ea3c8"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "Pad 35 [/Expansion mezzanine/EXP_SYNC] of J11 on B.Cu",
+                    "pos": {
+                        "x": 144.6536,
+                        "y": 133.4934
+                    },
+                    "uuid": "1e46fc98-9ef9-457f-9a66-5d1b33a7b55a"
+                },
+                {
+                    "description": "Pad 2 [/Expansion mezzanine/EXP_SYNC] of R434 on B.Cu",
+                    "pos": {
+                        "x": 137.0976,
+                        "y": 101.7714
+                    },
+                    "uuid": "5037a982-6c7a-4b2e-9626-251dd92625e9"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        }
+    ],
+    "violations": [
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [+5V_A] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 149.3266,
+                        "y": 65.4558
+                    },
+                    "uuid": "3908955c-0947-49ac-966c-58f6438291e3"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [VSYS] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 159.3036,
+                        "y": 92.1818
+                    },
+                    "uuid": "ed787273-0cd8-42e9-a576-5335e54907d6"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [/Screen and controls/LCD_CS_N] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 135.1476,
+                        "y": 102.7914
+                    },
+                    "uuid": "39bc1be2-1105-450d-a450-5b90a0239000"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [/Screen and controls/LCD_D0] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 123.8,
+                        "y": 96.4
+                    },
+                    "uuid": "41789433-3093-4bd3-8448-b71595e31885"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [/Screen and controls/LCD_D0] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 141.0536,
+                        "y": 122.5234
+                    },
+                    "uuid": "902099dc-a1aa-4215-8ebf-38e28993f6f9"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [/Screen and controls/LCD_D1] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 142.654,
+                        "y": 122.673
+                    },
+                    "uuid": "2eff673e-cc6b-4ec5-8a55-f1e1de748be0"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [/Screen and controls/LCD_D1] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 123.7,
+                        "y": 95.7
+                    },
+                    "uuid": "f7da8b7f-18ed-48a4-9e29-64d76b9b3342"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [/Screen and controls/LCD_D2] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 141.5536,
+                        "y": 124.4
+                    },
+                    "uuid": "303a60a6-d57e-4cd0-8589-f8b8e55fec64"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [/Screen and controls/LCD_D3] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 144.1036,
+                        "y": 124.9734
+                    },
+                    "uuid": "2488a2f1-9215-4bc7-b674-46b83a0c1ef4"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [/Screen and controls/LCD_D5] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 144.754,
+                        "y": 122.673
+                    },
+                    "uuid": "c11359b5-105a-4df4-88ab-a6e8beca07ea"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [/Screen and controls/LCD_D6] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 145.654,
+                        "y": 122.473
+                    },
+                    "uuid": "5590f0b0-596a-44a4-8598-ef0ea0aaf069"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [/Screen and controls/LCD_D6] on In3.Cu, length 0.8500 mm",
+                    "pos": {
+                        "x": 135.7,
+                        "y": 87.35
+                    },
+                    "uuid": "f38f71fb-e0e0-4336-94e8-2d5a861d1b80"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [/Screen and controls/LCD_D7] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 135.0,
+                        "y": 87.3
+                    },
+                    "uuid": "8c3230b5-db92-4138-b2a5-b28e8848c055"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [/Screen and controls/LCD_D7] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 145.754,
+                        "y": 125.073
+                    },
+                    "uuid": "b3d7ed87-3228-4595-8a9b-08744ee708e3"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [LCD_RST] on In3.Cu, length 2.1213 mm",
+                    "pos": {
+                        "x": 141.625,
+                        "y": 88.0
+                    },
+                    "uuid": "daccd079-229e-40f8-b381-119372d465bf"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [/Screen and controls/LCD_LED_K4] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 149.754,
+                        "y": 122.173
+                    },
+                    "uuid": "ebc83f9f-7c07-4eed-92ca-058a8c16e79f"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [USB_DP] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 131.1155,
+                        "y": 99.0593
+                    },
+                    "uuid": "556ee924-be32-4120-bf6f-eaed7ddffcc8"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [USB_DP] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 145.2036,
+                        "y": 113.2934
+                    },
+                    "uuid": "dab0a01b-f6f7-43a9-beaa-e42ec1763c2f"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [USB_DM] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 145.6036,
+                        "y": 112.8934
+                    },
+                    "uuid": "8e8af9a2-3789-471f-ac01-812cd0e21984"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [/Battery, charger and USB-C/QON_N] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 128.3,
+                        "y": 140.2
+                    },
+                    "uuid": "744f95ec-a605-4f69-85ad-b35f65c61afd"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [/Battery, charger and USB-C/QON_N] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 146.1536,
+                        "y": 112.1434
+                    },
+                    "uuid": "e5e805a4-4246-44b8-84cc-e4ff99446e76"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [CHG_INT_N] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 144.33,
+                        "y": 110.72
+                    },
+                    "uuid": "3ff28323-726d-4052-8e45-194c5074250b"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [TP_SCL] on In3.Cu, length 0.4000 mm",
+                    "pos": {
+                        "x": 130.5976,
+                        "y": 89.3914
+                    },
+                    "uuid": "26faa4b8-24b6-4fc8-bbb7-881522f194eb"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [MARK_N] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 134.4,
+                        "y": 140.2
+                    },
+                    "uuid": "21fd2175-7d51-4abe-b0d5-f45fde512f21"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [NRST] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 142.288268,
+                        "y": 141.3434
+                    },
+                    "uuid": "54407aa2-40f8-4e49-83c9-0c3f112885dc"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [EXP_3V3_SNS] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 140.4,
+                        "y": 91.15
+                    },
+                    "uuid": "39fd4489-c44d-430c-9f3a-15c026357bde"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [EXP_CS0_N_MCU] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 125.3726,
+                        "y": 90.3164
+                    },
+                    "uuid": "4a541626-4aec-4e14-9c5e-f66a2ee2c5f1"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [EXP_CS0_N_MCU] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 137.4,
+                        "y": 137.2
+                    },
+                    "uuid": "ffdc1d46-3cbe-4427-9413-6e7c7fba6e0e"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [EXP_CS0_N_MCU] on In3.Cu, length 1.8627 mm",
+                    "pos": {
+                        "x": 121.117157,
+                        "y": 87.682843
+                    },
+                    "uuid": "7846673f-db34-4aa1-b1ac-dfadbf76cfd1"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [EXP_MISO_MCU] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 137.6,
+                        "y": 138.1
+                    },
+                    "uuid": "45137882-d804-4989-a342-fb07da17c070"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [EXP_MISO_MCU] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 124.977841,
+                        "y": 90.728748
+                    },
+                    "uuid": "b8c9ffa1-81f0-424c-8368-e3b98cc329d6"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [EXP_CS1_N_MCU] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 125.3726,
+                        "y": 92.7164
+                    },
+                    "uuid": "f6e5830c-5548-4505-aeb3-231f3f1b0577"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [EXP_CS1_N_MCU] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 139.6336,
+                        "y": 137.1434
+                    },
+                    "uuid": "fed3948e-efdd-42c6-9620-158b0c7fa3e5"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [EXP_INT1_N_MCU] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 140.8036,
+                        "y": 125.19
+                    },
+                    "uuid": "11dd13b1-ed9c-4fc4-bbca-29ff675b3eeb"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [EXP_INT1_N_MCU] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 129.0726,
+                        "y": 93.5164
+                    },
+                    "uuid": "35b20cf0-65c2-4ab3-994d-11892bb0aa98"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [LCD_BL] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 129.2226,
+                        "y": 96.3164
+                    },
+                    "uuid": "4b50c7da-893c-4899-bb92-ba10c38f4f8f"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [EXP_DETECT_N_MCU] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 142.2836,
+                        "y": 125.19
+                    },
+                    "uuid": "3a695a5a-6536-4066-83a9-4bee342e3796"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [EXP_DETECT_N_MCU] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 135.5976,
+                        "y": 103.1414
+                    },
+                    "uuid": "ae47bc28-123e-4b5b-8e1d-69cbe143371d"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [EXP_RST_N_MCU] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 135.5976,
+                        "y": 105.3414
+                    },
+                    "uuid": "4caeb154-717b-4576-8ce3-bc293d5eccb7"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [EXP_RST_N_MCU] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 141.6336,
+                        "y": 137.1434
+                    },
+                    "uuid": "9e99af5e-aaa3-44b1-8a2c-f79df09db08b"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [EXP_IO1_MCU] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 142.22,
+                        "y": 124.45
+                    },
+                    "uuid": "4e2ed397-ac3a-4b5c-baec-8edf35c157aa"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [EXP_IO1_MCU] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 138.9976,
+                        "y": 102.9414
+                    },
+                    "uuid": "6e5f0f6d-8750-4ef0-aeac-233deb21c356"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [EXP_IO0_MCU] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 139.5976,
+                        "y": 105.4414
+                    },
+                    "uuid": "442831dc-5ad0-4e5d-ad3e-b8f8ea596627"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [EXP_IO0_MCU] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 140.86,
+                        "y": 124.42
+                    },
+                    "uuid": "ee9ad6e1-f333-4939-97ef-2db45046fd3e"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [RECORD_N] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 129.6,
+                        "y": 140.2
+                    },
+                    "uuid": "faf30205-fdd3-4b3a-ad46-f25f4966ff3b"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Track has unconnected end",
+            "items": [
+                {
+                    "description": "Track [/Expansion mezzanine/EXP_SPI_SCK] on In3.Cu, length 0.5500 mm",
+                    "pos": {
+                        "x": 128.0926,
+                        "y": 90.6664
+                    },
+                    "uuid": "cb8504cd-d59e-45d8-8f29-fa3972dfdbb1"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_dangling"
+        },
+        {
+            "description": "Via is not connected or connected on only one layer",
+            "items": [
+                {
+                    "description": "Via [/Expansion mezzanine/EXP_SPI_MOSI] on F.Cu - B.Cu",
+                    "pos": {
+                        "x": 128.6926,
+                        "y": 91.9164
+                    },
+                    "uuid": "4f2200a0-ba88-4669-85b6-82dc4e2fb856"
+                }
+            ],
+            "severity": "warning",
+            "type": "via_dangling"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Segment on Edge.Cuts",
+                    "pos": {
+                        "x": 118.0036,
+                        "y": 105.1
+                    },
+                    "uuid": "2a59991c-f592-463e-af91-ac998d337bb0"
+                },
+                {
+                    "description": "Segment of J10 on F.Silkscreen",
+                    "pos": {
+                        "x": 119.1936,
+                        "y": 122.7634
+                    },
+                    "uuid": "d62d1692-83f6-489e-8e70-023eb4d9e2af"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Segment on Edge.Cuts",
+                    "pos": {
+                        "x": 118.0036,
+                        "y": 105.1
+                    },
+                    "uuid": "2a59991c-f592-463e-af91-ac998d337bb0"
+                },
+                {
+                    "description": "Segment of J10 on F.Silkscreen",
+                    "pos": {
+                        "x": 119.1936,
+                        "y": 132.1634
+                    },
+                    "uuid": "fc60f4a2-5916-4014-a6b2-1963c891fa86"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Footprint 'USB_C_Receptacle_HRO_TYPE-C-31-M-12' does not match copy in library 'RFVD_MVP_Footprints'",
+            "items": [
+                {
+                    "description": "Footprint J10",
+                    "pos": {
+                        "x": 121.1936,
+                        "y": 127.4634
+                    },
+                    "uuid": "d690a85a-44e8-4ad3-872a-df367960d955"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.2500 mm)",
+            "items": [
+                {
+                    "description": "Track [+5V_A] on In3.Cu, length 1.1500 mm",
+                    "pos": {
+                        "x": 138.975,
+                        "y": 92.619813
+                    },
+                    "uuid": "10d486d1-7579-46fe-a0c5-40819c224403"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.2500 mm)",
+            "items": [
+                {
+                    "description": "Track [+5V_A] on In3.Cu, length 1.7000 mm",
+                    "pos": {
+                        "x": 144.671,
+                        "y": 95.2698
+                    },
+                    "uuid": "28b54f80-5f44-4587-9ee9-dd719033007f"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.2500 mm)",
+            "items": [
+                {
+                    "description": "Track [+5V_A] on In3.Cu, length 0.4523 mm",
+                    "pos": {
+                        "x": 140.95,
+                        "y": 93.95
+                    },
+                    "uuid": "2d5fddad-5e1e-449c-af84-0ae9b6b0baa1"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.2500 mm)",
+            "items": [
+                {
+                    "description": "Track [+5V_A] on In3.Cu, length 0.2828 mm",
+                    "pos": {
+                        "x": 146.371,
+                        "y": 95.2698
+                    },
+                    "uuid": "86d68377-a3a8-45a2-a109-995b5e81e1de"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.2500 mm)",
+            "items": [
+                {
+                    "description": "Track [+5V_A] on In3.Cu, length 1.4142 mm",
+                    "pos": {
+                        "x": 143.671,
+                        "y": 94.2698
+                    },
+                    "uuid": "aa75b732-b42a-46c1-9b07-88b4a701d951"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.2500 mm)",
+            "items": [
+                {
+                    "description": "Track [+5V_A] on In3.Cu, length 1.7948 mm",
+                    "pos": {
+                        "x": 139.1552,
+                        "y": 93.95
+                    },
+                    "uuid": "d67c6326-5ffc-4142-8c1d-fa871290422f"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.2500 mm)",
+            "items": [
+                {
+                    "description": "Track [+5V_A] on In3.Cu, length 0.2548 mm",
+                    "pos": {
+                        "x": 138.975,
+                        "y": 93.7698
+                    },
+                    "uuid": "eeef3ff5-445c-43c4-9821-7d6605cfd825"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 7.9000 mm",
+                    "pos": {
+                        "x": 141.987919,
+                        "y": 85.600303
+                    },
+                    "uuid": "142628aa-9179-4858-9498-80b4e8b01edf"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 0.8300 mm",
+                    "pos": {
+                        "x": 132.07,
+                        "y": 90.0
+                    },
+                    "uuid": "153117f2-fb71-4406-aa40-7d2892fdf010"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 0.1000 mm",
+                    "pos": {
+                        "x": 132.1,
+                        "y": 89.9
+                    },
+                    "uuid": "1b74b851-eb02-4242-a5ec-f80e374d2e07"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 0.5000 mm",
+                    "pos": {
+                        "x": 158.7,
+                        "y": 99.0
+                    },
+                    "uuid": "4309f910-a094-46c6-8f3b-d54f2d1692c5"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 0.6000 mm",
+                    "pos": {
+                        "x": 139.227164,
+                        "y": 87.220062
+                    },
+                    "uuid": "460ff38a-ba29-4593-b65d-fbd4d0cfb3eb"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 0.8485 mm",
+                    "pos": {
+                        "x": 160.9,
+                        "y": 94.9
+                    },
+                    "uuid": "61449348-efb2-4977-8454-f584298dedcd"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.2000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 0.9899 mm",
+                    "pos": {
+                        "x": 138.589262,
+                        "y": 89.385691
+                    },
+                    "uuid": "6e71fc17-0992-4922-a43c-4ffce266fe15"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 2.4000 mm",
+                    "pos": {
+                        "x": 160.9,
+                        "y": 97.3
+                    },
+                    "uuid": "758bf52c-829c-4b27-ac87-a0ccb75dcb92"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 0.9800 mm",
+                    "pos": {
+                        "x": 132.37,
+                        "y": 91.13
+                    },
+                    "uuid": "769c9416-2b98-46e3-a2ce-26f28d4b16af"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 0.4243 mm",
+                    "pos": {
+                        "x": 128.6,
+                        "y": 87.4
+                    },
+                    "uuid": "89b9d501-60a8-4cb8-925e-f1f03c6a4ab4"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 5.5000 mm",
+                    "pos": {
+                        "x": 151.887919,
+                        "y": 87.600303
+                    },
+                    "uuid": "8b46d4e7-4cdb-4c83-8e4d-a755c3588fea"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 1.6263 mm",
+                    "pos": {
+                        "x": 140.57675,
+                        "y": 105.24555
+                    },
+                    "uuid": "90aa5024-98be-4403-9b23-ffbdbc15090f"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 2.4042 mm",
+                    "pos": {
+                        "x": 159.2,
+                        "y": 99.0
+                    },
+                    "uuid": "949d57ab-9bc3-415f-aa46-3225b810c0ed"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 2.8284 mm",
+                    "pos": {
+                        "x": 149.887919,
+                        "y": 85.600303
+                    },
+                    "uuid": "ab92ba64-5333-4496-93e1-e8e1f2a5be94"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.2000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 0.6000 mm",
+                    "pos": {
+                        "x": 138.5893,
+                        "y": 90.14
+                    },
+                    "uuid": "d54cce54-be36-454f-b26a-c707db676ad4"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 1.0000 mm",
+                    "pos": {
+                        "x": 128.9,
+                        "y": 87.7
+                    },
+                    "uuid": "dad38775-dc56-4e81-a847-05676fa46ebb"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 0.7935 mm",
+                    "pos": {
+                        "x": 146.0836,
+                        "y": 140.9634
+                    },
+                    "uuid": "e701595c-f935-4d42-a522-eb230b1c870c"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 2.5456 mm",
+                    "pos": {
+                        "x": 157.387919,
+                        "y": 87.600303
+                    },
+                    "uuid": "ee35133c-539f-460b-b1d9-f388fc9e7a8f"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 3.4082 mm",
+                    "pos": {
+                        "x": 133.35,
+                        "y": 91.13
+                    },
+                    "uuid": "ee54afac-b463-421d-bb88-b4a69ab5418a"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 3.1113 mm",
+                    "pos": {
+                        "x": 129.9,
+                        "y": 87.7
+                    },
+                    "uuid": "f63a16c9-7471-4596-a7ee-3cd07a1b5638"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 0.4950 mm",
+                    "pos": {
+                        "x": 138.877164,
+                        "y": 87.570062
+                    },
+                    "uuid": "f6a4fda8-c9e0-4a57-8522-314f79b575df"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 0.4243 mm",
+                    "pos": {
+                        "x": 132.07,
+                        "y": 90.83
+                    },
+                    "uuid": "f8b24e23-81ff-4871-81c6-4781f8e55d9e"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_D] on In3.Cu, length 1.2000 mm",
+                    "pos": {
+                        "x": 146.6536,
+                        "y": 141.5154
+                    },
+                    "uuid": "fb8999b2-0e92-4767-8ee1-f23aeb1bf002"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_UI] on In3.Cu, length 1.0445 mm",
+                    "pos": {
+                        "x": 137.7536,
+                        "y": 124.4
+                    },
+                    "uuid": "0618bd78-3477-4ec9-99da-322d861f5a36"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_UI] on In3.Cu, length 0.4950 mm",
+                    "pos": {
+                        "x": 140.04959,
+                        "y": 126.6434
+                    },
+                    "uuid": "2a9804f5-b76a-42f4-b44d-07493d4867e8"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_UI] on In3.Cu, length 4.8790 mm",
+                    "pos": {
+                        "x": 150.94222,
+                        "y": 117.401561
+                    },
+                    "uuid": "63a211b9-ee3b-4276-b022-3f379d5d33da"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_UI] on In3.Cu, length 1.2922 mm",
+                    "pos": {
+                        "x": 140.04959,
+                        "y": 127.93559
+                    },
+                    "uuid": "83f07377-ce05-4469-969b-5a6f150d71d4"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_UI] on In3.Cu, length 3.4648 mm",
+                    "pos": {
+                        "x": 134.44959,
+                        "y": 126.13559
+                    },
+                    "uuid": "b76f5572-ba6c-4dfa-9b14-1669f9510373"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_UI] on In3.Cu, length 1.0607 mm",
+                    "pos": {
+                        "x": 150.19222,
+                        "y": 124.051561
+                    },
+                    "uuid": "b8c71d36-1409-4d38-88b1-1d456713e112"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_UI] on In3.Cu, length 1.8614 mm",
+                    "pos": {
+                        "x": 137.015,
+                        "y": 123.6614
+                    },
+                    "uuid": "bbdb9e5f-e308-4e39-a519-9e5b5f2dab78"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_UI] on In3.Cu, length 0.8485 mm",
+                    "pos": {
+                        "x": 139.44959,
+                        "y": 128.53559
+                    },
+                    "uuid": "bc1fba1f-1e98-49e0-b672-2e6cb59259a3"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_UI] on In3.Cu, length 1.0500 mm",
+                    "pos": {
+                        "x": 134.44959,
+                        "y": 125.08559
+                    },
+                    "uuid": "da362a8a-c11e-41c6-afb6-c6617b915922"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_UI] on In3.Cu, length 5.9000 mm",
+                    "pos": {
+                        "x": 150.94222,
+                        "y": 123.301561
+                    },
+                    "uuid": "dac6bc4c-ee95-4f81-947e-af603a13eae0"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_UI] on In3.Cu, length 4.5640 mm",
+                    "pos": {
+                        "x": 140.39959,
+                        "y": 126.2934
+                    },
+                    "uuid": "dfedce87-4ca4-455f-8d86-ba119c023cea"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_UI] on In3.Cu, length 0.6000 mm",
+                    "pos": {
+                        "x": 150.19222,
+                        "y": 124.651561
+                    },
+                    "uuid": "e830174c-0a98-4c62-8a3e-8c1f7da06584"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_UI] on In3.Cu, length 0.4950 mm",
+                    "pos": {
+                        "x": 144.9636,
+                        "y": 126.2934
+                    },
+                    "uuid": "eb7e4349-a8c6-466b-abfd-0d77b290c174"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.2000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_EXP] on In3.Cu, length 0.1500 mm",
+                    "pos": {
+                        "x": 123.4406,
+                        "y": 135.8934
+                    },
+                    "uuid": "c7a7473c-6aca-469d-b852-2918914d21c1"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track width (rule 'v11_in3_power_digital_width' min width 0.4000 mm; actual 0.3000 mm)",
+            "items": [
+                {
+                    "description": "Track [+3V3_EXP] on In3.Cu, length 0.9500 mm",
+                    "pos": {
+                        "x": 123.4406,
+                        "y": 136.8434
+                    },
+                    "uuid": "df16dc81-2167-44e5-bba4-5503e5022547"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_width"
+        },
+        {
+            "description": "Track segment length (rule 'v7_geom_smooth_critical' min length 0.1 mm; actual 0.099999 mm)",
+            "items": [
+                {
+                    "description": "Track [EXP_MISO_MCU] on F.Cu, length 0.1000 mm",
+                    "pos": {
+                        "x": 126.179922,
+                        "y": 91.223722
+                    },
+                    "uuid": "6b96cab7-26f9-403a-b801-67df1ee1fa22"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_segment_length"
+        },
+        {
+            "description": "Track segment length (rule 'v7_geom_smooth_critical' min length 0.1000 mm; actual 0.0500 mm)",
+            "items": [
+                {
+                    "description": "Track [Net-(U8-PC15)] on B.Cu, length 0.0500 mm",
+                    "pos": {
+                        "x": 140.8036,
+                        "y": 98.8434
+                    },
+                    "uuid": "53494da5-46af-475b-a321-2196c1f0599a"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_segment_length"
+        },
+        {
+            "description": "Track segment length (rule 'v7_geom_smooth_critical' min length 0.1000 mm; actual 0.0968 mm)",
+            "items": [
+                {
+                    "description": "Track [ADC_VENV] on F.Cu, length 0.0968 mm",
+                    "pos": {
+                        "x": 139.6746,
+                        "y": 81.0006
+                    },
+                    "uuid": "d738223e-dd0e-4396-9f32-735f54d62327"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_segment_length"
+        },
+        {
+            "description": "Track segment length (rule 'v7_geom_smooth_critical' min length 0.1000 mm; actual 0.0788 mm)",
+            "items": [
+                {
+                    "description": "Track [ADC_VENV] on F.Cu, length 0.0788 mm",
+                    "pos": {
+                        "x": 138.3564,
+                        "y": 86.8172
+                    },
+                    "uuid": "e8fcea6d-2b06-463f-8a1e-89e5e1134adf"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_segment_length"
+        },
+        {
+            "description": "Track segment length (rule 'v7_geom_smooth_critical' min length 0.1000 mm; actual 0.0500 mm)",
+            "items": [
+                {
+                    "description": "Track [/Screen and controls/LCD_D4] on In3.Cu, length 0.0500 mm",
+                    "pos": {
+                        "x": 144.3036,
+                        "y": 124.3234
+                    },
+                    "uuid": "58b43bc4-ae08-40b3-93d9-53b696ad7a1c"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_segment_length"
+        },
+        {
+            "description": "Track segment length (rule 'v7_geom_smooth_critical' min length 0.1000 mm; actual 0.0345 mm)",
+            "items": [
+                {
+                    "description": "Track [/External ADC/ADC_REFCAP] on F.Cu, length 0.0345 mm",
+                    "pos": {
+                        "x": 134.8,
+                        "y": 82.5
+                    },
+                    "uuid": "f81f153c-3b63-463c-84bb-c0d8f75aff9c"
+                }
+            ],
+            "severity": "warning",
+            "type": "track_segment_length"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Polygon of U301 on F.Silkscreen",
+                    "pos": {
+                        "x": 143.205475,
+                        "y": 114.404973
+                    },
+                    "uuid": "3d93fdc4-7636-46d6-bcd7-0d74a664677d"
+                },
+                {
+                    "description": "Segment of C309 on F.Silkscreen",
+                    "pos": {
+                        "x": 143.450764,
+                        "y": 114.5834
+                    },
+                    "uuid": "7bff4f13-c444-42c0-a936-fa550ca3b840"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Polygon of U2 on F.Silkscreen",
+                    "pos": {
+                        "x": 139.5186,
+                        "y": 65.3044
+                    },
+                    "uuid": "6efc6702-ba75-4265-9aec-958e90222db1"
+                },
+                {
+                    "description": "Pad 2 [GND] of D1 on F.Cu",
+                    "pos": {
+                        "x": 139.4186,
+                        "y": 64.9454
+                    },
+                    "uuid": "7f78edf3-e8d3-4d4d-bbf6-275af9076f5e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Polygon of U302 on F.Silkscreen",
+                    "pos": {
+                        "x": 157.4636,
+                        "y": 126.0634
+                    },
+                    "uuid": "d88de52f-e990-4cb8-b16e-cf46c7f96558"
+                },
+                {
+                    "description": "Pad 2 [/Battery, charger and USB-C/B_VC1] of R316 on F.Cu",
+                    "pos": {
+                        "x": 156.9786,
+                        "y": 126.1634
+                    },
+                    "uuid": "abc3b848-9511-4559-97a2-5d556f2e2056"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Polygon of U13 on F.Silkscreen",
+                    "pos": {
+                        "x": 138.3236,
+                        "y": 83.9934
+                    },
+                    "uuid": "1242bd39-e006-4b11-8774-f150bd97aeb7"
+                },
+                {
+                    "description": "Pad 1 [Net-(U13-REGCAP)] of C106 on F.Cu",
+                    "pos": {
+                        "x": 139.036,
+                        "y": 83.4634
+                    },
+                    "uuid": "a9d0229f-400f-4353-9281-1fd94d9737d4"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Polygon of U301 on F.Silkscreen",
+                    "pos": {
+                        "x": 143.205475,
+                        "y": 114.404973
+                    },
+                    "uuid": "3d93fdc4-7636-46d6-bcd7-0d74a664677d"
+                },
+                {
+                    "description": "Pad 1 [Net-(U301-PMID)] of C309 on F.Cu",
+                    "pos": {
+                        "x": 143.0786,
+                        "y": 114.9434
+                    },
+                    "uuid": "9e3d2d1b-9f2b-473c-9127-6bd317df95a9"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Track length out of range (rule 'len_source_stubs' max length 3.0000 mm; actual 4.6681 mm)",
+            "items": [
+                {
+                    "description": "Pad 58 [PSRAM_IO0_MCU] of U8 on F.Cu",
+                    "pos": {
+                        "x": 126.9226,
+                        "y": 93.8164
+                    },
+                    "uuid": "c49721c5-4abf-4e7b-a073-cba7bc7cac4c"
+                },
+                {
+                    "description": "Pad 1 [PSRAM_IO0_MCU] of RN60 on B.Cu",
+                    "pos": {
+                        "x": 124.0,
+                        "y": 93.3164
+                    },
+                    "uuid": "5f922ec6-b461-48bb-bd80-954235ebd8a5"
+                }
+            ],
+            "severity": "warning",
+            "type": "length_out_of_range"
+        },
+        {
+            "description": "Track length out of range (rule 'len_source_stubs' max length 3.0000 mm; actual 3.7110 mm)",
+            "items": [
+                {
+                    "description": "Pad 59 [PSRAM_IO1_MCU] of U8 on F.Cu",
+                    "pos": {
+                        "x": 126.9226,
+                        "y": 94.3164
+                    },
+                    "uuid": "4e429c4f-0c58-4ffe-9c8f-5936bca32e57"
+                },
+                {
+                    "description": "Pad 3 [PSRAM_IO1_MCU] of RN60 on B.Cu",
+                    "pos": {
+                        "x": 124.0,
+                        "y": 94.3164
+                    },
+                    "uuid": "37459a45-7fa9-4b25-b41e-7e63b6b6796c"
+                }
+            ],
+            "severity": "warning",
+            "type": "length_out_of_range"
+        },
+        {
+            "description": "Track length out of range (rule 'len_source_stubs' max length 3.0000 mm; actual 5.0217 mm)",
+            "items": [
+                {
+                    "description": "Pad 60 [PSRAM_IO3_MCU] of U8 on F.Cu",
+                    "pos": {
+                        "x": 126.9226,
+                        "y": 94.8164
+                    },
+                    "uuid": "53a26bce-b4ad-4d63-ba1a-e2e15875074d"
+                },
+                {
+                    "description": "Pad 2 [PSRAM_IO3_MCU] of RN60 on B.Cu",
+                    "pos": {
+                        "x": 124.0,
+                        "y": 93.8164
+                    },
+                    "uuid": "bcd16b28-28e9-46ca-a1a0-06f43ed13e10"
+                }
+            ],
+            "severity": "warning",
+            "type": "length_out_of_range"
+        },
+        {
+            "description": "Skew between tracks out of range (rule 'skew_venv_eref' max skew 2.0000 mm; actual -2.2109 mm; target net length 14.5735 mm (from ADC_EREF); actual 12.3626 mm)",
+            "items": [
+                {
+                    "description": "Track [ADC_VENV] on F.Cu, length 0.0968 mm",
+                    "pos": {
+                        "x": 139.6746,
+                        "y": 81.0006
+                    },
+                    "uuid": "d738223e-dd0e-4396-9f32-735f54d62327"
+                }
+            ],
+            "severity": "warning",
+            "type": "skew_out_of_range"
+        }
+    ]
+}
