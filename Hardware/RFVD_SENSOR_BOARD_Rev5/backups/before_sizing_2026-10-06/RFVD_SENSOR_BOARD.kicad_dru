@@ -129,60 +129,33 @@
 (rule "w_buck_sw_neck__F"
    (layer "F.Cu")
    (condition "A.hasNetclass('Power_Buck_SW') && (((A.Type == 'Via' && A.intersectsCourtyard('U6')) || A.intersectsCourtyard('U6')) || ((A.Type == 'Via' && A.intersectsCourtyard('C35')) || A.intersectsCourtyard('C35')))")
-   (constraint track_width (min 0.2mm) (opt 0.2mm)))
+   (constraint track_width (min 0.2mm) (opt 0.35mm)))
 (rule "w_buck_sw_neck__B"
    (layer "B.Cu")
    (condition "A.hasNetclass('Power_Buck_SW') && (((A.Type == 'Via' && A.intersectsCourtyard('U6'))) || ((A.Type == 'Via' && A.intersectsCourtyard('C35'))))")
-   (constraint track_width (min 0.2mm) (opt 0.2mm)))
+   (constraint track_width (min 0.2mm) (opt 0.35mm)))
 (rule "w_buck_sw_neck__I"
    (layer inner)
    (condition "A.hasNetclass('Power_Buck_SW') && ((A.Type == 'Via' && A.intersectsCourtyard('U6')) || (A.Type == 'Via' && A.intersectsCourtyard('C35')))")
-   (constraint track_width (min 0.2mm) (opt 0.2mm)))
+   (constraint track_width (min 0.2mm) (opt 0.35mm)))
 
 (rule "w_gnd"
    (condition "A.hasNetclass('Ground')")
    (constraint track_width (min 0.2mm) (opt 0.4mm)))
 
-# ======================================================================= v12 current-based widths (2026-10-06)
-# One width per net from the current it really carries, not one width per class. opt = the router's width = IPC-2221
-# external width for a 10 C rise on 1 oz outer copper; min = 20 C rise (short necks), never below 0.15 mm.
-# Currents (project documents): IINDPM <= 2 A and ICHG <= 1 A (FIRMWARE_CONTRACT), F1 hold 1.5 A, VSYS <= 1.5 A
-# (EXP_VHP eFuse 0.613 A + buck input + LT3045 + backlight), U401 +3V3_EXP 638 mA, U402 EXP_VHP 0.613 A,
-# U10 +3V3_UI 303 mA max (load <= 38 mA), LT3045 +5V_A 150 mA. +3V3_D (<= 1.2 A) keeps w_power_digital 0.3 / 0.5.
-# Placed before the neck-down rules so that those still win inside IC / J11 / charger-cap courtyards. The U6/C35
-# SW necks (w_buck_sw_neck) come earlier in the file, so v12_w_u6_sw excludes those two courtyards itself.
-(rule v12_w_2a_input
-   (condition "A.NetName == 'VBUS' || A.NetName == 'Net-(U301-PMID)'")
-   (constraint track_width (min 0.5mm) (opt 0.8mm)))
-(rule v12_w_1a5_battery_vsys
-   (condition "A.NetName == '/Battery, charger and USB-C/CHG_BAT' || A.NetName == 'VBAT_PACK' || A.NetName == '/Battery, charger and USB-C/PACK_FUSED' || A.NetName == '/Battery, charger and USB-C/PACK_RAW' || A.NetName == 'VSYS'")
-   (constraint track_width (min 0.4mm) (opt 0.6mm)))
-(rule v12_w_u6_sw
-   (condition "(A.NetName == 'Net-(U6-SW)') && !A.intersectsCourtyard('U6') && !A.intersectsCourtyard('C35')")
-   (constraint track_width (min 0.4mm) (opt 0.6mm)))
-(rule v12_w_650ma
-   (condition "A.NetName == '+3V3_EXP' || A.NetName == 'EXP_VHP'")
-   (constraint track_width (min 0.2mm) (opt 0.3mm)))
-(rule v12_w_300ma
-   (condition "A.NetName == '/SD and capture memory/+3V3_SD' || A.NetName == '+5V_A' || A.NetName == '+3V3_A' || A.NetName == '/Battery and power/VSYS_LDO' || A.NetName == '/STM32H743 controller/VCAP'")
-   (constraint track_width (min 0.2mm) (opt 0.3mm)))
-(rule v12_w_50ma
-   (condition "A.NetName == '+3V3_UI' || A.NetName == '/RF input and detector/+5V_RF' || A.NetName == 'VBAT_RTC' || A.NetName == '/External ADC/ADC_VLOGIC' || A.NetName == 'Net-(U13-REGCAP)' || A.NetName == '/Battery and power/A3V3_DAMP'")
-   (constraint track_width (min 0.15mm) (opt 0.25mm)))
-
 # Neck-down inside IC courtyards (LQFP 0.30, LFCSP 0.25, MSOP 0.40, VQFN-HR 0.225 mm pads)
 (rule "w_power_neckdown_in_ic__F"
    (layer "F.Cu")
    (condition "(A.hasNetclass('Power_Digital') || A.hasNetclass('Power_Analog') || A.hasNetclass('Power_Battery') || A.hasNetclass('Ground') || A.hasNetclass('Ref_Kelvin')) && ((A.Type == 'Via' && A.intersectsCourtyard('U*')) || A.intersectsCourtyard('U1') || A.intersectsCourtyard('U10') || A.intersectsCourtyard('U11') || A.intersectsCourtyard('U13') || A.intersectsCourtyard('U2') || A.intersectsCourtyard('U3') || A.intersectsCourtyard('U301') || A.intersectsCourtyard('U302') || A.intersectsCourtyard('U303') || A.intersectsCourtyard('U4') || A.intersectsCourtyard('U402') || A.intersectsCourtyard('U403') || A.intersectsCourtyard('U5') || A.intersectsCourtyard('U6') || A.intersectsCourtyard('U7') || A.intersectsCourtyard('U702') || A.intersectsCourtyard('U8') || A.intersectsCourtyard('U9'))")
-   (constraint track_width (min 0.2mm) (opt 0.2mm)))
+   (constraint track_width (min 0.2mm) (opt 0.3mm)))
 (rule "w_power_neckdown_in_ic__B"
    (layer "B.Cu")
    (condition "(A.hasNetclass('Power_Digital') || A.hasNetclass('Power_Analog') || A.hasNetclass('Power_Battery') || A.hasNetclass('Ground') || A.hasNetclass('Ref_Kelvin')) && ((A.Type == 'Via' && A.intersectsCourtyard('U*')) || A.intersectsCourtyard('U304') || A.intersectsCourtyard('U401') || A.intersectsCourtyard('U701') || A.intersectsCourtyard('U901'))")
-   (constraint track_width (min 0.2mm) (opt 0.2mm)))
+   (constraint track_width (min 0.2mm) (opt 0.3mm)))
 (rule "w_power_neckdown_in_ic__I"
    (layer inner)
    (condition "(A.hasNetclass('Power_Digital') || A.hasNetclass('Power_Analog') || A.hasNetclass('Power_Battery') || A.hasNetclass('Ground') || A.hasNetclass('Ref_Kelvin')) && (A.Type == 'Via' && A.intersectsCourtyard('U*'))")
-   (constraint track_width (min 0.2mm) (opt 0.2mm)))
+   (constraint track_width (min 0.2mm) (opt 0.3mm)))
 
 # BOOT sits in the switching class for spacing but carries only gate-drive charge
 (rule "w_buck_boot"
@@ -193,15 +166,15 @@
 # High-speed track/via to other signal copper >= 0.20 mm (fan-out inside IC courtyards exempt)
 (rule "sp_highspeed_to_signal__F"
    (layer "F.Cu")
-   (condition "A.hasNetclass('HighSpeed_*') && A.Type != 'Pad' && B.Type != 'Zone' && !B.hasNetclass('Ground') && !(B.NetName == 'unconnected-*') && !((A.Type == 'Via' && A.intersectsCourtyard('U*')) || A.intersectsCourtyard('U1') || A.intersectsCourtyard('U10') || A.intersectsCourtyard('U11') || A.intersectsCourtyard('U13') || A.intersectsCourtyard('U2') || A.intersectsCourtyard('U3') || A.intersectsCourtyard('U301') || A.intersectsCourtyard('U302') || A.intersectsCourtyard('U303') || A.intersectsCourtyard('U4') || A.intersectsCourtyard('U402') || A.intersectsCourtyard('U403') || A.intersectsCourtyard('U5') || A.intersectsCourtyard('U6') || A.intersectsCourtyard('U7') || A.intersectsCourtyard('U702') || A.intersectsCourtyard('U8') || A.intersectsCourtyard('U9')) && !((B.Type == 'Via' && B.intersectsCourtyard('U*')) || B.intersectsCourtyard('U1') || B.intersectsCourtyard('U10') || B.intersectsCourtyard('U11') || B.intersectsCourtyard('U13') || B.intersectsCourtyard('U2') || B.intersectsCourtyard('U3') || B.intersectsCourtyard('U301') || B.intersectsCourtyard('U302') || B.intersectsCourtyard('U303') || B.intersectsCourtyard('U4') || B.intersectsCourtyard('U402') || B.intersectsCourtyard('U403') || B.intersectsCourtyard('U5') || B.intersectsCourtyard('U6') || B.intersectsCourtyard('U7') || B.intersectsCourtyard('U702') || B.intersectsCourtyard('U8') || B.intersectsCourtyard('U9')) && B.Type != 'Pad'")
+   (condition "A.hasNetclass('HighSpeed_*') && A.Type != 'Pad' && B.Type != 'Zone' && !B.hasNetclass('Ground') && !(B.NetName == 'unconnected-*') && !((A.Type == 'Via' && A.intersectsCourtyard('U*')) || A.intersectsCourtyard('U1') || A.intersectsCourtyard('U10') || A.intersectsCourtyard('U11') || A.intersectsCourtyard('U13') || A.intersectsCourtyard('U2') || A.intersectsCourtyard('U3') || A.intersectsCourtyard('U301') || A.intersectsCourtyard('U302') || A.intersectsCourtyard('U303') || A.intersectsCourtyard('U4') || A.intersectsCourtyard('U402') || A.intersectsCourtyard('U403') || A.intersectsCourtyard('U5') || A.intersectsCourtyard('U6') || A.intersectsCourtyard('U7') || A.intersectsCourtyard('U702') || A.intersectsCourtyard('U8') || A.intersectsCourtyard('U9')) && !((B.Type == 'Via' && B.intersectsCourtyard('U*')) || B.intersectsCourtyard('U1') || B.intersectsCourtyard('U10') || B.intersectsCourtyard('U11') || B.intersectsCourtyard('U13') || B.intersectsCourtyard('U2') || B.intersectsCourtyard('U3') || B.intersectsCourtyard('U301') || B.intersectsCourtyard('U302') || B.intersectsCourtyard('U303') || B.intersectsCourtyard('U4') || B.intersectsCourtyard('U402') || B.intersectsCourtyard('U403') || B.intersectsCourtyard('U5') || B.intersectsCourtyard('U6') || B.intersectsCourtyard('U7') || B.intersectsCourtyard('U702') || B.intersectsCourtyard('U8') || B.intersectsCourtyard('U9'))")
    (constraint clearance (min 0.2mm)))
 (rule "sp_highspeed_to_signal__B"
    (layer "B.Cu")
-   (condition "A.hasNetclass('HighSpeed_*') && A.Type != 'Pad' && B.Type != 'Zone' && !B.hasNetclass('Ground') && !(B.NetName == 'unconnected-*') && !((A.Type == 'Via' && A.intersectsCourtyard('U*')) || A.intersectsCourtyard('U304') || A.intersectsCourtyard('U401') || A.intersectsCourtyard('U701') || A.intersectsCourtyard('U901')) && !((B.Type == 'Via' && B.intersectsCourtyard('U*')) || B.intersectsCourtyard('U304') || B.intersectsCourtyard('U401') || B.intersectsCourtyard('U701') || B.intersectsCourtyard('U901')) && B.Type != 'Pad'")
+   (condition "A.hasNetclass('HighSpeed_*') && A.Type != 'Pad' && B.Type != 'Zone' && !B.hasNetclass('Ground') && !(B.NetName == 'unconnected-*') && !((A.Type == 'Via' && A.intersectsCourtyard('U*')) || A.intersectsCourtyard('U304') || A.intersectsCourtyard('U401') || A.intersectsCourtyard('U701') || A.intersectsCourtyard('U901')) && !((B.Type == 'Via' && B.intersectsCourtyard('U*')) || B.intersectsCourtyard('U304') || B.intersectsCourtyard('U401') || B.intersectsCourtyard('U701') || B.intersectsCourtyard('U901'))")
    (constraint clearance (min 0.2mm)))
 (rule "sp_highspeed_to_signal__I"
    (layer inner)
-   (condition "A.hasNetclass('HighSpeed_*') && A.Type != 'Pad' && B.Type != 'Zone' && !B.hasNetclass('Ground') && !(B.NetName == 'unconnected-*') && !(A.Type == 'Via' && A.intersectsCourtyard('U*')) && !(B.Type == 'Via' && B.intersectsCourtyard('U*')) && B.Type != 'Pad'")
+   (condition "A.hasNetclass('HighSpeed_*') && A.Type != 'Pad' && B.Type != 'Zone' && !B.hasNetclass('Ground') && !(B.NetName == 'unconnected-*') && !(A.Type == 'Via' && A.intersectsCourtyard('U*')) && !(B.Type == 'Via' && B.intersectsCourtyard('U*'))")
    (constraint clearance (min 0.2mm)))
 
 # Clocks: 3W (3 x 0.15 mm centre spacing -> 0.30 mm edge gap)
@@ -210,15 +183,15 @@
 # RN203 0.275 mm, J4 0.300 mm (zero margin), so 0.30 mm cannot be met at these pins.
 (rule "sp_clock_3w__F"
    (layer "F.Cu")
-   (condition "A.hasNetclass('HighSpeed_Clock') && A.Type != 'Pad' && B.Type != 'Zone' && !B.hasNetclass('Ground') && !(B.NetName == 'unconnected-*') && !((A.Type == 'Via' && A.intersectsCourtyard('U*')) || A.intersectsCourtyard('U1') || A.intersectsCourtyard('U10') || A.intersectsCourtyard('U11') || A.intersectsCourtyard('U13') || A.intersectsCourtyard('U2') || A.intersectsCourtyard('U3') || A.intersectsCourtyard('U301') || A.intersectsCourtyard('U302') || A.intersectsCourtyard('U303') || A.intersectsCourtyard('U4') || A.intersectsCourtyard('U402') || A.intersectsCourtyard('U403') || A.intersectsCourtyard('U5') || A.intersectsCourtyard('U6') || A.intersectsCourtyard('U7') || A.intersectsCourtyard('U702') || A.intersectsCourtyard('U8') || A.intersectsCourtyard('U9')) && !((B.Type == 'Via' && B.intersectsCourtyard('U*')) || B.intersectsCourtyard('U1') || B.intersectsCourtyard('U10') || B.intersectsCourtyard('U11') || B.intersectsCourtyard('U13') || B.intersectsCourtyard('U2') || B.intersectsCourtyard('U3') || B.intersectsCourtyard('U301') || B.intersectsCourtyard('U302') || B.intersectsCourtyard('U303') || B.intersectsCourtyard('U4') || B.intersectsCourtyard('U402') || B.intersectsCourtyard('U403') || B.intersectsCourtyard('U5') || B.intersectsCourtyard('U6') || B.intersectsCourtyard('U7') || B.intersectsCourtyard('U702') || B.intersectsCourtyard('U8') || B.intersectsCourtyard('U9')) && !((A.Type == 'Via' && A.intersectsCourtyard('J4')) || A.intersectsCourtyard('J4')) && !((B.Type == 'Via' && B.intersectsCourtyard('J4')) || B.intersectsCourtyard('J4')) && !((A.Type == 'Via' && A.intersectsCourtyard('J11'))) && !((B.Type == 'Via' && B.intersectsCourtyard('J11'))) && !((A.Type == 'Via' && A.intersectsCourtyard('D401'))) && !((B.Type == 'Via' && B.intersectsCourtyard('D401'))) && !((A.Type == 'Via' && A.intersectsCourtyard('RN203'))) && !((B.Type == 'Via' && B.intersectsCourtyard('RN203'))) && B.Type != 'Pad'")
+   (condition "A.hasNetclass('HighSpeed_Clock') && A.Type != 'Pad' && B.Type != 'Zone' && !B.hasNetclass('Ground') && !(B.NetName == 'unconnected-*') && !((A.Type == 'Via' && A.intersectsCourtyard('U*')) || A.intersectsCourtyard('U1') || A.intersectsCourtyard('U10') || A.intersectsCourtyard('U11') || A.intersectsCourtyard('U13') || A.intersectsCourtyard('U2') || A.intersectsCourtyard('U3') || A.intersectsCourtyard('U301') || A.intersectsCourtyard('U302') || A.intersectsCourtyard('U303') || A.intersectsCourtyard('U4') || A.intersectsCourtyard('U402') || A.intersectsCourtyard('U403') || A.intersectsCourtyard('U5') || A.intersectsCourtyard('U6') || A.intersectsCourtyard('U7') || A.intersectsCourtyard('U702') || A.intersectsCourtyard('U8') || A.intersectsCourtyard('U9')) && !((B.Type == 'Via' && B.intersectsCourtyard('U*')) || B.intersectsCourtyard('U1') || B.intersectsCourtyard('U10') || B.intersectsCourtyard('U11') || B.intersectsCourtyard('U13') || B.intersectsCourtyard('U2') || B.intersectsCourtyard('U3') || B.intersectsCourtyard('U301') || B.intersectsCourtyard('U302') || B.intersectsCourtyard('U303') || B.intersectsCourtyard('U4') || B.intersectsCourtyard('U402') || B.intersectsCourtyard('U403') || B.intersectsCourtyard('U5') || B.intersectsCourtyard('U6') || B.intersectsCourtyard('U7') || B.intersectsCourtyard('U702') || B.intersectsCourtyard('U8') || B.intersectsCourtyard('U9')) && !((A.Type == 'Via' && A.intersectsCourtyard('J4')) || A.intersectsCourtyard('J4')) && !((B.Type == 'Via' && B.intersectsCourtyard('J4')) || B.intersectsCourtyard('J4')) && !((A.Type == 'Via' && A.intersectsCourtyard('J11'))) && !((B.Type == 'Via' && B.intersectsCourtyard('J11'))) && !((A.Type == 'Via' && A.intersectsCourtyard('D401'))) && !((B.Type == 'Via' && B.intersectsCourtyard('D401'))) && !((A.Type == 'Via' && A.intersectsCourtyard('RN203'))) && !((B.Type == 'Via' && B.intersectsCourtyard('RN203')))")
    (constraint clearance (min 0.3mm)))
 (rule "sp_clock_3w__B"
    (layer "B.Cu")
-   (condition "A.hasNetclass('HighSpeed_Clock') && A.Type != 'Pad' && B.Type != 'Zone' && !B.hasNetclass('Ground') && !(B.NetName == 'unconnected-*') && !((A.Type == 'Via' && A.intersectsCourtyard('U*')) || A.intersectsCourtyard('U304') || A.intersectsCourtyard('U401') || A.intersectsCourtyard('U701') || A.intersectsCourtyard('U901')) && !((B.Type == 'Via' && B.intersectsCourtyard('U*')) || B.intersectsCourtyard('U304') || B.intersectsCourtyard('U401') || B.intersectsCourtyard('U701') || B.intersectsCourtyard('U901')) && !((A.Type == 'Via' && A.intersectsCourtyard('J4'))) && !((B.Type == 'Via' && B.intersectsCourtyard('J4'))) && !((A.Type == 'Via' && A.intersectsCourtyard('J11')) || A.intersectsCourtyard('J11')) && !((B.Type == 'Via' && B.intersectsCourtyard('J11')) || B.intersectsCourtyard('J11')) && !((A.Type == 'Via' && A.intersectsCourtyard('D401')) || A.intersectsCourtyard('D401')) && !((B.Type == 'Via' && B.intersectsCourtyard('D401')) || B.intersectsCourtyard('D401')) && !((A.Type == 'Via' && A.intersectsCourtyard('RN203')) || A.intersectsCourtyard('RN203')) && !((B.Type == 'Via' && B.intersectsCourtyard('RN203')) || B.intersectsCourtyard('RN203')) && B.Type != 'Pad'")
+   (condition "A.hasNetclass('HighSpeed_Clock') && A.Type != 'Pad' && B.Type != 'Zone' && !B.hasNetclass('Ground') && !(B.NetName == 'unconnected-*') && !((A.Type == 'Via' && A.intersectsCourtyard('U*')) || A.intersectsCourtyard('U304') || A.intersectsCourtyard('U401') || A.intersectsCourtyard('U701') || A.intersectsCourtyard('U901')) && !((B.Type == 'Via' && B.intersectsCourtyard('U*')) || B.intersectsCourtyard('U304') || B.intersectsCourtyard('U401') || B.intersectsCourtyard('U701') || B.intersectsCourtyard('U901')) && !((A.Type == 'Via' && A.intersectsCourtyard('J4'))) && !((B.Type == 'Via' && B.intersectsCourtyard('J4'))) && !((A.Type == 'Via' && A.intersectsCourtyard('J11')) || A.intersectsCourtyard('J11')) && !((B.Type == 'Via' && B.intersectsCourtyard('J11')) || B.intersectsCourtyard('J11')) && !((A.Type == 'Via' && A.intersectsCourtyard('D401')) || A.intersectsCourtyard('D401')) && !((B.Type == 'Via' && B.intersectsCourtyard('D401')) || B.intersectsCourtyard('D401')) && !((A.Type == 'Via' && A.intersectsCourtyard('RN203')) || A.intersectsCourtyard('RN203')) && !((B.Type == 'Via' && B.intersectsCourtyard('RN203')) || B.intersectsCourtyard('RN203'))")
    (constraint clearance (min 0.3mm)))
 (rule "sp_clock_3w__I"
    (layer inner)
-   (condition "A.hasNetclass('HighSpeed_Clock') && A.Type != 'Pad' && B.Type != 'Zone' && !B.hasNetclass('Ground') && !(B.NetName == 'unconnected-*') && !(A.Type == 'Via' && A.intersectsCourtyard('U*')) && !(B.Type == 'Via' && B.intersectsCourtyard('U*')) && !(A.Type == 'Via' && A.intersectsCourtyard('J4')) && !(B.Type == 'Via' && B.intersectsCourtyard('J4')) && !(A.Type == 'Via' && A.intersectsCourtyard('J11')) && !(B.Type == 'Via' && B.intersectsCourtyard('J11')) && !(A.Type == 'Via' && A.intersectsCourtyard('D401')) && !(B.Type == 'Via' && B.intersectsCourtyard('D401')) && !(A.Type == 'Via' && A.intersectsCourtyard('RN203')) && !(B.Type == 'Via' && B.intersectsCourtyard('RN203')) && B.Type != 'Pad'")
+   (condition "A.hasNetclass('HighSpeed_Clock') && A.Type != 'Pad' && B.Type != 'Zone' && !B.hasNetclass('Ground') && !(B.NetName == 'unconnected-*') && !(A.Type == 'Via' && A.intersectsCourtyard('U*')) && !(B.Type == 'Via' && B.intersectsCourtyard('U*')) && !(A.Type == 'Via' && A.intersectsCourtyard('J4')) && !(B.Type == 'Via' && B.intersectsCourtyard('J4')) && !(A.Type == 'Via' && A.intersectsCourtyard('J11')) && !(B.Type == 'Via' && B.intersectsCourtyard('J11')) && !(A.Type == 'Via' && A.intersectsCourtyard('D401')) && !(B.Type == 'Via' && B.intersectsCourtyard('D401')) && !(A.Type == 'Via' && A.intersectsCourtyard('RN203')) && !(B.Type == 'Via' && B.intersectsCourtyard('RN203'))")
    (constraint clearance (min 0.3mm)))
 
 # SW/BOOT copper to other signal tracks/vias >= 0.5 mm. Excluded victims: GND, battery, +3V3_D and U6's
@@ -276,57 +249,57 @@
 # touching the U2 / U8 / U13 courtyards (0.5 mm-pitch fan-out). Elsewhere the router enforces the gap.
 (rule "sp_analog_to_default_digital__F"
    (layer "F.Cu")
-   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasExactNetclass('Default') && !(B.NetName == 'unconnected-*') && A.Type != 'Pad' && B.Type != 'Pad' && !((A.Type == 'Via' && A.intersectsCourtyard('U2')) || A.intersectsCourtyard('U2')) && !((B.Type == 'Via' && B.intersectsCourtyard('U2')) || B.intersectsCourtyard('U2')) && !((A.Type == 'Via' && A.intersectsCourtyard('U8')) || A.intersectsCourtyard('U8')) && !((B.Type == 'Via' && B.intersectsCourtyard('U8')) || B.intersectsCourtyard('U8')) && !((A.Type == 'Via' && A.intersectsCourtyard('U13')) || A.intersectsCourtyard('U13')) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')) || B.intersectsCourtyard('U13'))")
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasExactNetclass('Default') && !(B.NetName == 'unconnected-*') && !(A.Type == 'Pad' && B.Type == 'Pad') && !((A.Type == 'Via' && A.intersectsCourtyard('U2')) || A.intersectsCourtyard('U2')) && !((B.Type == 'Via' && B.intersectsCourtyard('U2')) || B.intersectsCourtyard('U2')) && !((A.Type == 'Via' && A.intersectsCourtyard('U8')) || A.intersectsCourtyard('U8')) && !((B.Type == 'Via' && B.intersectsCourtyard('U8')) || B.intersectsCourtyard('U8')) && !((A.Type == 'Via' && A.intersectsCourtyard('U13')) || A.intersectsCourtyard('U13')) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')) || B.intersectsCourtyard('U13'))")
    (constraint clearance (min 0.5mm)))
 (rule "sp_analog_to_default_digital__B"
    (layer "B.Cu")
-   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasExactNetclass('Default') && !(B.NetName == 'unconnected-*') && A.Type != 'Pad' && B.Type != 'Pad' && !((A.Type == 'Via' && A.intersectsCourtyard('U2'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U2'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U8'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U8'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U13'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')))")
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasExactNetclass('Default') && !(B.NetName == 'unconnected-*') && !(A.Type == 'Pad' && B.Type == 'Pad') && !((A.Type == 'Via' && A.intersectsCourtyard('U2'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U2'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U8'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U8'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U13'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')))")
    (constraint clearance (min 0.5mm)))
 (rule "sp_analog_to_default_digital__I"
    (layer inner)
-   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasExactNetclass('Default') && !(B.NetName == 'unconnected-*') && A.Type != 'Pad' && B.Type != 'Pad' && !(A.Type == 'Via' && A.intersectsCourtyard('U2')) && !(B.Type == 'Via' && B.intersectsCourtyard('U2')) && !(A.Type == 'Via' && A.intersectsCourtyard('U8')) && !(B.Type == 'Via' && B.intersectsCourtyard('U8')) && !(A.Type == 'Via' && A.intersectsCourtyard('U13')) && !(B.Type == 'Via' && B.intersectsCourtyard('U13'))")
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasExactNetclass('Default') && !(B.NetName == 'unconnected-*') && !(A.Type == 'Pad' && B.Type == 'Pad') && !(A.Type == 'Via' && A.intersectsCourtyard('U2')) && !(B.Type == 'Via' && B.intersectsCourtyard('U2')) && !(A.Type == 'Via' && A.intersectsCourtyard('U8')) && !(B.Type == 'Via' && B.intersectsCourtyard('U8')) && !(A.Type == 'Via' && A.intersectsCourtyard('U13')) && !(B.Type == 'Via' && B.intersectsCourtyard('U13'))")
    (constraint clearance (min 0.5mm)))
 
 # U7 exempt: LT3045 MSOP-12 SET (pin 8, Analog_Precision) sits 0.65 mm from PGFB (pin 7, BATT_PROT); a 0.20 mm
 # SET track on pin 8's axis is only 0.65-0.10-0.20 = 0.35 mm from pin 7, so 0.5 mm is geometrically impossible.
 (rule "sp_analog_to_digital_power__F"
    (layer "F.Cu")
-   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && (B.hasNetclass('Power_Digital') || B.hasNetclass('Power_Battery')) && A.Type != 'Pad' && B.Type != 'Pad' && !((A.Type == 'Via' && A.intersectsCourtyard('U2')) || A.intersectsCourtyard('U2')) && !((B.Type == 'Via' && B.intersectsCourtyard('U2')) || B.intersectsCourtyard('U2')) && !((A.Type == 'Via' && A.intersectsCourtyard('U7')) || A.intersectsCourtyard('U7')) && !((B.Type == 'Via' && B.intersectsCourtyard('U7')) || B.intersectsCourtyard('U7')) && !((A.Type == 'Via' && A.intersectsCourtyard('U8')) || A.intersectsCourtyard('U8')) && !((B.Type == 'Via' && B.intersectsCourtyard('U8')) || B.intersectsCourtyard('U8')) && !((A.Type == 'Via' && A.intersectsCourtyard('U13')) || A.intersectsCourtyard('U13')) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')) || B.intersectsCourtyard('U13'))")
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && (B.hasNetclass('Power_Digital') || B.hasNetclass('Power_Battery')) && !(A.Type == 'Pad' && B.Type == 'Pad') && !((A.Type == 'Via' && A.intersectsCourtyard('U2')) || A.intersectsCourtyard('U2')) && !((B.Type == 'Via' && B.intersectsCourtyard('U2')) || B.intersectsCourtyard('U2')) && !((A.Type == 'Via' && A.intersectsCourtyard('U7')) || A.intersectsCourtyard('U7')) && !((B.Type == 'Via' && B.intersectsCourtyard('U7')) || B.intersectsCourtyard('U7')) && !((A.Type == 'Via' && A.intersectsCourtyard('U8')) || A.intersectsCourtyard('U8')) && !((B.Type == 'Via' && B.intersectsCourtyard('U8')) || B.intersectsCourtyard('U8')) && !((A.Type == 'Via' && A.intersectsCourtyard('U13')) || A.intersectsCourtyard('U13')) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')) || B.intersectsCourtyard('U13'))")
    (constraint clearance (min 0.5mm)))
 (rule "sp_analog_to_digital_power__B"
    (layer "B.Cu")
-   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && (B.hasNetclass('Power_Digital') || B.hasNetclass('Power_Battery')) && A.Type != 'Pad' && B.Type != 'Pad' && !((A.Type == 'Via' && A.intersectsCourtyard('U2'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U2'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U7'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U7'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U8'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U8'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U13'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')))")
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && (B.hasNetclass('Power_Digital') || B.hasNetclass('Power_Battery')) && !(A.Type == 'Pad' && B.Type == 'Pad') && !((A.Type == 'Via' && A.intersectsCourtyard('U2'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U2'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U7'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U7'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U8'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U8'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U13'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')))")
    (constraint clearance (min 0.5mm)))
 (rule "sp_analog_to_digital_power__I"
    (layer inner)
-   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && (B.hasNetclass('Power_Digital') || B.hasNetclass('Power_Battery')) && A.Type != 'Pad' && B.Type != 'Pad' && !(A.Type == 'Via' && A.intersectsCourtyard('U2')) && !(B.Type == 'Via' && B.intersectsCourtyard('U2')) && !(A.Type == 'Via' && A.intersectsCourtyard('U7')) && !(B.Type == 'Via' && B.intersectsCourtyard('U7')) && !(A.Type == 'Via' && A.intersectsCourtyard('U8')) && !(B.Type == 'Via' && B.intersectsCourtyard('U8')) && !(A.Type == 'Via' && A.intersectsCourtyard('U13')) && !(B.Type == 'Via' && B.intersectsCourtyard('U13'))")
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && (B.hasNetclass('Power_Digital') || B.hasNetclass('Power_Battery')) && !(A.Type == 'Pad' && B.Type == 'Pad') && !(A.Type == 'Via' && A.intersectsCourtyard('U2')) && !(B.Type == 'Via' && B.intersectsCourtyard('U2')) && !(A.Type == 'Via' && A.intersectsCourtyard('U7')) && !(B.Type == 'Via' && B.intersectsCourtyard('U7')) && !(A.Type == 'Via' && A.intersectsCourtyard('U8')) && !(B.Type == 'Via' && B.intersectsCourtyard('U8')) && !(A.Type == 'Via' && A.intersectsCourtyard('U13')) && !(B.Type == 'Via' && B.intersectsCourtyard('U13'))")
    (constraint clearance (min 0.5mm)))
 
 (rule "sp_analog_to_harness__F"
    (layer "F.Cu")
-   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasNetclass('Harness_IO') && A.Type != 'Pad' && B.Type != 'Pad' && !((A.Type == 'Via' && A.intersectsCourtyard('U2')) || A.intersectsCourtyard('U2')) && !((B.Type == 'Via' && B.intersectsCourtyard('U2')) || B.intersectsCourtyard('U2')) && !((A.Type == 'Via' && A.intersectsCourtyard('U8')) || A.intersectsCourtyard('U8')) && !((B.Type == 'Via' && B.intersectsCourtyard('U8')) || B.intersectsCourtyard('U8')) && !((A.Type == 'Via' && A.intersectsCourtyard('U13')) || A.intersectsCourtyard('U13')) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')) || B.intersectsCourtyard('U13'))")
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasNetclass('Harness_IO') && !(A.Type == 'Pad' && B.Type == 'Pad') && !((A.Type == 'Via' && A.intersectsCourtyard('U2')) || A.intersectsCourtyard('U2')) && !((B.Type == 'Via' && B.intersectsCourtyard('U2')) || B.intersectsCourtyard('U2')) && !((A.Type == 'Via' && A.intersectsCourtyard('U8')) || A.intersectsCourtyard('U8')) && !((B.Type == 'Via' && B.intersectsCourtyard('U8')) || B.intersectsCourtyard('U8')) && !((A.Type == 'Via' && A.intersectsCourtyard('U13')) || A.intersectsCourtyard('U13')) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')) || B.intersectsCourtyard('U13'))")
    (constraint clearance (min 1.0mm)))
 (rule "sp_analog_to_harness__B"
    (layer "B.Cu")
-   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasNetclass('Harness_IO') && A.Type != 'Pad' && B.Type != 'Pad' && !((A.Type == 'Via' && A.intersectsCourtyard('U2'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U2'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U8'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U8'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U13'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')))")
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasNetclass('Harness_IO') && !(A.Type == 'Pad' && B.Type == 'Pad') && !((A.Type == 'Via' && A.intersectsCourtyard('U2'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U2'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U8'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U8'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U13'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')))")
    (constraint clearance (min 1.0mm)))
 (rule "sp_analog_to_harness__I"
    (layer inner)
-   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasNetclass('Harness_IO') && A.Type != 'Pad' && B.Type != 'Pad' && !(A.Type == 'Via' && A.intersectsCourtyard('U2')) && !(B.Type == 'Via' && B.intersectsCourtyard('U2')) && !(A.Type == 'Via' && A.intersectsCourtyard('U8')) && !(B.Type == 'Via' && B.intersectsCourtyard('U8')) && !(A.Type == 'Via' && A.intersectsCourtyard('U13')) && !(B.Type == 'Via' && B.intersectsCourtyard('U13'))")
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasNetclass('Harness_IO') && !(A.Type == 'Pad' && B.Type == 'Pad') && !(A.Type == 'Via' && A.intersectsCourtyard('U2')) && !(B.Type == 'Via' && B.intersectsCourtyard('U2')) && !(A.Type == 'Via' && A.intersectsCourtyard('U8')) && !(B.Type == 'Via' && B.intersectsCourtyard('U8')) && !(A.Type == 'Via' && A.intersectsCourtyard('U13')) && !(B.Type == 'Via' && B.intersectsCourtyard('U13'))")
    (constraint clearance (min 1.0mm)))
 
 # NEXT <= K/(1+(D/H)^2): D = 1.15 mm centre (1.0 gap + 0.15), H = 0.0994 mm -> <= 0.74 % of aggressor swing
 (rule "sp_analog_to_highspeed__F"
    (layer "F.Cu")
-   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasNetclass('HighSpeed_*') && A.Type != 'Pad' && B.Type != 'Pad' && !((A.Type == 'Via' && A.intersectsCourtyard('U2')) || A.intersectsCourtyard('U2')) && !((B.Type == 'Via' && B.intersectsCourtyard('U2')) || B.intersectsCourtyard('U2')) && !((A.Type == 'Via' && A.intersectsCourtyard('U8')) || A.intersectsCourtyard('U8')) && !((B.Type == 'Via' && B.intersectsCourtyard('U8')) || B.intersectsCourtyard('U8')) && !((A.Type == 'Via' && A.intersectsCourtyard('U13')) || A.intersectsCourtyard('U13')) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')) || B.intersectsCourtyard('U13'))")
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasNetclass('HighSpeed_*') && !(A.Type == 'Pad' && B.Type == 'Pad') && !((A.Type == 'Via' && A.intersectsCourtyard('U2')) || A.intersectsCourtyard('U2')) && !((B.Type == 'Via' && B.intersectsCourtyard('U2')) || B.intersectsCourtyard('U2')) && !((A.Type == 'Via' && A.intersectsCourtyard('U8')) || A.intersectsCourtyard('U8')) && !((B.Type == 'Via' && B.intersectsCourtyard('U8')) || B.intersectsCourtyard('U8')) && !((A.Type == 'Via' && A.intersectsCourtyard('U13')) || A.intersectsCourtyard('U13')) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')) || B.intersectsCourtyard('U13'))")
    (constraint clearance (min 1.0mm)))
 (rule "sp_analog_to_highspeed__B"
    (layer "B.Cu")
-   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasNetclass('HighSpeed_*') && A.Type != 'Pad' && B.Type != 'Pad' && !((A.Type == 'Via' && A.intersectsCourtyard('U2'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U2'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U8'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U8'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U13'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')))")
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasNetclass('HighSpeed_*') && !(A.Type == 'Pad' && B.Type == 'Pad') && !((A.Type == 'Via' && A.intersectsCourtyard('U2'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U2'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U8'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U8'))) && !((A.Type == 'Via' && A.intersectsCourtyard('U13'))) && !((B.Type == 'Via' && B.intersectsCourtyard('U13')))")
    (constraint clearance (min 1.0mm)))
 (rule "sp_analog_to_highspeed__I"
    (layer inner)
-   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasNetclass('HighSpeed_*') && A.Type != 'Pad' && B.Type != 'Pad' && !(A.Type == 'Via' && A.intersectsCourtyard('U2')) && !(B.Type == 'Via' && B.intersectsCourtyard('U2')) && !(A.Type == 'Via' && A.intersectsCourtyard('U8')) && !(B.Type == 'Via' && B.intersectsCourtyard('U8')) && !(A.Type == 'Via' && A.intersectsCourtyard('U13')) && !(B.Type == 'Via' && B.intersectsCourtyard('U13'))")
+   (condition "(A.hasNetclass('Analog_Precision') || A.hasNetclass('Ref_Kelvin') || A.hasNetclass('RF_Input')) && B.hasNetclass('HighSpeed_*') && !(A.Type == 'Pad' && B.Type == 'Pad') && !(A.Type == 'Via' && A.intersectsCourtyard('U2')) && !(B.Type == 'Via' && B.intersectsCourtyard('U2')) && !(A.Type == 'Via' && A.intersectsCourtyard('U8')) && !(B.Type == 'Via' && B.intersectsCourtyard('U8')) && !(A.Type == 'Via' && A.intersectsCourtyard('U13')) && !(B.Type == 'Via' && B.intersectsCourtyard('U13'))")
    (constraint clearance (min 1.0mm)))
 
 (rule "sp_analog_to_buck_sw"
@@ -681,15 +654,15 @@
 # on the v3 placement no other +3V3_D/+3V3_A pad pair is closer than 2 mm.
 (rule "v3_sp_3v3d_to_3v3a__F"
    (layer "F.Cu")
-   (condition "((A.NetName == '+3V3_D' && B.NetName == '+3V3_A') || (A.NetName == '+3V3_A' && B.NetName == '+3V3_D')) && !((A.Type == 'Via' && A.intersectsCourtyard('FB1')) || A.intersectsCourtyard('FB1')) && !((B.Type == 'Via' && B.intersectsCourtyard('FB1')) || B.intersectsCourtyard('FB1')) && A.Type != 'Pad' && B.Type != 'Pad'")
+   (condition "((A.NetName == '+3V3_D' && B.NetName == '+3V3_A') || (A.NetName == '+3V3_A' && B.NetName == '+3V3_D')) && !((A.Type == 'Via' && A.intersectsCourtyard('FB1')) || A.intersectsCourtyard('FB1')) && !((B.Type == 'Via' && B.intersectsCourtyard('FB1')) || B.intersectsCourtyard('FB1'))")
    (constraint clearance (min 2.0mm)))
 (rule "v3_sp_3v3d_to_3v3a__B"
    (layer "B.Cu")
-   (condition "((A.NetName == '+3V3_D' && B.NetName == '+3V3_A') || (A.NetName == '+3V3_A' && B.NetName == '+3V3_D')) && !((A.Type == 'Via' && A.intersectsCourtyard('FB1'))) && !((B.Type == 'Via' && B.intersectsCourtyard('FB1'))) && A.Type != 'Pad' && B.Type != 'Pad'")
+   (condition "((A.NetName == '+3V3_D' && B.NetName == '+3V3_A') || (A.NetName == '+3V3_A' && B.NetName == '+3V3_D')) && !((A.Type == 'Via' && A.intersectsCourtyard('FB1'))) && !((B.Type == 'Via' && B.intersectsCourtyard('FB1')))")
    (constraint clearance (min 2.0mm)))
 (rule "v3_sp_3v3d_to_3v3a__I"
    (layer inner)
-   (condition "((A.NetName == '+3V3_D' && B.NetName == '+3V3_A') || (A.NetName == '+3V3_A' && B.NetName == '+3V3_D')) && !(A.Type == 'Via' && A.intersectsCourtyard('FB1')) && !(B.Type == 'Via' && B.intersectsCourtyard('FB1')) && A.Type != 'Pad' && B.Type != 'Pad'")
+   (condition "((A.NetName == '+3V3_D' && B.NetName == '+3V3_A') || (A.NetName == '+3V3_A' && B.NetName == '+3V3_D')) && !(A.Type == 'Via' && A.intersectsCourtyard('FB1')) && !(B.Type == 'Via' && B.intersectsCourtyard('FB1'))")
    (constraint clearance (min 2.0mm)))
 
 # v3 L4 (NE-02): BUCK_SYNC >= 5 mm from the RF input copper, U2 and J1. SIGNOFF rule (see the header).
@@ -730,15 +703,15 @@
 (rule "v3_w_chg_sw_neck__F"
    (layer "F.Cu")
    (condition "A.hasNetclass('Power_Buck_SW') && (((A.Type == 'Via' && A.intersectsCourtyard('U301')) || A.intersectsCourtyard('U301')) || ((A.Type == 'Via' && A.intersectsCourtyard('C310'))) || ((A.Type == 'Via' && A.intersectsCourtyard('C311'))))")
-   (constraint track_width (min 0.2mm) (opt 0.2mm)))
+   (constraint track_width (min 0.2mm) (opt 0.35mm)))
 (rule "v3_w_chg_sw_neck__B"
    (layer "B.Cu")
    (condition "A.hasNetclass('Power_Buck_SW') && (((A.Type == 'Via' && A.intersectsCourtyard('U301'))) || ((A.Type == 'Via' && A.intersectsCourtyard('C310')) || A.intersectsCourtyard('C310')) || ((A.Type == 'Via' && A.intersectsCourtyard('C311')) || A.intersectsCourtyard('C311')))")
-   (constraint track_width (min 0.2mm) (opt 0.2mm)))
+   (constraint track_width (min 0.2mm) (opt 0.35mm)))
 (rule "v3_w_chg_sw_neck__I"
    (layer inner)
    (condition "A.hasNetclass('Power_Buck_SW') && ((A.Type == 'Via' && A.intersectsCourtyard('U301')) || (A.Type == 'Via' && A.intersectsCourtyard('C310')) || (A.Type == 'Via' && A.intersectsCourtyard('C311')))")
-   (constraint track_width (min 0.2mm) (opt 0.2mm)))
+   (constraint track_width (min 0.2mm) (opt 0.35mm)))
 
 (rule "v3_w_chg_btst"
    (condition "A.NetName == 'Net-(U301-BTST?)'")
@@ -749,15 +722,15 @@
 (rule "v3_sp_chg_sw_in_u301__F"
    (layer "F.Cu")
    (condition "A.hasNetclass('Power_Buck_SW') && (((A.Type == 'Via' && A.intersectsCourtyard('U301')) || A.intersectsCourtyard('U301')) || ((B.Type == 'Via' && B.intersectsCourtyard('U301')) || B.intersectsCourtyard('U301'))) && (B.Type == 'Track' || B.Type == 'Arc' || B.Type == 'Via') && !B.hasNetclass('Power_Buck_SW') && !B.hasNetclass('Analog_Precision') && !B.hasNetclass('Ref_Kelvin') && !B.hasNetclass('RF_Input') && !B.hasNetclass('RF_50R')")
-   (constraint clearance (min 0.15mm)))
+   (constraint clearance (min 0.2mm)))
 (rule "v3_sp_chg_sw_in_u301__B"
    (layer "B.Cu")
    (condition "A.hasNetclass('Power_Buck_SW') && (((A.Type == 'Via' && A.intersectsCourtyard('U301'))) || ((B.Type == 'Via' && B.intersectsCourtyard('U301')))) && (B.Type == 'Track' || B.Type == 'Arc' || B.Type == 'Via') && !B.hasNetclass('Power_Buck_SW') && !B.hasNetclass('Analog_Precision') && !B.hasNetclass('Ref_Kelvin') && !B.hasNetclass('RF_Input') && !B.hasNetclass('RF_50R')")
-   (constraint clearance (min 0.15mm)))
+   (constraint clearance (min 0.2mm)))
 (rule "v3_sp_chg_sw_in_u301__I"
    (layer inner)
    (condition "A.hasNetclass('Power_Buck_SW') && ((A.Type == 'Via' && A.intersectsCourtyard('U301')) || (B.Type == 'Via' && B.intersectsCourtyard('U301'))) && (B.Type == 'Track' || B.Type == 'Arc' || B.Type == 'Via') && !B.hasNetclass('Power_Buck_SW') && !B.hasNetclass('Analog_Precision') && !B.hasNetclass('Ref_Kelvin') && !B.hasNetclass('RF_Input') && !B.hasNetclass('RF_50R')")
-   (constraint clearance (min 0.15mm)))
+   (constraint clearance (min 0.2mm)))
 
 # v4/v5: the Hirose U.FL lands (J1 and J300 - J1 lost its allow_soldermask_bridges attribute in the 2026-09-29 library refresh), identical to J1 which already carries allow_soldermask_bridges) and the open solder jumpers
 # JP401/JP402 have a DESIGNED mask opening across both pads (Konnect cannot set the footprint attribute; see manual items).
@@ -935,29 +908,6 @@
    (layer inner)
    (condition "A.Type == 'Track' && A.hasNetclass('Power_Analog') && A.Width < 0.25mm")
    (constraint track_segment_length (max 1.0mm)))
-
-# ======================================================================= v12 In3 current-based widths (2026-10-06)
-# In3 is 15.2 um copper (less than half of the outer 35 um), so the same current needs a wider track there. Width =
-# IPC-2221 external curve at In3's thickness (conservative for a layer between GND planes): opt 10 C, min 20 C.
-# Battery path and VSYS keep v11_in3_power_battery_width (0.8 / 1.0 mm, about 1.5 A); +3V3_D keeps the v11 warning.
-# VBUS / PMID carry about 2 A while charging: 1.2 mm on In3, or route them on F.Cu / B.Cu. The 650 mA min (0.2 mm)
-# is for short necks at vias; the router width (0.4 mm) is the 10 C width.
-(rule v12_in3_2a_input
-   (layer "In3.Cu")
-   (condition "A.NetName == 'VBUS' || A.NetName == 'Net-(U301-PMID)'")
-   (constraint track_width (min 1.2mm) (opt 1.2mm)))
-(rule v12_in3_650ma
-   (layer "In3.Cu")
-   (condition "A.NetName == '+3V3_EXP' || A.NetName == 'EXP_VHP'")
-   (constraint track_width (min 0.2mm) (opt 0.4mm)))
-(rule v12_in3_300ma
-   (layer "In3.Cu")
-   (condition "A.NetName == '/SD and capture memory/+3V3_SD' || A.NetName == '+5V_A' || A.NetName == '+3V3_A' || A.NetName == '/Battery and power/VSYS_LDO' || A.NetName == '/STM32H743 controller/VCAP'")
-   (constraint track_width (min 0.2mm) (opt 0.3mm)))
-(rule v12_in3_50ma
-   (layer "In3.Cu")
-   (condition "A.NetName == '+3V3_UI' || A.NetName == '/RF input and detector/+5V_RF' || A.NetName == 'VBAT_RTC' || A.NetName == '/External ADC/ADC_VLOGIC' || A.NetName == 'Net-(U13-REGCAP)' || A.NetName == '/Battery and power/A3V3_DAMP'")
-   (constraint track_width (min 0.15mm) (opt 0.25mm)))
 
 # ---- side guards for the side-aware courtyard exemptions above (dru_sideaware.py). If a part listed here
 # ---- is flipped, these assertions fail: re-run tools/dru_sideaware.py on the new board.
